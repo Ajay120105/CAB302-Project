@@ -1,4 +1,4 @@
-package org.example.grade_predictor;
+package org.example.grade_predictor.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
