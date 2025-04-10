@@ -1,30 +1,33 @@
 package org.example.grade_predictor.model;
+
 import java.util.List;
+
 public interface I_User {
     /**
      * Adds a new user to the database.
      * @param user The contact to add.
      */
-    public void addContact(User user);
+    public void addUser(User user);
     /**
      * Updates an existing user in the database.
-     * @param user The contact to update.
+     * @param user The user to update.
      */
-    public void updateContact(User user);
+    public void updateUser(User user);
     /**
      * Deletes a user from the database.
-     * @param user The contact to delete.
+     * @param user The user to delete.
      */
-    public void deleteContact(User user);
+    public void deleteUser(User user);
     /**
-     * Retrieves a contact from the database.
+     * Retrieves a user from the database.
      * @param user_ID The id of the user to retrieve.
-     * @return The contact with the given id, or null if not found.
+     * @return The user with the given id, or null if not found.
      */
-    public User getContact(int user_ID);
+    public User getUser(int user_ID);
     /**
-     * Retrieves all contacts from the database.
-     * @return A list of all contacts in the database.
+     * Retrieves all users from the database.
+     *
+     * @return A list of all users in the database.
      */
     public List<User> getAllUsers();
 }
