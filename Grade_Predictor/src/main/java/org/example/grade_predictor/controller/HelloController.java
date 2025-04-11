@@ -2,9 +2,8 @@ package org.example.grade_predictor.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import org.example.grade_predictor.model.SqliteUserDAO;
+import org.example.grade_predictor.model.SQLiteDAO.SqliteUserDAO;
 import org.example.grade_predictor.model.User;
-import org.example.grade_predictor.model.UserDAO;
 import java.util.List;
 
 

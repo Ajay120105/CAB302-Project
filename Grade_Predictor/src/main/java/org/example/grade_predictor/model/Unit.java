@@ -13,5 +13,33 @@ public class Unit {
         this.difficulty = difficulty;
     }
 
+    public String getUnit_code() {
+        return unit_code;
+    }
+
+    public void setUnit_code(String unit_code) {
+        this.unit_code = unit_code;
+    }
+
+    public String getUnit_name() {
+        return unit_name;
+    }
+
+    public void setUnit_name(String unit_name) {
+        this.unit_name = unit_name;
+    }
+
+    public String getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(String difficulty) {
+        this.difficulty = difficulty;
+    }
+
+    public int getCREDIT_POINTS() {
+        return CREDIT_POINTS;
+    }
+
 
 }

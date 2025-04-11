@@ -1,11 +1,13 @@
-package org.example.grade_predictor.model;
+package org.example.grade_predictor.model.interfaces;
+
+import org.example.grade_predictor.model.User;
 
 import java.util.List;
 
 public interface I_User {
     /**
      * Adds a new user to the database.
-     * @param user The contact to add.
+     * @param user The user to add.
      */
     public void addUser(User user);
     /**

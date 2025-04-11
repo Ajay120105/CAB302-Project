@@ -1,9 +1,12 @@
-package org.example.grade_predictor.model;
+package org.example.grade_predictor.model.DAO;
+
+import org.example.grade_predictor.model.User;
+import org.example.grade_predictor.model.interfaces.I_User;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDAO implements I_User{
+public class UserDAO implements I_User {
     /**
      * A static list of contacts to be used as a mock database.
      */
@@ -41,8 +44,6 @@ public class UserDAO implements I_User{
         }
         return null;
     }
-
-
 
     @Override
     public List<User> getAllUsers() {

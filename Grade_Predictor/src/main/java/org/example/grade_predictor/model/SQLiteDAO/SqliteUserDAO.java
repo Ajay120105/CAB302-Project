@@ -1,4 +1,8 @@
-package org.example.grade_predictor.model;
+package org.example.grade_predictor.model.SQLiteDAO;
+
+import org.example.grade_predictor.model.SqliteConnection;
+import org.example.grade_predictor.model.User;
+import org.example.grade_predictor.model.interfaces.I_User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -6,21 +10,15 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-//Testing
-import org.example.grade_predictor.model.UserDAO;
 
 
-public class SqliteUserDAO implements I_User{
+public class SqliteUserDAO implements I_User {
 
     private Connection connection;
 
     public SqliteUserDAO() {
         connection = SqliteConnection.getInstance();
         createTable();
-        //Used for Testing
-        //addUser(new User("John", "Doe", "johndoe@example.com", "0423423423", "Password123"));
-        //addUser(new User("Jane", "Doe", "janedoe@example.com", "0423423424", "Password123"));
-        //addUser(new User("Jay", "Doe", "jaydoe@example.com", "0423423425", "Password123"));
         //deleteUser(getUser(2));
     }
 
