@@ -15,12 +15,12 @@ public class HelloController {
     protected void onHelloButtonClick() {
         welcomeText.setText("JavaFX");
         //Used For Testing
-        //SqliteUserDAO userDAO = new SqliteUserDAO();
-        //SqliteStudentDAO studentDAO = new SqliteStudentDAO();
-        //SqliteUnitDAO unitDAO = new SqliteUnitDAO();
+        SqliteUserDAO userDAO = new SqliteUserDAO();
+        SqliteStudentDAO studentDAO = new SqliteStudentDAO();
+        SqliteUnitDAO unitDAO = new SqliteUnitDAO();
         SqliteDegreeDAO DegreeDAO = new SqliteDegreeDAO();
-        //SqliteGuardianDAO GuardianDAO = new SqliteGuardianDAO();
-        /*
+        SqliteGuardianDAO GuardianDAO = new SqliteGuardianDAO();
+
         List<User> users = userDAO.getAllUsers();
         StringBuilder out = new StringBuilder();
         for (int i = 0; i < users.size(); i++) {
@@ -28,7 +28,7 @@ public class HelloController {
         }
         System.out.println(out);
 
-         */
+
 
     }
 }
