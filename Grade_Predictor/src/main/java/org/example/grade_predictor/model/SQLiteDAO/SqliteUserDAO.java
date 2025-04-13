@@ -19,7 +19,6 @@ public class SqliteUserDAO implements I_User {
     public SqliteUserDAO() {
         connection = SqliteConnection.getInstance();
         createTable();
-        //deleteUser(getUser(2));
     }
 
     private void createTable() {
