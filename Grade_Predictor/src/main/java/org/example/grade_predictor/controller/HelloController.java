@@ -20,6 +20,7 @@ public class HelloController {
         SqliteUnitDAO unitDAO = new SqliteUnitDAO();
         SqliteDegreeDAO DegreeDAO = new SqliteDegreeDAO();
         SqliteGuardianDAO GuardianDAO = new SqliteGuardianDAO();
+        SqliteEnrolledUnitDAO EnrolledUnitDAO = new SqliteEnrolledUnitDAO();
 
         List<User> users = userDAO.getAllUsers();
         StringBuilder out = new StringBuilder();
