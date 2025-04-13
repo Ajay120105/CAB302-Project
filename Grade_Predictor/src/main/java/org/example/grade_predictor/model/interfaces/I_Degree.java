@@ -24,7 +24,7 @@ public interface I_Degree {
      * @param degree_ID The id of the degree to retrieve.
      * @return The degree with the given id, or null if not found.
      */
-    public Degree getDegree(int degree_ID);
+    public Degree getDegree(String degree_ID);
     /**
      * Retrieves all degrees from the database.
      *
