@@ -2,6 +2,9 @@ package org.example.grade_predictor.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import org.example.grade_predictor.HelloApplication;
+
+import java.io.IOException;
 
 public class HomeController {
 
@@ -24,6 +27,16 @@ public class HomeController {
     protected void handleLogout() {
         showAlert("Log Out", "You have been logged out.");
         // Implement log out logic here
+    }
+
+    @FXML
+    protected void goToEditUnit() {
+        try {
+            HelloApplication.switchToEditUnitPage();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Navigation Error", "Could not open Edit Unit page.");
+        }
     }
 
     private void showAlert(String title, String message) {
