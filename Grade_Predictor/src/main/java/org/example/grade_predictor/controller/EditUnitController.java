@@ -1,7 +1,7 @@
 package org.example.grade_predictor.controller;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import org.example.grade_predictor.HelloApplication;
 
 import java.io.IOException;
@@ -9,31 +9,46 @@ import java.io.IOException;
 public class EditUnitController {
 
     @FXML
-    private void handleButton1(ActionEvent event) {
-        System.out.println("Button 1 clicked");
-    }
-
-    @FXML
-    private void handleButton2(ActionEvent event) {
-        System.out.println("Button 2 clicked");
-    }
-
-    @FXML
-    private void handleButton3(ActionEvent event) {
-        System.out.println("Button 3 clicked");
-    }
-
-    @FXML
-    private void handleButton4(ActionEvent event) {
-        System.out.println("Button 4 clicked");
-    }
-
-    @FXML
-    private void goToHomePage(ActionEvent event) {
-        try {
+    protected void handleHome() {
+        try{
             HelloApplication.switchToHomePage();
         } catch (IOException e) {
-            e.printStackTrace();
+            showAlert("Navigation Error", "Could not open Home page");
         }
+
+    }
+
+    @FXML
+    protected void goToEditUnit() {
+        try {
+            HelloApplication.switchToEditUnitPage();
+        } catch (IOException e) {
+            showAlert("Navigation Error", "Could not open Edit Unit page.");
+        }
+    }
+
+    @FXML
+    protected void handleProfile() {
+        showAlert("Profile", "Profile page is under construction.");
+    }
+
+    @FXML
+    protected void handleSettings() {
+        showAlert("Settings", "Settings page is under construction.");
+    }
+
+    @FXML
+    protected void handleLogout() {
+        showAlert("Log Out", "You have been logged out.");
+        // Implement log out logic here
+    }
+
+    @FXML
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

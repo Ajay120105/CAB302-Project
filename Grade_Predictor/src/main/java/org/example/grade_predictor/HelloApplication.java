@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class HelloApplication extends Application {
     private static Stage primaryStage;
@@ -23,6 +24,7 @@ public class HelloApplication extends Application {
     public static void switchToHomePage() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("home.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1000, 650);
+        scene.getStylesheets().add(Objects.requireNonNull(HelloApplication.class.getResource("style.css")).toExternalForm());
         primaryStage.setTitle("Grade Predictor");
         primaryStage.setScene(scene); // fixed capitalization
         primaryStage.show();
@@ -30,11 +32,11 @@ public class HelloApplication extends Application {
 
     public static void switchToEditUnitPage() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("edit_unit.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 1000, 650);
-
-        primaryStage.setTitle("Edit Unit");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+            Scene scene = new Scene(fxmlLoader.load(), 1000, 650);
+            scene.getStylesheets().add(Objects.requireNonNull(HelloApplication.class.getResource("style.css")).toExternalForm());
+            primaryStage.setTitle("Edit Unit");
+            primaryStage.setScene(scene);
+            primaryStage.show();
     }
 
     public static void main(String[] args) {

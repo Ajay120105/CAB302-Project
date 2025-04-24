@@ -1,0 +1,19 @@
+.menu-bar {
+    -fx-background-color: #add8e6; /* Light blue background */
+}
+
+.menu {
+    -fx-text-fill: white; /* White text */
+}
+
+.menu:hover {
+    -fx-background-color: #00008b; /* Dark blue highlight on hover */
+}
+
+.menu-item {
+    -fx-text-fill: white; /* Ensure menu items also have white text */
+}
+
+.menu-item:hover {
+    -fx-background-color: #00008b; /* Dark blue highlight on hover */
+}
