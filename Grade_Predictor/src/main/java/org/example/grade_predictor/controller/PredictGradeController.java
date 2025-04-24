@@ -1,13 +1,13 @@
 package org.example.grade_predictor.controller;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import org.example.grade_predictor.HelloApplication;
 
 import java.io.IOException;
 
-public class HomeController {
-
+public class PredictGradeController {
     @FXML
     protected void handleHome() {
         showAlert("Home", "You are already on the Home page.");

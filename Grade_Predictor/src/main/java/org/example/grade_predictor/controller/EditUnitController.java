@@ -44,6 +44,16 @@ public class EditUnitController {
     }
 
     @FXML
+    protected void goToPredictGrade() {
+        try{
+            HelloApplication.switchToPredictGradePage();
+        } catch (IOException e){
+            e.printStackTrace();
+            showAlert("Navigation Error","Could not open Predict Grade Page");
+        }
+    }
+
+    @FXML
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);

@@ -36,6 +36,9 @@
       <Menu text="Edit Unit">
          <MenuItem onAction="#goToEditUnit" text="Edit Unit" />
       </Menu>
+      <Menu text="Predict Grade">
+         <MenuItem onAction="#goToPredictGrade" text="Predict Grade"/>
+      </Menu>
    </MenuBar>
    <TitledPane animated="false" layoutX="58.0" layoutY="131.0" text="CAB302">
      <content>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.SubScene?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="650.0" prefWidth="1000.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.grade_predictor.controller.PredictGradeController">
+    <SubScene fill="#185e8a" height="200.0" layoutX="21.0" layoutY="90.0" width="958.0">
+        <root>
+            <Region />
+        </root>
+    </SubScene>
+    <!-- App name and Label at the top left -->
+    <Label layoutX="25.0" layoutY="20.0" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Grade Predictor" underline="true" />
+    <Label layoutX="25.0" layoutY="45.0" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Bachelor of Information Technology" underline="true" />
+    <Label layoutX="25.0" layoutY="70.0" style="-fx-font-size: 14px; -fx-font-weight: bold;" text="Units" />
+
+    <BorderPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" />
+    <!-- Unit text fields -->
+    <VBox layoutX="25.0" layoutY="140.0" spacing="20" />
+    <MenuBar layoutX="323.0" layoutY="18.0" prefHeight="28.0" prefWidth="522.0">
+        <Menu text="Home">
+            <MenuItem onAction="#handleHome" text="Home" />
+        </Menu>
+        <Menu text="Profile">
+            <MenuItem onAction="#handleProfile" text="Profile" />
+        </Menu>
+        <Menu text="Settings">
+            <MenuItem onAction="#handleSettings" text="Settings" />
+        </Menu>
+        <Menu text="Log Out">
+            <MenuItem onAction="#handleLogout" text="Log Out" />
+        </Menu>
+        <Menu text="Edit Unit">
+            <MenuItem onAction="#goToEditUnit" text="Edit Unit" />
+        </Menu>
+        <Menu text="Predict Grade">
+            <MenuItem onAction="#goToPredictGrade" text="Predict Grade"/>
+        </Menu>
+    </MenuBar>
+    <TextField alignment="CENTER" layoutX="313.0" layoutY="131.0" prefHeight="100.0" prefWidth="200.0" text="CAB203">
+        <font>
+            <Font name="System Bold Italic" size="13.0" />
+        </font>
+    </TextField>
+    <TextField alignment="CENTER" layoutX="588.0" layoutY="131.0" prefHeight="100.0" prefWidth="200.0" text="IFB201">
+        <font>
+            <Font name="System Bold" size="13.0" />
+        </font>
+    </TextField>
+    <TextField alignment="CENTER" layoutX="59.0" layoutY="131.0" prefHeight="100.0" prefWidth="200.0" text="CAB302">
+        <font>
+            <Font name="System Bold Italic" size="13.0" />
+        </font>
+    </TextField>
+    <Button fx:id="goToEditUnit" layoutX="872.0" layoutY="169.0" mnemonicParsing="false" onAction="#goToEditUnit" text="EDIT" />
+    <SubScene fill="#155983" height="200.0" layoutX="140.0" layoutY="332.0" width="735.0">
+        <root>
+            <Region />
+        </root>
+    </SubScene>
+    <Circle fill="WHITE" layoutX="513.0" layoutY="425.0" radius="100.0" stroke="BLACK" strokeType="INSIDE" />
+    <TextField layoutX="482.0" layoutY="412.0" prefHeight="26.0" prefWidth="62.0" text="6.2 GPA" />
+    <TextField layoutX="64.0" layoutY="303.0" text="Predicted Grade " />
+</AnchorPane>

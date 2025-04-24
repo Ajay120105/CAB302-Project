@@ -39,6 +39,15 @@ public class HelloApplication extends Application {
             primaryStage.show();
     }
 
+    public static void switchToPredictGradePage() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("predict_grade.fxml"));
+            Scene scene = new Scene(fxmlLoader.load(), 1000, 650);
+            scene.getStylesheets().add(Objects.requireNonNull(HelloApplication.class.getResource("style.css")).toExternalForm());
+            primaryStage.setTitle("Predict Grade");
+            primaryStage.setScene(scene);
+            primaryStage.show();
+    }
+
     public static void main(String[] args) {
         launch();
     }
