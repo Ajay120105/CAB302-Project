@@ -15,16 +15,11 @@ public class EditUnitController {
         } catch (IOException e) {
             showAlert("Navigation Error", "Could not open Home page");
         }
-
     }
 
     @FXML
     protected void goToEditUnit() {
-        try {
-            HelloApplication.switchToEditUnitPage();
-        } catch (IOException e) {
-            showAlert("Navigation Error", "Could not open Edit Unit page.");
-        }
+            showAlert("Edit Units", "You are already on the Edit Units Page");
     }
 
     @FXML

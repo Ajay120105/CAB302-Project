@@ -24,6 +24,12 @@
       <Menu text="Home">
          <MenuItem onAction="#handleHome" text="Home" />
       </Menu>
+      <Menu text="Edit Unit">
+         <MenuItem onAction="#goToEditUnit" text="Edit Unit" />
+      </Menu>
+      <Menu text="Predict Grade">
+         <MenuItem onAction="#goToPredictGrade" text="Predict Grade"/>
+      </Menu>
       <Menu text="Profile">
          <MenuItem onAction="#handleProfile" text="Profile" />
       </Menu>
@@ -32,12 +38,6 @@
       </Menu>
       <Menu text="Log Out">
          <MenuItem onAction="#handleLogout" text="Log Out" />
-      </Menu>
-      <Menu text="Edit Unit">
-         <MenuItem onAction="#goToEditUnit" text="Edit Unit" />
-      </Menu>
-      <Menu text="Predict Grade">
-         <MenuItem onAction="#goToPredictGrade" text="Predict Grade"/>
       </Menu>
    </MenuBar>
    <TitledPane animated="false" layoutX="58.0" layoutY="131.0" text="CAB302">

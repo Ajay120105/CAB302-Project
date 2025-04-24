@@ -10,7 +10,11 @@ import java.io.IOException;
 public class PredictGradeController {
     @FXML
     protected void handleHome() {
-        showAlert("Home", "You are already on the Home page.");
+        try{
+            HelloApplication.switchToHomePage();
+        } catch (IOException e) {
+            showAlert("Navigation Error", "Could not open Home page");
+        }
     }
 
     @FXML
@@ -41,12 +45,7 @@ public class PredictGradeController {
 
     @FXML
     protected void goToPredictGrade() {
-        try{
-            HelloApplication.switchToPredictGradePage();
-        } catch (IOException e){
-            e.printStackTrace();
-            showAlert("Navigation Error","Could not open Predict Grade Page");
-        }
+            showAlert(" Predict Grade","You are already on Predict Grade Page");
     }
 
     private void showAlert(String title, String message) {
