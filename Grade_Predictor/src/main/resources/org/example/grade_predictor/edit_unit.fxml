@@ -5,10 +5,7 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
 <AnchorPane prefHeight="650.0" prefWidth="1000.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.grade_predictor.controller.EditUnitController">
@@ -16,16 +13,24 @@
    <Label layoutX="25.0" layoutY="20.0" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Grade Predictor" underline="true" />
    <Label layoutX="25.0" layoutY="45.0" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Bachelor of Information Technology" underline="true" />
    <Label layoutX="25.0" layoutY="70.0" style="-fx-font-size: 14px; -fx-font-weight: bold;" text="Units" />
+   <Label fx:id="welcomeLabel" layoutX="25.0" layoutY="110.0" style="-fx-font-size: 18px;" text="Welcome!" />
 
-   <BorderPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" />
-   <!-- Unit text fields -->
-   <VBox layoutX="25.0" layoutY="140.0" spacing="20" />
+   <!-- Unused BorderPane removed or left as a placeholder if needed -->
+   <!-- <BorderPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" /> -->
+
+   <!-- This VBox will be used to dynamically insert unit TitledPanes -->
+   <VBox fx:id="unitsVBox" layoutX="25.0" layoutY="140.0" spacing="20" />
+
+   <!-- Menu for navigation -->
    <MenuBar layoutX="323.0" layoutY="18.0" prefHeight="28.0" prefWidth="522.0">
       <Menu text="Home">
          <MenuItem onAction="#handleHome" text="Home" />
       </Menu>
       <Menu text="Edit Unit">
          <MenuItem onAction="#goToEditUnit" text="Edit Unit" />
+      </Menu>
+      <Menu text="All Units">
+         <MenuItem onAction="#goToAllUnits" text="All Units" />
       </Menu>
       <Menu text="Predict Grade">
          <MenuItem onAction="#goToPredictGrade" text="Predict Grade"/>
@@ -40,37 +45,6 @@
          <MenuItem onAction="#handleLogout" text="Log Out" />
       </Menu>
    </MenuBar>
-   <TitledPane animated="false" layoutX="58.0" layoutY="131.0" text="CAB302">
-     <content>
-       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-            <children>
-               <Button layoutX="73.0" layoutY="141.0" mnemonicParsing="false" text="Delete" textFill="RED" />
-               <TextField layoutX="20.0" layoutY="14.0" />
-               <TextField layoutX="19.0" layoutY="64.0" />
-            </children>
-         </AnchorPane>
-     </content>
-   </TitledPane>
-   <TitledPane animated="false" layoutX="293.0" layoutY="131.0" text="CAB302">
-      <content>
-         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-            <children>
-               <Button layoutX="73.0" layoutY="141.0" mnemonicParsing="false" text="Delete" textFill="RED" />
-               <TextField layoutX="20.0" layoutY="14.0" />
-               <TextField layoutX="19.0" layoutY="64.0" />
-            </children>
-         </AnchorPane>
-      </content>
-   </TitledPane>
-   <TitledPane animated="false" layoutX="540.0" layoutY="131.0" text="CAB302">
-      <content>
-         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-            <children>
-               <Button layoutX="73.0" layoutY="141.0" mnemonicParsing="false" text="Delete" textFill="RED" />
-               <TextField layoutX="20.0" layoutY="14.0" />
-               <TextField layoutX="19.0" layoutY="64.0" />
-            </children>
-         </AnchorPane>
-      </content>
-   </TitledPane>
+
+   <!-- Removed static TitledPane definitions so that the controller can add them dynamically -->
 </AnchorPane>
