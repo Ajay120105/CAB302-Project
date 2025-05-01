@@ -81,4 +81,11 @@
             </plugin>
         </plugins>
     </build>
+
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <url>https://maven.pkg.github.com/Ajay120105/CAB302-Project</url>
+        </repository>
+    </distributionManagement>
 </project>
