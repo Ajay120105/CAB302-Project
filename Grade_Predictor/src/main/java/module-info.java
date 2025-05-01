@@ -1,6 +1,7 @@
 module org.example.grade_predictor {
     requires javafx.controls;
     requires javafx.fxml;
+    requires com.google.gson;
     requires java.sql;
 
 
