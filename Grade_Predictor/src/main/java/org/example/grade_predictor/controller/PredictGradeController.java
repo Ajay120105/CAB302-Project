@@ -1,5 +1,6 @@
 package org.example.grade_predictor.controller;
 
+import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,39 +15,36 @@ import org.example.grade_predictor.model.SQLiteDAO.SqliteEnrolledUnitDAO;
 import org.example.grade_predictor.model.User;
 import org.example.grade_predictor.model.UserSession;
 
+import java.io.IOException;
 import java.util.List;
 
-public class HomeController {
+public class PredictGradeController {
 
-    // Container for displaying enrolled units.
+    // The VBox container for showing enrolled units.
     @FXML
     private VBox unitsVBox;
 
-    // Label for displaying a welcome message.
+    // Label for greeting the current user.
     @FXML
     private Label welcomeLabel;
 
-    // Use your SQLite DAO so that enrolled units persist across pages.
+    // Use the SQLite DAO for enrolled units.
     private SqliteEnrolledUnitDAO enrolledUnitDAO = new SqliteEnrolledUnitDAO();
 
     @FXML
     public void initialize() {
-        // Retrieve the current user.
         User currentUser = UserSession.getCurrentUser();
-        if (currentUser == null) {
-            showAlert("Error", "No user logged in.");
-            return;
+        if (currentUser != null) {
+            String fullName = currentUser.getFirst_name() + " " + currentUser.getLast_name();
+            welcomeLabel.setText("Welcome, " + fullName + "!");
+            loadEnrolledUnits(currentUser.getUser_ID());
+        } else {
+            welcomeLabel.setText("Welcome!");
         }
-        // Set the welcome message.
-        String fullName = currentUser.getFirst_name() + " " + currentUser.getLast_name();
-        welcomeLabel.setText("Welcome, " + fullName + "!");
-        // Load enrolled units from the database.
-        loadEnrolledUnits(currentUser.getUser_ID());
     }
 
     /**
-     * Asynchronously loads all enrolled units for the given student ID from the database
-     * and refreshes the VBox display.
+     * Loads the enrolled units for the given student ID asynchronously and populates the VBox.
      */
     private void loadEnrolledUnits(int studentID) {
         Task<List<EnrolledUnit>> loadTask = new Task<>() {
@@ -70,7 +68,7 @@ public class HomeController {
         });
 
         loadTask.setOnFailed(event -> {
-            showAlert("Error", "Could not load enrolled units.");
+            showAlert("Error", "Could not load enrolled units from the backend.");
         });
 
         Thread thread = new Thread(loadTask);
@@ -79,12 +77,7 @@ public class HomeController {
     }
 
     /**
-     * Creates a read-only TitledPane for an enrolled unit.
-     * This pane displays the unit code as its title and details (year, semester, weekly hours)
-     * as its content.
-     *
-     * @param eu the enrolled unit whose information is displayed
-     * @return a Node (TitledPane) representing the enrolled unit
+     * Creates a simple UI node for each enrolled unit using a TitledPane.
      */
     private Node createEnrolledUnitNode(EnrolledUnit eu) {
         TitledPane pane = new TitledPane();
@@ -97,11 +90,13 @@ public class HomeController {
         return pane;
     }
 
-    // Navigation methods
-
     @FXML
     protected void handleHome() {
-        showAlert("Home", "You are already on the Home page.");
+        try {
+            HelloApplication.switchToHomePage();
+        } catch (IOException e) {
+            showAlert("Navigation Error", "Could not open Home page");
+        }
     }
 
     @FXML
@@ -117,25 +112,16 @@ public class HomeController {
     @FXML
     protected void handleLogout() {
         showAlert("Log Out", "You have been logged out.");
+        // Implement logout logic here.
     }
 
     @FXML
     protected void goToEditUnit() {
         try {
             HelloApplication.switchToEditUnitPage();
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
             showAlert("Navigation Error", "Could not open Edit Unit page.");
-        }
-    }
-
-    @FXML
-    protected void goToPredictGrade() {
-        try {
-            HelloApplication.switchToPredictGradePage();
-        } catch (Exception e) {
-            e.printStackTrace();
-            showAlert("Navigation Error", "Could not open Predict Grade page.");
         }
     }
 
@@ -144,8 +130,13 @@ public class HomeController {
             HelloApplication.switchToAllUnitsPage();
         } catch (Exception e) {
             e.printStackTrace();
-            showAlert("Navigation Error", "Could not open All Units page.");
+            showAlert("Navigation Error", "Could not open Edit Unit page.");
         }
+    }
+
+    @FXML
+    protected void goToPredictGrade() {
+        showAlert("Predict Grade", "You are already on the Predict Grade page.");
     }
 
     private void showAlert(String title, String message) {
