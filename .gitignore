@@ -1,3 +1,5 @@
+Grade_Predictor/target/
+LLM_RESTful_Test/target/
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
