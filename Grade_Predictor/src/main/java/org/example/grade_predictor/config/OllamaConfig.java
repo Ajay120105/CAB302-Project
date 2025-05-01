@@ -12,7 +12,7 @@ public class OllamaConfig
 
     private String model;
 
-    private OllamaConfig() {
+    public OllamaConfig() {
         loadProperties();
     }
 

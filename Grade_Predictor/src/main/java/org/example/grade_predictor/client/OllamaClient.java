@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.example.grade_predictor.config.OllamaConfig;
 import org.example.grade_predictor.dto.OllamaRequest;
+import org.example.grade_predictor.dto.OllamaResponse;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -25,7 +26,7 @@ public class OllamaClient {
         this.apiGenerate = config.getHost() + "/api/generate";
     }
 
-    public String sendRequest(OllamaRequest request) throws IOException {
+    public OllamaResponse sendRequest(OllamaRequest request) throws IOException {
         URL address = URI.create(this.apiGenerate).toURL();
         HttpURLConnection connection = (HttpURLConnection) address.openConnection();
         connection.setRequestMethod("POST");
@@ -60,11 +61,11 @@ public class OllamaClient {
                 results = fullResponse.toString();
             }
         } else {
-            System.err.println("Error: " + connection.getResponseCode() + " " + connection.getResponseMessage());
+            System.err.println("Error: " + connection.getResponseCode() + " " + connection.getResponseMessage() + " " + connection.getURL());
         }
 
         connection.disconnect();
 
-        return results;
+        return new OllamaResponse(results);
     }
 }

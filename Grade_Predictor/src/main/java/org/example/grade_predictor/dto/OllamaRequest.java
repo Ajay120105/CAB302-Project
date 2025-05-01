@@ -7,10 +7,10 @@ public class OllamaRequest {
 
     private Boolean stream;
 
-    public OllamaRequest(String model, String prompt, Boolean stream) {
-        this.model = model;
+    public OllamaRequest() {};
+
+    public OllamaRequest(String prompt) {
         this.prompt = prompt;
-        this.stream = stream;
     }
 
     public String getModel() {
