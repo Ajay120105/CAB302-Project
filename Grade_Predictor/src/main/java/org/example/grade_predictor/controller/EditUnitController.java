@@ -18,6 +18,7 @@ import org.example.grade_predictor.model.SQLiteDAO.SqliteEnrolledUnitDAO;
 import org.example.grade_predictor.model.User;
 import org.example.grade_predictor.model.UserSession;
 
+import java.io.IOException;
 import java.util.List;
 
 public class EditUnitController {
@@ -165,8 +166,19 @@ public class EditUnitController {
 
     @FXML
     protected void handleLogout() {
+        // Clear the user session
+        UserSession.clearSession();
+
+        // Show logout confirmation
         showAlert("Log Out", "You have been logged out.");
-        // Implement logout logic as needed.
+
+        // Redirect to the first page (signup/login)
+        try {
+            HelloApplication.switchToSignup_LoginPage();
+        } catch (IOException e) {
+            showAlert("Navigation Error", "Could not open Signup/Login page.");
+            e.printStackTrace();
+        }
     }
 
     @FXML

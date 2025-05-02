@@ -27,14 +27,20 @@
         <Menu text="Home">
             <MenuItem onAction="#handleHome" text="Home"/>
         </Menu>
+        <Menu text="Edit Units">
+            <MenuItem onAction="#handleEditUnit" text="Edit Units"/>
+        </Menu>
         <Menu text="All Units">
             <MenuItem onAction="#handleAllUnits" text="All Units"/>
         </Menu>
-        <Menu text="Edit Units">
-            <MenuItem onAction="#handleEditUnit" text="Edit Unit"/>
+        <Menu text="Predict Grade">
+            <MenuItem onAction="#goToPredictGrade" text="Predict Grade"/>
         </Menu>
         <Menu text="Profile">
             <MenuItem onAction="#handleProfile" text="Profile"/>
+        </Menu>
+        <Menu text="Settings">
+            <MenuItem onAction="#handleSettings" text="Settings" />
         </Menu>
         <Menu text="Log Out">
             <MenuItem onAction="#handleLogout" text="Log Out"/>

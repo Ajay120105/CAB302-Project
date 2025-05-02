@@ -11,6 +11,15 @@ import java.util.Objects;
 public class HelloApplication extends Application {
     private static Stage primaryStage;
 
+    public static void switchToSignup_LoginPage() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("signup_login.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 1000, 650);
+        scene.getStylesheets().add(Objects.requireNonNull(HelloApplication.class.getResource("style.css")).toExternalForm());
+        primaryStage.setTitle("Signup/Login");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
     @Override
     public void start(Stage stage) throws IOException {
         primaryStage = stage;

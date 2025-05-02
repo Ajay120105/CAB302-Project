@@ -37,8 +37,8 @@
         <Menu text="Home">
             <MenuItem onAction="#handleHome" text="Home" />
         </Menu>
-        <Menu text="Edit Unit">
-            <MenuItem onAction="#goToEditUnit" text="Edit Unit" />
+        <Menu text="Edit Units">
+            <MenuItem onAction="#goToEditUnit" text="Edit Units" />
         </Menu>
         <Menu text="All Units">
             <MenuItem onAction="#goToAllUnits" text="All Units" />

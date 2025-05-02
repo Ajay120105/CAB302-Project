@@ -16,6 +16,7 @@ import org.example.grade_predictor.model.SQLiteDAO.SqliteEnrolledUnitDAO;
 import org.example.grade_predictor.model.User;
 import org.example.grade_predictor.model.UserSession;
 
+import java.io.IOException;
 import java.util.List;
 
 public class AllUnitsController {
@@ -141,15 +142,32 @@ public class AllUnitsController {
     }
 
     @FXML
+    protected void handleSettings() {
+        showAlert("Settings", "Settings page is under construction.");
+    }
+
+    @FXML
     protected void handleProfile() {
         showAlert("Profile", "Profile page is under construction.");
     }
 
     @FXML
     protected void handleLogout() {
+        // Clear the user session
+        UserSession.clearSession();
+
+        // Show logout confirmation
         showAlert("Log Out", "You have been logged out.");
-        // Optionally, implement session clearing logic.
+
+        // Redirect to the first page (signup/login)
+        try {
+            HelloApplication.switchToSignup_LoginPage();
+        } catch (IOException e) {
+            showAlert("Navigation Error", "Could not open Signup/Login page.");
+            e.printStackTrace();
+        }
     }
+
 
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -157,5 +175,14 @@ public class AllUnitsController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    @FXML
+    protected void goToPredictGrade() {
+        try {
+            HelloApplication.switchToPredictGradePage();
+        } catch (Exception e) {
+            showAlert("Navigation Error", "Could not open Predict Grade page.");
+        }
     }
 }
