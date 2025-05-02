@@ -15,8 +15,13 @@ public class UserDAO implements I_User {
 
     @Override
     public void addUser(User user) {
-        user.setUser_ID(autoIncrementedId);
-        autoIncrementedId++;
+        if (users.stream().anyMatch(u -> u.getEmail().equals(user.getEmail()))) {
+            throw new IllegalArgumentException("Email already exists!");
+        }
+        if (users.stream().anyMatch(u -> u.getPhone().equals(user.getPhone()))) {
+            throw new IllegalArgumentException("Phone number already exists!");
+        }
+        user.setUser_ID(autoIncrementedId++);
         users.add(user);
     }
 
