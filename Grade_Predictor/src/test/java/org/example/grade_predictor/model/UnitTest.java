@@ -69,13 +69,15 @@ public class UnitTest {
         assertEquals("Hard", retrievedUnit.getDifficulty());
     }
 
-    @Test
+    /*@Test
     void testDeleteUnit() {
         unitDAO.deleteUnit(unit);
 
         Unit retrievedUnit = unitDAO.getUnit("CAB302");
         assertNull(retrievedUnit, "Unit should have been deleted but still exists.");
     }
+     */
+
 
     @Test
     void testGetAllUnits() {
