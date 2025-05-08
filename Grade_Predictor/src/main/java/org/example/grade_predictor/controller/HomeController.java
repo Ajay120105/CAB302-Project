@@ -107,7 +107,11 @@ public class HomeController {
 
     @FXML
     protected void handleProfile() {
-        showAlert("Profile", "Profile page is under construction.");
+        try{
+            HelloApplication.switchToProfilePage();
+        } catch (IOException e) {
+            showAlert("Navigation Error", " Could not open profile page");
+        }
     }
 
     @FXML

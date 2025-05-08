@@ -69,6 +69,18 @@ public class HelloApplication extends Application {
 
     }
 
+    public static void switchToProfilePage() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("profile.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 1000, 650);
+        scene.getStylesheets().add(Objects.requireNonNull(HelloApplication.class.getResource("style.css")).toExternalForm());
+        primaryStage.setTitle("Profile Page");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+
+    }
+
+
+
     public static void main(String[] args) {
         launch();
     }
