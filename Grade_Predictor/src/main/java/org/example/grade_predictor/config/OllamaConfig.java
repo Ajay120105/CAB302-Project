@@ -26,10 +26,9 @@ public class OllamaConfig
 
     private void loadProperties() {
         Properties props = new Properties();
-        String propertyFile = String.valueOf(HelloApplication.class.getResource("ollama.properties"));
 
         // Load properties
-        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propertyFile)) {
+        try (InputStream inputStream = HelloApplication.class.getResourceAsStream("ollama.properties")) {
             if (inputStream != null) {
                 props.load(inputStream);
             } else {

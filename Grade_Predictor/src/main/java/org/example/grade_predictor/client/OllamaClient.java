@@ -27,6 +27,9 @@ public class OllamaClient {
     }
 
     public OllamaResponse sendRequest(OllamaRequest request) throws IOException {
+        //Ollama may throw 404 for not indicating a model
+        request.setModel(this.config.getModel());
+
         URL address = URI.create(this.apiGenerate).toURL();
         HttpURLConnection connection = (HttpURLConnection) address.openConnection();
         connection.setRequestMethod("POST");
