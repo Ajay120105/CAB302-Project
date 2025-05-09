@@ -2,6 +2,8 @@ package org.example.grade_predictor.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import org.example.grade_predictor.HelloApplication;
@@ -28,6 +30,27 @@ public class SignupLoginController {
     @FXML
     private PasswordField passwordField;
 
+    @FXML
+    private Label firstNameLabel;
+
+    @FXML
+    private Label lastNameLabel;
+
+    @FXML
+    private Label phoneLabel;
+
+    @FXML
+    private Label emailLabel;
+
+    @FXML
+    private Label passwordLabel;
+
+    @FXML
+    private Button signUpButton;
+
+    @FXML
+    private Button logInButton;
+
     private final SqliteUserDAO userDAO = new SqliteUserDAO();
     private boolean isSignUpMode = false;
 
@@ -38,6 +61,20 @@ public class SignupLoginController {
             firstNameField.setVisible(true);
             lastNameField.setVisible(true);
             phoneField.setVisible(true);
+            firstNameLabel.setVisible(true);
+            lastNameLabel.setVisible(true);
+            phoneLabel.setVisible(true);
+
+            // Move email and password fields down
+            emailLabel.setLayoutY(226);
+            emailField.setLayoutY(227);
+            passwordLabel.setLayoutY(266);
+            passwordField.setLayoutY(267);
+
+            // Move buttons down
+            signUpButton.setLayoutY(329);
+            logInButton.setLayoutY(367);
+
             isSignUpMode = true;
         } else {
             // Handle sign up logic
@@ -74,6 +111,20 @@ public class SignupLoginController {
             firstNameField.setVisible(false);
             lastNameField.setVisible(false);
             phoneField.setVisible(false);
+            firstNameLabel.setVisible(false);
+            lastNameLabel.setVisible(false);
+            phoneLabel.setVisible(false);
+
+            // Move email and password fields back up
+            emailLabel.setLayoutY(106);
+            emailField.setLayoutY(107);
+            passwordLabel.setLayoutY(146);
+            passwordField.setLayoutY(147);
+
+            // Move buttons back up
+            signUpButton.setLayoutY(209);
+            logInButton.setLayoutY(247);
+
             isSignUpMode = false;
         } else {
             // Handle log in logic

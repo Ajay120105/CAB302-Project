@@ -24,7 +24,7 @@ public class HelloApplication extends Application {
     public void start(Stage stage) throws IOException {
         primaryStage = stage;
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("signup_login.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 1000, 650);
+        Scene scene = new Scene(fxmlLoader.load(), 440, 420);
         stage.setTitle("Grade Predictor");
         stage.setScene(scene);
         stage.show();
