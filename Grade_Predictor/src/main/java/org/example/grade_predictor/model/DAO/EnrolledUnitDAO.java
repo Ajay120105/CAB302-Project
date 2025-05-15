@@ -5,6 +5,7 @@ import org.example.grade_predictor.model.interfaces.I_EnrolledUnit;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class EnrolledUnitDAO implements I_EnrolledUnit {
     private static final List<EnrolledUnit> enrolledUnits = new ArrayList<>();
@@ -42,6 +43,18 @@ public class EnrolledUnitDAO implements I_EnrolledUnit {
             }
         }
         return null;
+    }
+
+    @Override
+    public List<EnrolledUnit> getEnrolledUnitsForStudent(int student_ID) {
+        return enrolledUnits.stream()
+                .filter(unit -> unit.getStudent_ID() == student_ID)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<EnrolledUnit> getAllEnrolledUnits() {
+        return new ArrayList<>(enrolledUnits);
     }
 
 }

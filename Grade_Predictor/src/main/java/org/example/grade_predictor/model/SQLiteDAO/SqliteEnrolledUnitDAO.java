@@ -114,6 +114,49 @@ public class SqliteEnrolledUnitDAO implements I_EnrolledUnit {
         return null;
     }
 
+    @Override
+    public List<EnrolledUnit> getEnrolledUnitsForStudent(int student_ID) {
+        List<EnrolledUnit> enrolledUnitsList = new ArrayList<>();
+        String query = "SELECT * FROM enrolled_units WHERE student_ID = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, student_ID);
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    EnrolledUnit unit = new EnrolledUnit(
+                            rs.getInt("student_ID"),
+                            rs.getString("unit_code"),
+                            rs.getInt("year_enrolled"),
+                            rs.getInt("semester_enrolled"),
+                            rs.getInt("weekly_hours")
+                    );
+                    enrolledUnitsList.add(unit);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return enrolledUnitsList;
+    }
 
+    @Override
+    public List<EnrolledUnit> getAllEnrolledUnits() {
+        List<EnrolledUnit> allUnits = new ArrayList<>();
+        String query = "SELECT * FROM enrolled_units";
+        try (PreparedStatement statement = connection.prepareStatement(query);
+             ResultSet rs = statement.executeQuery()) {
+            while (rs.next()) {
+                EnrolledUnit unit = new EnrolledUnit(
+                        rs.getInt("student_ID"),
+                        rs.getString("unit_code"),
+                        rs.getInt("year_enrolled"),
+                        rs.getInt("semester_enrolled"),
+                        rs.getInt("weekly_hours")
+                );
+                allUnits.add(unit);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return allUnits;
+    }
 }
-

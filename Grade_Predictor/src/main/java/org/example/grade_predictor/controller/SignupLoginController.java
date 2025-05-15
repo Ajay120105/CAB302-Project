@@ -7,6 +7,7 @@ import javafx.scene.control.TextField;
 import org.example.grade_predictor.HelloApplication;
 import org.example.grade_predictor.model.SQLiteDAO.SqliteUserDAO;
 import org.example.grade_predictor.model.User;
+import org.example.grade_predictor.model.UserSession;
 
 import java.io.IOException;
 
@@ -54,6 +55,9 @@ public class SignupLoginController {
             User newUser = new User(firstName, lastName, email, phone, password);
             userDAO.addUser(newUser);
 
+            // Store the newly signed-up user as the current user.
+            UserSession.setCurrentUser(newUser);
+
             showAlert("Success", "Sign Up successful!");
             try {
                 HelloApplication.switchToHomePage();
@@ -87,6 +91,9 @@ public class SignupLoginController {
                     .orElse(null);
 
             if (user != null) {
+                // Set the current user in session
+                UserSession.setCurrentUser(user);
+
                 showAlert("Success", "Log In successful!");
                 try {
                     HelloApplication.switchToHomePage();
