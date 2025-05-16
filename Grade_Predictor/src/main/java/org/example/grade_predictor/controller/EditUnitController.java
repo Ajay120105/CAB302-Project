@@ -255,8 +255,24 @@ public class EditUnitController {
 
     @FXML
     protected void handleLogout() {
+<<<<<<< HEAD
+        // Clear the user session
+        UserSession.clearSession();
+
+        // Show logout confirmation
+        showAlert("Log Out", "You have been logged out.");
+
+        // Redirect to the first page (signup/login)
+        try {
+            HelloApplication.switchToSignup_LoginPage();
+        } catch (IOException e) {
+            showAlert("Navigation Error", "Could not open Signup/Login page.");
+            e.printStackTrace();
+        }
+=======
         authenticateService.logoutUser();
         showAlert("Log Out", "You have been logged out.");
+>>>>>>> OOP-refactoring
     }
 
     @FXML

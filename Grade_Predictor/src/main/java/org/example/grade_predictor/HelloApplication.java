@@ -69,6 +69,8 @@ public class HelloApplication extends Application {
 
     }
 
+<<<<<<< HEAD
+=======
     public static void switchToLoginPage() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("signup_login.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1000, 650);
@@ -78,6 +80,7 @@ public class HelloApplication extends Application {
         primaryStage.show();
     }
 
+>>>>>>> OOP-refactoring
     public static void switchToProfilePage() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("profile.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1000, 650);
