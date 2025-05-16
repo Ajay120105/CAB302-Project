@@ -6,8 +6,8 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="Grade_Predictor" />
         <module name="grade_predictor" />
+        <module name="LLM_RESTful_Test" />
       </profile>
     </annotationProcessing>
   </component>

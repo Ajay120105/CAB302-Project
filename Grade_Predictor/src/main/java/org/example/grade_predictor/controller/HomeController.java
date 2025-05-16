@@ -119,14 +119,7 @@ public class HomeController {
 
     @FXML
     protected void handleLogout() {
-<<<<<<< HEAD
-        // Clear the user session
-        UserSession.clearSession();
-
-        // Show logout confirmation
-=======
         authenticateService.logoutUser();
->>>>>>> OOP-refactoring
         showAlert("Log Out", "You have been logged out.");
 
         // Redirect to the first page (signup/login)
