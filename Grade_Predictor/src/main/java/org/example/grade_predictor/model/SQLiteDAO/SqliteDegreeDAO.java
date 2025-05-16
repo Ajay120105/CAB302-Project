@@ -45,16 +45,10 @@ public class SqliteDegreeDAO implements I_Degree {
     public void addDegree(Degree degree) {
         try {
             PreparedStatement statement = connection.prepareStatement(
-                    "INSERT INTO degrees (degreeName) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
-            statement.setString(1, degree.getDegree_Name());
+                    "INSERT INTO degrees (id, degreeName) VALUES (?, ?)");
+            statement.setString(1, degree.getDegree_ID());
+            statement.setString(2, degree.getDegree_Name());
             statement.executeUpdate();
-
-            ResultSet generatedKeys = statement.getGeneratedKeys();
-            if (generatedKeys.next()) {
-                int generatedId = generatedKeys.getInt(1);
-                // You may want to add a setDegree_ID() method to update the object with the DB ID
-                // degree.setDegree_ID(generatedId);
-            }
         } catch (Exception e) {
             e.printStackTrace();
         }

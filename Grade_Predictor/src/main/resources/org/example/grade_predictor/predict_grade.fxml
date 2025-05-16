@@ -65,5 +65,5 @@
     <TextField layoutX="674.0" layoutY="458.0" prefHeight="26.0" prefWidth="62.0" text="6.2 GPA" />
     <TextField alignment="CENTER" layoutX="85.0" layoutY="372.0" prefHeight="54.0" prefWidth="326.0" text="Weekly Average Study Hours" />
     <TextField alignment="CENTER" layoutX="85.0" layoutY="457.0" prefHeight="54.0" prefWidth="326.0" text="Study Efficiency (1-10)" />
-    <Button layoutX="162.0" layoutY="553.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="172.0" text="Predict Grade" />
+    <Button fx:id="predictButton" layoutX="162.0" layoutY="553.0" mnemonicParsing="false" onAction="#handlePredictGrade" prefHeight="37.0" prefWidth="172.0" text="Predict Grade" />
 </AnchorPane>

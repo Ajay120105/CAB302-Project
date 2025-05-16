@@ -1,19 +1,25 @@
 package org.example.grade_predictor.controller;
 
-import javafx.application.Platform;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.VBox;
 import org.example.grade_predictor.HelloApplication;
+import org.example.grade_predictor.dto.GradeResponseDTO;
+import org.example.grade_predictor.model.Degree;
 import org.example.grade_predictor.model.EnrolledUnit;
-import org.example.grade_predictor.model.SQLiteDAO.SqliteEnrolledUnitDAO;
+import org.example.grade_predictor.model.Enrollment;
+import org.example.grade_predictor.model.SQLiteDAO.SqliteDegreeDAO;
+import org.example.grade_predictor.model.Unit;
 import org.example.grade_predictor.model.User;
-import org.example.grade_predictor.model.UserSession;
+import org.example.grade_predictor.service.AuthenticateService;
+import org.example.grade_predictor.service.EnrollmentService;
+import org.example.grade_predictor.service.UnitService;
+import org.example.grade_predictor.service.OllamaGradePredictionService;
 
 import java.io.IOException;
 import java.util.List;
@@ -28,52 +34,59 @@ public class PredictGradeController {
     @FXML
     private Label welcomeLabel;
 
-    // Use the SQLite DAO for enrolled units.
-    private SqliteEnrolledUnitDAO enrolledUnitDAO = new SqliteEnrolledUnitDAO();
+    @FXML
+    private Button predictButton;
+
+    // Services
+    private final AuthenticateService authenticateService;
+    private final EnrollmentService enrollmentService;
+    private final UnitService unitService;
+    
+    // TODO: Data Access Objects that don't have services yet
+    private final SqliteDegreeDAO degreeDAO;
+    
+    private final OllamaGradePredictionService ollamaService;
+
+    public PredictGradeController() {
+        this.authenticateService = AuthenticateService.getInstance();
+        this.enrollmentService = new EnrollmentService(authenticateService);
+        this.unitService = new UnitService();
+        this.degreeDAO = new SqliteDegreeDAO();
+        this.ollamaService = new OllamaGradePredictionService();
+    }
 
     @FXML
     public void initialize() {
-        User currentUser = UserSession.getCurrentUser();
+        User currentUser = authenticateService.getCurrentUser();
         if (currentUser != null) {
             String fullName = currentUser.getFirst_name() + " " + currentUser.getLast_name();
             welcomeLabel.setText("Welcome, " + fullName + "!");
-            loadEnrolledUnits(currentUser.getUser_ID());
+            displayEnrolledUnits();
         } else {
             welcomeLabel.setText("Welcome!");
         }
     }
 
-    /**
-     * Loads the enrolled units for the given student ID asynchronously and populates the VBox.
-     */
-    private void loadEnrolledUnits(int studentID) {
-        Task<List<EnrolledUnit>> loadTask = new Task<>() {
-            @Override
-            protected List<EnrolledUnit> call() {
-                return enrolledUnitDAO.getEnrolledUnitsForStudent(studentID);
-            }
-        };
-
-        loadTask.setOnSucceeded(event -> {
-            List<EnrolledUnit> enrolledUnits = loadTask.getValue();
+    private void displayEnrolledUnits() {
+        Enrollment firstEnrollment = enrollmentService.getCurrentUserFirstEnrollment();
+        
+        if (firstEnrollment == null) {
             unitsVBox.getChildren().clear();
-            if (enrolledUnits.isEmpty()) {
-                unitsVBox.getChildren().add(new Label("You have not enrolled in any classes yet."));
-            } else {
-                for (EnrolledUnit eu : enrolledUnits) {
-                    Node node = createEnrolledUnitNode(eu);
-                    unitsVBox.getChildren().add(node);
-                }
+            unitsVBox.getChildren().add(new Label("You have not enrolled in any classes yet."));
+            return;
+        }
+        
+        List<EnrolledUnit> enrolledUnits = enrollmentService.getEnrolledUnits(firstEnrollment);
+        
+        unitsVBox.getChildren().clear();
+        if (enrolledUnits == null || enrolledUnits.isEmpty()) {
+            unitsVBox.getChildren().add(new Label("You have not enrolled in any classes yet."));
+        } else {
+            for (EnrolledUnit eu : enrolledUnits) {
+                Node node = createEnrolledUnitNode(eu);
+                unitsVBox.getChildren().add(node);
             }
-        });
-
-        loadTask.setOnFailed(event -> {
-            showAlert("Error", "Could not load enrolled units from the backend.");
-        });
-
-        Thread thread = new Thread(loadTask);
-        thread.setDaemon(true);
-        thread.start();
+        }
     }
 
     /**
@@ -88,6 +101,64 @@ public class PredictGradeController {
         pane.setContent(new Label(content));
         pane.setAnimated(false);
         return pane;
+    }
+
+    /**
+     * Handler for the Predict Grade button click
+     */
+    @FXML
+    protected void handlePredictGrade() {
+        User currentUser = authenticateService.getCurrentUser();
+        if (currentUser == null) {
+            showAlert("Error", "No user is currently logged in.");
+            return;
+        }
+        
+        System.out.println("Starting grade prediction...");
+        
+        Enrollment enrollment = enrollmentService.getCurrentUserFirstEnrollment();
+        if (enrollment == null) {
+            showAlert("Error", "Could not find enrollment record for current user.");
+            return;
+        }
+        
+        List<EnrolledUnit> enrolledUnits = enrollmentService.getEnrolledUnits(enrollment);
+        if (enrolledUnits == null || enrolledUnits.isEmpty()) {
+            showAlert("Error", "You are not enrolled in any units.");
+            return;
+        }
+        
+        List<Unit> allUnits = unitService.getAllUnits();
+        
+        Degree degree = degreeDAO.getDegree(String.valueOf(enrollment.getDegree_ID()));
+        if (degree == null) {
+            // Fallback to a default degree if needed
+            degree = new Degree("Default Degree", String.valueOf(enrollment.getDegree_ID()));
+        }
+        
+        // Default study values - get from model in future
+        int studyHours = 10; // Default 10 hours
+        int studyEfficiency = 5; // Default 5 out of 10
+        
+        ollamaService.predictGrade(
+            enrollment, 
+            degree, 
+            enrolledUnits, 
+            allUnits, 
+            studyHours, 
+            studyEfficiency,
+            new OllamaGradePredictionService.GradePredictionCallback() {
+                @Override
+                public void onPredictionComplete(GradeResponseDTO response) {
+                    System.out.println(response.toString());
+                }
+                
+                @Override
+                public void onPredictionFailed(String errorMessage) {
+                    System.err.println("Grade prediction failed: " + errorMessage);
+                }
+            }
+        );
     }
 
     @FXML
@@ -111,8 +182,8 @@ public class PredictGradeController {
 
     @FXML
     protected void handleLogout() {
+        authenticateService.logoutUser();
         showAlert("Log Out", "You have been logged out.");
-        // Implement logout logic here.
     }
 
     @FXML

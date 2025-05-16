@@ -1,9 +1,9 @@
 package org.example.grade_predictor.dto;
 
-public class OllamaResponse {
+public class OllamaResponseDTO {
     private String response;
 
-    public OllamaResponse(String response) {
+    public OllamaResponseDTO(String response) {
         this.response = response;
     }
 

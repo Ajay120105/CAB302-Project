@@ -1,6 +1,7 @@
 module org.example.grade_predictor {
     requires javafx.controls;
     requires javafx.fxml;
+    requires javafx.base;
     requires com.google.gson;
     requires java.sql;
 
@@ -12,5 +13,4 @@ module org.example.grade_predictor {
     exports org.example.grade_predictor.controller;
     opens org.example.grade_predictor.controller to javafx.fxml;
     exports org.example.grade_predictor.model;
-    opens org.example.grade_predictor.model to javafx.fxml;
 }

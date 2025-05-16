@@ -4,14 +4,13 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.example.grade_predictor.config.OllamaConfig;
-import org.example.grade_predictor.dto.OllamaRequest;
-import org.example.grade_predictor.dto.OllamaResponse;
+import org.example.grade_predictor.dto.OllamaRequestDTO;
+import org.example.grade_predictor.dto.OllamaResponseDTO;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -26,7 +25,7 @@ public class OllamaClient {
         this.apiGenerate = config.getHost() + "/api/generate";
     }
 
-    public OllamaResponse sendRequest(OllamaRequest request) throws IOException {
+    public OllamaResponseDTO sendRequest(OllamaRequestDTO request) throws IOException {
         //Ollama may throw 404 for not indicating a model
         request.setModel(this.config.getModel());
 
@@ -69,6 +68,6 @@ public class OllamaClient {
 
         connection.disconnect();
 
-        return new OllamaResponse(results);
+        return new OllamaResponseDTO(results);
     }
 }

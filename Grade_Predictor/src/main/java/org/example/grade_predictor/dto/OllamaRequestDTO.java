@@ -1,15 +1,17 @@
 package org.example.grade_predictor.dto;
 
-public class OllamaRequest {
+public class OllamaRequestDTO {
     private String model;
 
     private String prompt;
 
     private Boolean stream;
 
-    public OllamaRequest() {};
+    private Boolean thinking;
 
-    public OllamaRequest(String prompt) {
+    public OllamaRequestDTO() {};
+
+    public OllamaRequestDTO(String prompt) {
         this.prompt = prompt;
     }
 
@@ -27,5 +29,21 @@ public class OllamaRequest {
 
     public void setPrompt(String prompt) {
         this.prompt = prompt;
+    }
+
+    public Boolean getStream() {
+        return stream;
+    }
+
+    public void setStream(Boolean stream) {
+        this.stream = stream;
+    }
+
+    public Boolean getThinking() {
+        return thinking;
+    }
+
+    public void setThinking(Boolean thinking) {
+        this.thinking = thinking;
     }
 }

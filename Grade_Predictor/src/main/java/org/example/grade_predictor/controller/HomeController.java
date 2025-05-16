@@ -1,6 +1,5 @@
 package org.example.grade_predictor.controller;
 
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -10,9 +9,10 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.layout.VBox;
 import org.example.grade_predictor.HelloApplication;
 import org.example.grade_predictor.model.EnrolledUnit;
-import org.example.grade_predictor.model.SQLiteDAO.SqliteEnrolledUnitDAO;
+import org.example.grade_predictor.model.Enrollment;
 import org.example.grade_predictor.model.User;
-import org.example.grade_predictor.model.UserSession;
+import org.example.grade_predictor.service.AuthenticateService;
+import org.example.grade_predictor.service.EnrollmentService;
 
 import java.util.List;
 
@@ -25,14 +25,20 @@ public class HomeController {
     // Label for displaying a welcome message.
     @FXML
     private Label welcomeLabel;
+    
+    // Services
+    private final AuthenticateService authenticateService;
+    private final EnrollmentService enrollmentService;
 
-    // Use your SQLite DAO so that enrolled units persist across pages.
-    private SqliteEnrolledUnitDAO enrolledUnitDAO = new SqliteEnrolledUnitDAO();
+    public HomeController() {
+        this.authenticateService = AuthenticateService.getInstance();
+        this.enrollmentService = new EnrollmentService(authenticateService);
+    }
 
     @FXML
     public void initialize() {
         // Retrieve the current user.
-        User currentUser = UserSession.getCurrentUser();
+        User currentUser = authenticateService.getCurrentUser();
         if (currentUser == null) {
             showAlert("Error", "No user logged in.");
             return;
@@ -40,42 +46,34 @@ public class HomeController {
         // Set the welcome message.
         String fullName = currentUser.getFirst_name() + " " + currentUser.getLast_name();
         welcomeLabel.setText("Welcome, " + fullName + "!");
-        // Load enrolled units from the database.
-        loadEnrolledUnits(currentUser.getUser_ID());
+        
+        // Display enrolled units using the service
+        displayEnrolledUnits();
     }
 
     /**
-     * Asynchronously loads all enrolled units for the given student ID from the database
-     * and refreshes the VBox display.
+     * Displays all enrolled units for the current user from their enrollments
      */
-    private void loadEnrolledUnits(int studentID) {
-        Task<List<EnrolledUnit>> loadTask = new Task<>() {
-            @Override
-            protected List<EnrolledUnit> call() {
-                return enrolledUnitDAO.getEnrolledUnitsForStudent(studentID);
-            }
-        };
-
-        loadTask.setOnSucceeded(event -> {
-            List<EnrolledUnit> enrolledUnits = loadTask.getValue();
+    private void displayEnrolledUnits() {
+        Enrollment firstEnrollment = enrollmentService.getCurrentUserFirstEnrollment();
+        
+        if (firstEnrollment == null) {
             unitsVBox.getChildren().clear();
-            if (enrolledUnits.isEmpty()) {
-                unitsVBox.getChildren().add(new Label("You have not enrolled in any classes yet."));
-            } else {
-                for (EnrolledUnit eu : enrolledUnits) {
-                    Node node = createEnrolledUnitNode(eu);
-                    unitsVBox.getChildren().add(node);
-                }
+            unitsVBox.getChildren().add(new Label("You have not enrolled in any classes yet."));
+            return;
+        }
+        
+        List<EnrolledUnit> enrolledUnits = enrollmentService.getEnrolledUnits(firstEnrollment);
+        
+        unitsVBox.getChildren().clear();
+        if (enrolledUnits == null || enrolledUnits.isEmpty()) {
+            unitsVBox.getChildren().add(new Label("You have not enrolled in any classes yet."));
+        } else {
+            for (EnrolledUnit eu : enrolledUnits) {
+                Node node = createEnrolledUnitNode(eu);
+                unitsVBox.getChildren().add(node);
             }
-        });
-
-        loadTask.setOnFailed(event -> {
-            showAlert("Error", "Could not load enrolled units.");
-        });
-
-        Thread thread = new Thread(loadTask);
-        thread.setDaemon(true);
-        thread.start();
+        }
     }
 
     /**
@@ -116,6 +114,7 @@ public class HomeController {
 
     @FXML
     protected void handleLogout() {
+        authenticateService.logoutUser();
         showAlert("Log Out", "You have been logged out.");
     }
 

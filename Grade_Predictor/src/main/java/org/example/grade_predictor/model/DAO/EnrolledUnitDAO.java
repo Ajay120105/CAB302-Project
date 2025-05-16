@@ -19,7 +19,7 @@ public class EnrolledUnitDAO implements I_EnrolledUnit {
     public void updateEnrolledUnit(EnrolledUnit unit) {
         for (int i = 0; i < enrolledUnits.size(); i++) {
             EnrolledUnit existing = enrolledUnits.get(i);
-            if (existing.getStudent_ID() == unit.getStudent_ID() &&
+            if (existing.getEnrollment_ID() == unit.getEnrollment_ID() &&
                     existing.getUnit_code().equals(unit.getUnit_code())) {
                 enrolledUnits.set(i, unit);
                 return;
@@ -28,16 +28,16 @@ public class EnrolledUnitDAO implements I_EnrolledUnit {
     }
 
     @Override
-    public void deleteEnrolledUnit(int student_ID, String unit_code) {
+    public void deleteEnrolledUnit(int enrollment_ID, String unit_code) {
         enrolledUnits.removeIf(unit ->
-                unit.getStudent_ID() == student_ID &&
+                unit.getEnrollment_ID() == enrollment_ID &&
                         unit.getUnit_code().equals(unit_code));
     }
 
     @Override
-    public EnrolledUnit getEnrolledUnit(int student_ID, String unit_code) {
+    public EnrolledUnit getEnrolledUnit(int enrollment_ID, String unit_code) {
         for (EnrolledUnit unit : enrolledUnits) {
-            if (unit.getStudent_ID() == student_ID &&
+            if (unit.getEnrollment_ID() == enrollment_ID &&
                     unit.getUnit_code().equals(unit_code)) {
                 return unit;
             }
@@ -46,9 +46,9 @@ public class EnrolledUnitDAO implements I_EnrolledUnit {
     }
 
     @Override
-    public List<EnrolledUnit> getEnrolledUnitsForStudent(int student_ID) {
+    public List<EnrolledUnit> getEnrolledUnitsForEnrollment(int enrollment_ID) {
         return enrolledUnits.stream()
-                .filter(unit -> unit.getStudent_ID() == student_ID)
+                .filter(unit -> unit.getEnrollment_ID() == enrollment_ID)
                 .collect(Collectors.toList());
     }
 
