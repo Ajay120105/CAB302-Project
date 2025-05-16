@@ -1,34 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" spacing="10.0" xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.grade_predictor.controller.SignupLoginController">
-    <padding>
-        <Insets top="20" right="20" bottom="20" left="20"/>
-    </padding>
-    <Label text="Signup/Login" style="-fx-font-size: 24px;"/>
-    <TextField fx:id="emailField" promptText="Email"/>
-    <PasswordField fx:id="passwordField" promptText="Password"/>
-    <TextField fx:id="firstNameField" promptText="First Name" visible="false"/>
-    <TextField fx:id="lastNameField" promptText="Last Name" visible="false"/>
-    <TextField fx:id="phoneField" promptText="Phone Number" visible="false"/>
-    
-    <VBox fx:id="enrollmentSection" spacing="10.0" visible="false">
-        <Label text="Enrollment Information" style="-fx-font-size: 16px;"/>
-        <Label fx:id="enrollmentHelperText" text="Enter a degree ID to automatically populate the degree name." 
-               style="-fx-font-size: 12px; -fx-text-fill: #555555;" visible="false"/>
-        <HBox spacing="10.0">
-            <TextField fx:id="degreeIdField" promptText="Degree ID" prefWidth="150" onKeyReleased="#handleDegreeIdChanged"/>
-            <TextField fx:id="degreeNameField" promptText="Degree Name" prefWidth="300"/>
-        </HBox>
-    </VBox>
-    
-    <Button text="Sign Up" onAction="#handleSignUp"/>
-    <Button text="Log In" onAction="#handleLogIn"/>
-</VBox>
+
+<AnchorPane prefHeight="400.0" prefWidth="440.0" xmlns="http://javafx.com/javafx/23.0.1"
+    xmlns:fx="http://javafx.com/fxml/1"
+    fx:controller="org.example.grade_predictor.controller.SignupLoginController">
+    <children>
+        <Label layoutX="140.0" layoutY="34.0" style="-fx-font-size: 24px;" text="Signup/Login"
+            textFill="#309adc" />
+
+        <!-- First Name field (initially hidden) -->
+        <Label layoutX="93.0" layoutY="106.0" text="First Name" textFill="#309adc"
+            fx:id="firstNameLabel" visible="false">
+            <font>
+                <Font name="System Bold" size="19.0" />
+            </font>
+        </Label>
+        <TextField fx:id="firstNameField" layoutX="195.0" layoutY="107.0" visible="false" />
+
+        <!-- Last Name field (initially hidden) -->
+        <Label layoutX="93.0" layoutY="146.0" text="Last Name" textFill="#309adc"
+            fx:id="lastNameLabel" visible="false">
+            <font>
+                <Font name="System Bold" size="19.0" />
+            </font>
+        </Label>
+        <TextField fx:id="lastNameField" layoutX="195.0" layoutY="147.0" visible="false" />
+
+        <!-- Phone field (initially hidden) -->
+        <Label layoutX="93.0" layoutY="186.0" text="Phone" textFill="#309adc" fx:id="phoneLabel"
+            visible="false">
+            <font>
+                <Font name="System Bold" size="19.0" />
+            </font>
+        </Label>
+        <TextField fx:id="phoneField" layoutX="195.0" layoutY="187.0" visible="false" />
+
+        <!-- Email field (initially positioned higher) -->
+        <Label layoutX="93.0" layoutY="106.0" text="Email" textFill="#309adc" fx:id="emailLabel">
+            <font>
+                <Font name="System Bold" size="19.0" />
+            </font>
+        </Label>
+        <TextField fx:id="emailField" layoutX="195.0" layoutY="107.0" />
+
+        <!-- Password field (initially positioned higher) -->
+        <Label layoutX="93.0" layoutY="146.0" text="Password" textFill="#309adc"
+            fx:id="passwordLabel">
+            <font>
+                <Font name="System Bold" size="19.0" />
+            </font>
+        </Label>
+        <PasswordField fx:id="passwordField" layoutX="195.0" layoutY="147.0" />
+
+        <VBox fx:id="enrollmentSection" spacing="10.0" visible="false">
+            <Label text="Enrollment Information" style="-fx-font-size: 16px;" />
+            <Label fx:id="enrollmentHelperText"
+                text="Enter a degree ID to automatically populate the degree name."
+                style="-fx-font-size: 12px; -fx-text-fill: #555555;" visible="false" />
+            <HBox spacing="10.0">
+                <TextField fx:id="degreeIdField" promptText="Degree ID" prefWidth="150"
+                    onKeyReleased="#handleDegreeIdChanged" />
+                <TextField fx:id="degreeNameField" promptText="Degree Name" prefWidth="300" />
+            </HBox>
+        </VBox>
+
+        <!-- Buttons (initially positioned higher) -->
+        <Button layoutX="152.0" layoutY="209.0" onAction="#handleSignUp" prefHeight="26.0"
+            prefWidth="118.0" text="Sign Up" fx:id="signUpButton" />
+        <Button layoutX="152.0" layoutY="247.0" onAction="#handleLogIn" prefHeight="26.0"
+            prefWidth="118.0" text="Log In" fx:id="logInButton" />
+    </children>
+</AnchorPane>

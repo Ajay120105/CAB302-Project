@@ -17,6 +17,7 @@ import org.example.grade_predictor.service.AuthenticateService;
 import org.example.grade_predictor.service.EnrollmentService;
 import org.example.grade_predictor.service.UnitService;
 
+import java.io.IOException;
 import java.util.List;
 
 public class AllUnitsController {
@@ -156,8 +157,17 @@ public class AllUnitsController {
     }
 
     @FXML
+    protected void handleSettings() {
+        showAlert("Settings", "Settings page is under construction.");
+    }
+
+    @FXML
     protected void handleProfile() {
-        showAlert("Profile", "Profile page is under construction.");
+        try{
+            HelloApplication.switchToProfilePage();
+        } catch (IOException e) {
+            showAlert("Navigation Error", " Could not open profile page");
+        }
     }
 
     @FXML
@@ -172,5 +182,14 @@ public class AllUnitsController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    @FXML
+    protected void goToPredictGrade() {
+        try {
+            HelloApplication.switchToPredictGradePage();
+        } catch (Exception e) {
+            showAlert("Navigation Error", "Could not open Predict Grade page.");
+        }
     }
 }

@@ -14,6 +14,7 @@ import org.example.grade_predictor.model.User;
 import org.example.grade_predictor.service.AuthenticateService;
 import org.example.grade_predictor.service.EnrollmentService;
 
+import java.io.IOException;
 import java.util.List;
 
 public class HomeController {
@@ -104,7 +105,11 @@ public class HomeController {
 
     @FXML
     protected void handleProfile() {
-        showAlert("Profile", "Profile page is under construction.");
+        try{
+            HelloApplication.switchToProfilePage();
+        } catch (IOException e) {
+            showAlert("Navigation Error", " Could not open profile page");
+        }
     }
 
     @FXML
@@ -116,6 +121,14 @@ public class HomeController {
     protected void handleLogout() {
         authenticateService.logoutUser();
         showAlert("Log Out", "You have been logged out.");
+
+        // Redirect to the first page (signup/login)
+        try {
+            HelloApplication.switchToSignup_LoginPage();
+        } catch (IOException e) {
+            showAlert("Navigation Error", "Could not open Signup/Login page.");
+            e.printStackTrace();
+        }
     }
 
     @FXML

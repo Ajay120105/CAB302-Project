@@ -18,6 +18,7 @@ import org.example.grade_predictor.service.AuthenticateService;
 import org.example.grade_predictor.service.EnrollmentService;
 import org.example.grade_predictor.service.UnitService;
 
+import java.io.IOException;
 import java.util.List;
 
 public class EditUnitController {
@@ -240,7 +241,11 @@ public class EditUnitController {
 
     @FXML
     protected void handleProfile() {
-        showAlert("Profile", "Profile page is under construction.");
+        try{
+            HelloApplication.switchToProfilePage();
+        } catch (IOException e) {
+            showAlert("Navigation Error", " Could not open profile page");
+        }
     }
 
     @FXML
