@@ -9,7 +9,8 @@ import javafx.scene.control.TextField;
 import org.example.grade_predictor.HelloApplication;
 import org.example.grade_predictor.model.SQLiteDAO.SqliteUserDAO;
 import org.example.grade_predictor.model.User;
-import org.example.grade_predictor.model.UserSession;
+import org.example.grade_predictor.service.AuthenticateService;
+import org.example.grade_predictor.service.EnrollmentService;
 
 import java.io.IOException;
 
@@ -28,9 +29,18 @@ public class ProfileController {
     @FXML
     private Label welcomeLabel;
 
+    // Services
+    private final AuthenticateService authenticateService;
+    private final EnrollmentService enrollmentService;
+
+    public ProfileController() {
+        this.authenticateService = AuthenticateService.getInstance();
+        this.enrollmentService = new EnrollmentService(authenticateService);
+    }
+
     @FXML
     public void initialize() {
-        currentUser = UserSession.getCurrentUser();
+        User currentUser = authenticateService.getCurrentUser();
         if (currentUser != null) {
             firstNameField.setText(currentUser.getFirst_name());
             lastNameField.setText(currentUser.getLast_name());
@@ -80,19 +90,8 @@ public class ProfileController {
 
     @FXML
     protected void handleLogout() {
-        // Clear the user session
-        UserSession.clearSession();
-
-        // Show logout confirmation
+        authenticateService.logoutUser();
         showAlert("Log Out", "You have been logged out.");
-
-        // Redirect to the first page (signup/login)
-        try {
-            HelloApplication.switchToSignup_LoginPage();
-        } catch (IOException e) {
-            showAlert("Navigation Error", "Could not open Signup/Login page.");
-            e.printStackTrace();
-        }
     }
 
     @FXML
