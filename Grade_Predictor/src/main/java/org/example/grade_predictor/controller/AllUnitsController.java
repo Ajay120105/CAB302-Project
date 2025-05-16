@@ -10,11 +10,12 @@ import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import org.example.grade_predictor.HelloApplication;
 import org.example.grade_predictor.model.Unit;
-import org.example.grade_predictor.model.DAO.UnitDAO;
 import org.example.grade_predictor.model.EnrolledUnit;
-import org.example.grade_predictor.model.SQLiteDAO.SqliteEnrolledUnitDAO;
+import org.example.grade_predictor.model.Enrollment;
 import org.example.grade_predictor.model.User;
-import org.example.grade_predictor.model.UserSession;
+import org.example.grade_predictor.service.AuthenticateService;
+import org.example.grade_predictor.service.EnrollmentService;
+import org.example.grade_predictor.service.UnitService;
 
 import java.io.IOException;
 import java.util.List;
@@ -29,16 +30,20 @@ public class AllUnitsController {
     @FXML
     private VBox unitsVBox;
 
-    // DAO for available units.
-    private UnitDAO unitDAO = new UnitDAO();
+    private UnitService unitService;
+    private AuthenticateService authenticateService;
+    private EnrollmentService enrollmentService;
 
-    // DAO for enrolled units.
-    private SqliteEnrolledUnitDAO enrolledUnitDAO = new SqliteEnrolledUnitDAO();
+    public AllUnitsController() {
+        this.authenticateService = AuthenticateService.getInstance();
+        this.unitService = new UnitService();
+        this.enrollmentService = new EnrollmentService(authenticateService);
+    }
 
     @FXML
     public void initialize() {
         // Retrieve the currently logged-in user.
-        User currentUser = UserSession.getCurrentUser();
+        User currentUser = authenticateService.getCurrentUser();
         if (currentUser != null) {
             String fullName = currentUser.getFirst_name() + " " + currentUser.getLast_name();
             welcomeLabel.setText("Welcome, " + fullName + "!");
@@ -55,7 +60,7 @@ public class AllUnitsController {
         Task<List<Unit>> loadTask = new Task<>() {
             @Override
             protected List<Unit> call() {
-                return unitDAO.getAllUnits();
+                return unitService.getAllUnits();
             }
         };
 
@@ -93,25 +98,35 @@ public class AllUnitsController {
 
         enrollButton.setOnAction(event -> {
             // Get the current user.
-            User currentUser = UserSession.getCurrentUser();
+            User currentUser = authenticateService.getCurrentUser();
             if (currentUser == null) {
                 showAlert("Error", "Please log in to enroll in units.");
                 return;
             }
-            // Create an EnrolledUnit record.
-            // For demonstration, we set default values. Adjust these values as necessary.
+            
+            Enrollment firstEnrollment = enrollmentService.getCurrentUserFirstEnrollment();
+            if (firstEnrollment == null) {
+                showAlert("Error", "You need to be enrolled in a program to add units.");
+                return;
+            }
+            
+            // TODO: Actual year and semester
             int defaultYear = 2025;
             int defaultSemester = 1;
             int defaultWeeklyHours = 5;
-            EnrolledUnit enrollment = new EnrolledUnit(
-                    currentUser.getUser_ID(),
-                    unit.getUnit_code(),
-                    defaultYear,
-                    defaultSemester,
-                    defaultWeeklyHours
+            
+            EnrolledUnit enrolledUnit = enrollmentService.addEnrolledUnit(
+                unit.getUnit_code(),
+                defaultYear,
+                defaultSemester,
+                defaultWeeklyHours
             );
-            enrolledUnitDAO.addEnrolledUnit(enrollment);
-            showAlert("Success", "Enrolled in " + unit.getUnit_code() + " successfully!");
+            
+            if (enrolledUnit != null) {
+                showAlert("Success", "Enrolled in " + unit.getUnit_code() + " successfully!");
+            } else {
+                showAlert("Error", "Failed to enroll in " + unit.getUnit_code());
+            }
         });
 
         row.getChildren().addAll(unitInfo, enrollButton);
@@ -157,6 +172,7 @@ public class AllUnitsController {
 
     @FXML
     protected void handleLogout() {
+<<<<<<< HEAD
         // Clear the user session
         UserSession.clearSession();
 
@@ -170,6 +186,10 @@ public class AllUnitsController {
             showAlert("Navigation Error", "Could not open Signup/Login page.");
             e.printStackTrace();
         }
+=======
+        authenticateService.logoutUser();
+        showAlert("Log Out", "You have been logged out.");
+>>>>>>> OOP-refactoring
     }
 
 

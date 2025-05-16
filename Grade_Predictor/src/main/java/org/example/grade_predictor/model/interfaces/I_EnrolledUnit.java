@@ -19,28 +19,28 @@ public interface I_EnrolledUnit {
 
     /**
      * Deletes an EnrolledUnit from the database.
-     * @param student_ID The student's ID.
+     * @param enrollment_ID The enrollment ID.
      * @param unit_code The unit code of the enrollment to delete.
      */
-    void deleteEnrolledUnit(int student_ID, String unit_code);
+    void deleteEnrolledUnit(int enrollment_ID, String unit_code);
 
     /**
      * Retrieves a specific EnrolledUnit from the database.
-     * @param student_ID The student's ID.
+     * @param enrollment_ID The enrollment ID.
      * @param unit_code The unit code of the enrollment.
      * @return The EnrolledUnit with the given identifiers, or null if not found.
      */
-    EnrolledUnit getEnrolledUnit(int student_ID, String unit_code);
+    EnrolledUnit getEnrolledUnit(int enrollment_ID, String unit_code);
 
     /**
-     * Retrieves all EnrolledUnit records for the specified student.
-     * @param student_ID The student's ID.
-     * @return A list of EnrolledUnit records for the given student.
+     * Retrieves all EnrolledUnit records for the specified enrollment.
+     * @param enrollment_ID The enrollment ID.
+     * @return A list of EnrolledUnit records for the given enrollment.
      */
-    List<EnrolledUnit> getEnrolledUnitsForStudent(int student_ID);
+    List<EnrolledUnit> getEnrolledUnitsForEnrollment(int enrollment_ID);
 
     /**
-     * (Optional) Retrieves all EnrolledUnit records from the database.
+     * Retrieves all EnrolledUnit records from the database.
      * @return A list of all EnrolledUnit records.
      */
     List<EnrolledUnit> getAllEnrolledUnits();

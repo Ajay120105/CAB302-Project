@@ -1,4 +1,6 @@
 package org.example.grade_predictor.model;
+import java.util.ArrayList;
+import java.util.List;
 
 public class User {
 
@@ -9,6 +11,7 @@ public class User {
     private String phone;
     private String role;
     private String password;
+    private List<Enrollment> enrollments;
 
     public User(String first_name, String last_name, String email, String phone, String password) {
         this.first_name = first_name;
@@ -16,6 +19,7 @@ public class User {
         this.email = email;
         this.phone = phone;
         this.password = password;
+        this.enrollments = new ArrayList<>();
     }
 
     //GETTERS
@@ -43,10 +47,12 @@ public class User {
     public String getPassword() {
         return password;
     }
+    
+    public List<Enrollment> getEnrollments() {
+        return enrollments;
+    }
 
     //SETTERS
-
-
     public void setUser_ID(int user_ID) {
         this.user_ID = user_ID;
     }
@@ -69,6 +75,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+    
+    public void setEnrollments(List<Enrollment> enrollments) {
+        this.enrollments = enrollments;
+    }
+    
+    public void addEnrollment(Enrollment enrollment) {
+        this.enrollments.add(enrollment);
     }
 
     /**

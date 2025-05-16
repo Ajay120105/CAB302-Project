@@ -1,26 +1,26 @@
 package org.example.grade_predictor.model;
 
 public class EnrolledUnit {
-    private int student_ID;
+    private int enrollment_ID;
     private String unit_code;
     private int year_enrolled;
     private int semester_enrolled;
     private int weekly_hours;
 
-    public EnrolledUnit(int student_ID, String unit_code, int year_enrolled, int semester_enrolled, int weekly_hours) {
-        this.student_ID = student_ID;
+    public EnrolledUnit(int enrollment_ID, String unit_code, int year_enrolled, int semester_enrolled, int weekly_hours) {
+        this.enrollment_ID = enrollment_ID;
         this.unit_code = unit_code;
         this.year_enrolled = year_enrolled;
         this.semester_enrolled = semester_enrolled;
         this.weekly_hours = weekly_hours;
     }
 
-    public int getStudent_ID() {
-        return student_ID;
+    public int getEnrollment_ID() {
+        return enrollment_ID;
     }
 
-    public void setStudent_ID(int student_ID) {
-        this.student_ID = student_ID;
+    public void setEnrollment_ID(int enrollment_ID) {
+        this.enrollment_ID = enrollment_ID;
     }
 
     public String getUnit_code() {

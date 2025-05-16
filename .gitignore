@@ -1,9 +1,13 @@
+out/
 Grade_Predictor/target/
 LLM_RESTful_Test/target/
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+
+GradePredictor.db
+Grade_Predictor/GradePredictor.db
 
 ### IntelliJ IDEA ###
 .idea/modules.xml

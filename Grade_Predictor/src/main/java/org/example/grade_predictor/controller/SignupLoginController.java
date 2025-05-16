@@ -1,15 +1,21 @@
 package org.example.grade_predictor.controller;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
 import org.example.grade_predictor.HelloApplication;
-import org.example.grade_predictor.model.SQLiteDAO.SqliteUserDAO;
+import org.example.grade_predictor.model.Degree;
+import org.example.grade_predictor.model.Enrollment;
 import org.example.grade_predictor.model.User;
-import org.example.grade_predictor.model.UserSession;
+import org.example.grade_predictor.service.AuthenticateService;
+import org.example.grade_predictor.service.DegreeService;
+import org.example.grade_predictor.service.EnrollmentService;
+import org.example.grade_predictor.service.FormValidator;
 
 import java.io.IOException;
+import java.util.List;
 
 public class SignupLoginController {
 
@@ -27,9 +33,45 @@ public class SignupLoginController {
 
     @FXML
     private PasswordField passwordField;
+    
+    @FXML
+    private Label firstNameLabel;
 
-    private final SqliteUserDAO userDAO = new SqliteUserDAO();
+    @FXML
+    private Label lastNameLabel;
+
+    @FXML
+    private Label phoneLabel;
+
+    @FXML
+    private Label emailLabel;
+
+    @FXML
+    private Label passwordLabel;
+
+    @FXML
+    private Button signUpButton;
+
+    @FXML
+    private Button logInButton;
+
+    @FXML
+    private VBox enrollmentSection;
+    
+    @FXML
+    private TextField degreeIdField;
+    
+    @FXML
+    private TextField degreeNameField;
+    
+    @FXML
+    private Label enrollmentHelperText;
+
+    private final AuthenticateService authService = AuthenticateService.getInstance();
+    private final DegreeService degreeService = new DegreeService();
+    private final EnrollmentService enrollmentService = new EnrollmentService();
     private boolean isSignUpMode = false;
+    private List<Degree> allDegrees;
 
     @FXML
     protected void handleSignUp() {
@@ -38,6 +80,22 @@ public class SignupLoginController {
             firstNameField.setVisible(true);
             lastNameField.setVisible(true);
             phoneField.setVisible(true);
+            firstNameLabel.setVisible(true);
+            lastNameLabel.setVisible(true);
+            phoneLabel.setVisible(true);
+
+            // Move email and password fields down
+            emailLabel.setLayoutY(226);
+            emailField.setLayoutY(227);
+            passwordLabel.setLayoutY(266);
+            passwordField.setLayoutY(267);
+
+            // Move buttons down
+            signUpButton.setLayoutY(329);
+            logInButton.setLayoutY(367);
+
+            enrollmentSection.setVisible(true);
+            enrollmentHelperText.setVisible(true);
             isSignUpMode = true;
         } else {
             // Handle sign up logic
@@ -46,23 +104,72 @@ public class SignupLoginController {
             String phone = phoneField.getText();
             String email = emailField.getText();
             String password = passwordField.getText();
+            String degreeId = degreeIdField.getText();
+            String degreeName = degreeNameField.getText();
 
-            if (firstName.isEmpty() || lastName.isEmpty() || phone.isEmpty() || email.isEmpty() || password.isEmpty()) {
-                showAlert("Error", "All fields must be filled out.");
+            System.out.println("Debug:");
+            System.out.println("Name: " + firstName + lastName);
+            System.out.println("Email: " + email);
+            System.out.println("Degree ID: " + degreeId);
+            System.out.println("Degree Name: " + degreeName);
+
+            FormValidator.ValidationResult registrationResult = 
+                FormValidator.validateRegistration(firstName, lastName, email, phone, password);
+            
+            if (!registrationResult.isValid()) {
+                showAlert("Error", registrationResult.getErrorMessage());
+                return;
+            }
+            
+            FormValidator.ValidationResult degreeInfoResult = 
+                FormValidator.validateDegreeInfo(degreeId, degreeName);
+            if (!degreeInfoResult.isValid()) {
+                showAlert("Error", degreeInfoResult.getErrorMessage());
                 return;
             }
 
-            User newUser = new User(firstName, lastName, email, phone, password);
-            userDAO.addUser(newUser);
-
-            // Store the newly signed-up user as the current user.
-            UserSession.setCurrentUser(newUser);
-
-            showAlert("Success", "Sign Up successful!");
             try {
-                HelloApplication.switchToHomePage();
-            } catch (IOException e) {
+                Degree existingDegree = degreeService.getDegreeById(degreeId);
+                
+                if (existingDegree != null) {
+                    // If degree exists, verify the name matches
+                    // TODO: Allow user to update degree name?
+                    if (!existingDegree.getDegree_Name().equals(degreeName)) {
+                        showAlert("Error", "Degree ID and Name don't match. Please provide correct information.");
+                        return;
+                    }
+                } else {
+                    degreeService.addDegree(degreeName, degreeId);
+                }
+                
+                try {
+                    // Register the user
+                    User newUser = authService.registerUser(firstName, lastName, email, phone, password, null);
+                    
+                    // Create the enrollment with the degree ID
+                    Enrollment enrollment = enrollmentService.createEnrollment(newUser, degreeId);
+                    
+                    if (enrollment != null) {
+                        showAlert("Success", "Sign Up successful!");
+                        try {
+                            HelloApplication.switchToHomePage();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        showAlert("Error", "Failed to create enrollment. Please try again.");
+                        authService.logoutUser();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    showAlert("Error", "Failed during signup process: " + e.getMessage());
+                    authService.logoutUser();
+                }
+            } catch (Exception e) {
                 e.printStackTrace();
+                showAlert("Error", "Failed during signup process: " + e.getMessage());
+                authService.logoutUser();
+                return;
             }
         }
     }
@@ -74,26 +181,37 @@ public class SignupLoginController {
             firstNameField.setVisible(false);
             lastNameField.setVisible(false);
             phoneField.setVisible(false);
+            firstNameLabel.setVisible(false);
+            lastNameLabel.setVisible(false);
+            phoneLabel.setVisible(false);
+
+            // Move email and password fields back up
+            emailLabel.setLayoutY(106);
+            emailField.setLayoutY(107);
+            passwordLabel.setLayoutY(146);
+            passwordField.setLayoutY(147);
+
+            // Move buttons back up
+            signUpButton.setLayoutY(209);
+            logInButton.setLayoutY(247);
+
+            enrollmentSection.setVisible(false);
+            enrollmentHelperText.setVisible(false);
             isSignUpMode = false;
         } else {
             // Handle log in logic
             String email = emailField.getText();
             String password = passwordField.getText();
 
-            if (email.isEmpty() || password.isEmpty()) {
-                showAlert("Error", "Email and password cannot be empty.");
+            FormValidator.ValidationResult loginResult = 
+                FormValidator.validateLogin(email, password);
+            
+            if (!loginResult.isValid()) {
+                showAlert("Error", loginResult.getErrorMessage());
                 return;
             }
 
-            User user = userDAO.getAllUsers().stream()
-                    .filter(u -> u.getEmail().equals(email) && u.getPassword().equals(password))
-                    .findFirst()
-                    .orElse(null);
-
-            if (user != null) {
-                // Set the current user in session
-                UserSession.setCurrentUser(user);
-
+            if (authService.loginUser(email, password)) {
                 showAlert("Success", "Log In successful!");
                 try {
                     HelloApplication.switchToHomePage();
@@ -104,6 +222,41 @@ public class SignupLoginController {
                 showAlert("Error", "Log In failed. Invalid email or password.");
             }
         }
+    }
+    
+    @FXML
+    protected void handleDegreeIdChanged() {
+        System.out.println("handleDegreeIdChanged triggered");
+        String degreeId = degreeIdField.getText();
+        if (!degreeId.isEmpty()) {
+            FormValidator.ValidationResult degreeIdResult = FormValidator.validateDegreeId(degreeId);
+            if (!degreeIdResult.isValid()) {
+                return;
+            }
+            
+            Degree degree = degreeService.getDegreeById(degreeId);
+            if (degree != null) {
+                System.out.println("Degree found: " + degree.getDegree_Name());
+                degreeNameField.setText(degree.getDegree_Name());
+            } else {
+                System.out.println("Degree not found: " + degreeId);
+            }
+        } else {
+            System.out.println("Degree ID is empty");
+        }
+    }
+    
+    @FXML
+    public void initialize() {
+        allDegrees = degreeService.getAllDegrees();
+        
+        degreeIdField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null && !newValue.isEmpty()) {
+                handleDegreeIdChanged();
+            }
+        });
+        
+        enrollmentHelperText.setVisible(false);
     }
 
     private void showAlert(String title, String message) {

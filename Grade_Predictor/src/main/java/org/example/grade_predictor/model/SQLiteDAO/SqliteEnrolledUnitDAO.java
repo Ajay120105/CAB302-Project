@@ -34,12 +34,12 @@ public class SqliteEnrolledUnitDAO implements I_EnrolledUnit {
         try {
             Statement statement = connection.createStatement();
             String query = "CREATE TABLE IF NOT EXISTS enrolled_units (" +
-                    "student_ID INTEGER NOT NULL, " +
+                    "enrollment_ID INTEGER NOT NULL, " +
                     "unit_code TEXT NOT NULL, " +
                     "year_enrolled INTEGER, " +
                     "semester_enrolled INTEGER, " +
                     "weekly_hours INTEGER, " +
-                    "PRIMARY KEY (student_ID, unit_code))";
+                    "PRIMARY KEY (enrollment_ID, unit_code))";
             statement.execute(query);
         } catch (Exception e) {
             e.printStackTrace();
@@ -50,8 +50,8 @@ public class SqliteEnrolledUnitDAO implements I_EnrolledUnit {
     public void addEnrolledUnit(EnrolledUnit unit) {
         try {
             PreparedStatement statement = connection.prepareStatement(
-                    "INSERT INTO enrolled_units (student_ID, unit_code, year_enrolled, semester_enrolled, weekly_hours) VALUES (?, ?, ?, ?, ?)");
-            statement.setInt(1, unit.getStudent_ID());
+                    "INSERT INTO enrolled_units (enrollment_ID, unit_code, year_enrolled, semester_enrolled, weekly_hours) VALUES (?, ?, ?, ?, ?)");
+            statement.setInt(1, unit.getEnrollment_ID());
             statement.setString(2, unit.getUnit_code());
             statement.setInt(3, unit.getYear_enrolled());
             statement.setInt(4, unit.getSemester_enrolled());
@@ -66,11 +66,11 @@ public class SqliteEnrolledUnitDAO implements I_EnrolledUnit {
     public void updateEnrolledUnit(EnrolledUnit unit) {
         try {
             PreparedStatement statement = connection.prepareStatement(
-                    "UPDATE enrolled_units SET year_enrolled = ?, semester_enrolled = ?, weekly_hours = ? WHERE student_ID = ? AND unit_code = ?");
+                    "UPDATE enrolled_units SET year_enrolled = ?, semester_enrolled = ?, weekly_hours = ? WHERE enrollment_ID = ? AND unit_code = ?");
             statement.setInt(1, unit.getYear_enrolled());
             statement.setInt(2, unit.getSemester_enrolled());
             statement.setInt(3, unit.getWeekly_hours());
-            statement.setInt(4, unit.getStudent_ID());
+            statement.setInt(4, unit.getEnrollment_ID());
             statement.setString(5, unit.getUnit_code());
             statement.executeUpdate();
         } catch (Exception e) {
@@ -79,11 +79,11 @@ public class SqliteEnrolledUnitDAO implements I_EnrolledUnit {
     }
 
     @Override
-    public void deleteEnrolledUnit(int student_ID, String unit_code) {
+    public void deleteEnrolledUnit(int enrollment_ID, String unit_code) {
         try {
             PreparedStatement statement = connection.prepareStatement(
-                    "DELETE FROM enrolled_units WHERE student_ID = ? AND unit_code = ?");
-            statement.setInt(1, student_ID);
+                    "DELETE FROM enrolled_units WHERE enrollment_ID = ? AND unit_code = ?");
+            statement.setInt(1, enrollment_ID);
             statement.setString(2, unit_code);
             statement.executeUpdate();
         } catch (Exception e) {
@@ -92,16 +92,16 @@ public class SqliteEnrolledUnitDAO implements I_EnrolledUnit {
     }
 
     @Override
-    public EnrolledUnit getEnrolledUnit(int student_ID, String unit_code) {
+    public EnrolledUnit getEnrolledUnit(int enrollment_ID, String unit_code) {
         try {
             PreparedStatement statement = connection.prepareStatement(
-                    "SELECT * FROM enrolled_units WHERE student_ID = ? AND unit_code = ?");
-            statement.setInt(1, student_ID);
+                    "SELECT * FROM enrolled_units WHERE enrollment_ID = ? AND unit_code = ?");
+            statement.setInt(1, enrollment_ID);
             statement.setString(2, unit_code);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 return new EnrolledUnit(
-                        student_ID,
+                        enrollment_ID,
                         unit_code,
                         resultSet.getInt("year_enrolled"),
                         resultSet.getInt("semester_enrolled"),
@@ -115,15 +115,15 @@ public class SqliteEnrolledUnitDAO implements I_EnrolledUnit {
     }
 
     @Override
-    public List<EnrolledUnit> getEnrolledUnitsForStudent(int student_ID) {
+    public List<EnrolledUnit> getEnrolledUnitsForEnrollment(int enrollment_ID) {
         List<EnrolledUnit> enrolledUnitsList = new ArrayList<>();
-        String query = "SELECT * FROM enrolled_units WHERE student_ID = ?";
+        String query = "SELECT * FROM enrolled_units WHERE enrollment_ID = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, student_ID);
+            statement.setInt(1, enrollment_ID);
             try (ResultSet rs = statement.executeQuery()) {
                 while (rs.next()) {
                     EnrolledUnit unit = new EnrolledUnit(
-                            rs.getInt("student_ID"),
+                            rs.getInt("enrollment_ID"),
                             rs.getString("unit_code"),
                             rs.getInt("year_enrolled"),
                             rs.getInt("semester_enrolled"),
@@ -146,7 +146,7 @@ public class SqliteEnrolledUnitDAO implements I_EnrolledUnit {
              ResultSet rs = statement.executeQuery()) {
             while (rs.next()) {
                 EnrolledUnit unit = new EnrolledUnit(
-                        rs.getInt("student_ID"),
+                        rs.getInt("enrollment_ID"),
                         rs.getString("unit_code"),
                         rs.getInt("year_enrolled"),
                         rs.getInt("semester_enrolled"),
