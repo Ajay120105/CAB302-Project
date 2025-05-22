@@ -27,10 +27,16 @@
         <Menu text="Log Out"><MenuItem onAction="#handleLogout" text="Log Out"/></Menu>
     </MenuBar>
 
-    <!-- Profile Details Section (Centered in a Grey Box) -->
-    <VBox layoutX="300" layoutY="150" spacing="15" style="-fx-background-color: #E0E0E0; -fx-padding: 20; -fx-border-radius: 10;">
-        <Label text="User Profile" style="-fx-font-size: 22px; -fx-font-weight: bold;"/>
+    <VBox layoutX="200" layoutY="160" spacing="15"
+          style="-fx-background-color: #E0E0E0; -fx-padding: 30; -fx-border-radius: 10; -fx-pref-width: 600;">
 
+        <!-- Profile Title -->
+        <Label text="User Profile" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+
+        <!-- Divider -->
+        <Separator style="-fx-background-color: #333333;"/>
+
+        <!-- Profile Form -->
         <GridPane hgap="20" vgap="15">
             <Label text="First Name:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
             <TextField fx:id="firstNameField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
@@ -47,8 +53,10 @@
 
         <!-- Save Button -->
         <Button fx:id="saveButton" text="Save Changes" onAction="#handleSaveChanges"
-                style="-fx-font-size: 16px; -fx-background-color: #2a9d8f; -fx-text-fill: white; -fx-padding: 10; -fx-border-radius: 5;"/>
+                style="-fx-font-size: 16px; -fx-background-color: #2a9d8f; -fx-text-fill: white;
+                   -fx-padding: 10; -fx-border-radius: 5;"/>
     </VBox>
+
 
 </AnchorPane>
 

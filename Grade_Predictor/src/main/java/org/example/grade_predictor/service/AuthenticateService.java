@@ -91,22 +91,24 @@ public class AuthenticateService {
                 .filter(u -> u.getEmail().equals(email) && u.getPassword().equals(password))
                 .findFirst()
                 .orElse(null);
-                
+
         if (user != null) {
+            this.currentUser = user; // Fix: Ensure currentUser is stored
+
             List<Enrollment> enrollments = enrollmentDAO.getEnrollmentsForUser(user.getUser_ID());
             user.setEnrollments(enrollments);
-            
+
             for (Enrollment enrollment : enrollments) {
                 List<EnrolledUnit> enrolledUnits = enrolledUnitDAO.getEnrolledUnitsForEnrollment(enrollment.getEnrollment_ID());
                 enrollment.setEnrolledUnits(enrolledUnits);
             }
-            
-            this.currentUser = user;
+
             return true;
         }
-        
+
         return false;
     }
+
     
     /**
      * Gets the current authenticated user

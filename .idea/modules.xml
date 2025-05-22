@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/CAB302-Project.iml" filepath="$PROJECT_DIR$/.idea/CAB302-Project.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Grade_Predictor/Grade_Predictor.iml" filepath="$PROJECT_DIR$/Grade_Predictor/Grade_Predictor.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Grade_Predictor/grade_predictor.iml" filepath="$PROJECT_DIR$/Grade_Predictor/grade_predictor.iml" />
     </modules>
   </component>
 </project>

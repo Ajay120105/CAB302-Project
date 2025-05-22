@@ -40,12 +40,15 @@ public class ProfileController {
 
     @FXML
     public void initialize() {
-        User currentUser = authenticateService.getCurrentUser();
+        currentUser = authenticateService.getCurrentUser();
         if (currentUser != null) {
             firstNameField.setText(currentUser.getFirst_name());
             lastNameField.setText(currentUser.getLast_name());
             emailField.setText(currentUser.getEmail());
             phoneField.setText(currentUser.getPhone());
+            // Set Welcome Label
+            String fullName = currentUser.getFirst_name() + " " + currentUser.getLast_name();
+            welcomeLabel.setText("Welcome, " + fullName + "!");
         } else {
             showAlert("Error", "No user logged in.");
         }
