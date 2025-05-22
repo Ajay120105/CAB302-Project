@@ -33,7 +33,7 @@ public class SignupLoginController {
 
     @FXML
     private PasswordField passwordField;
-    
+
     @FXML
     private Label firstNameLabel;
 
@@ -57,13 +57,13 @@ public class SignupLoginController {
 
     @FXML
     private VBox enrollmentSection;
-    
+
     @FXML
     private TextField degreeIdField;
-    
+
     @FXML
     private TextField degreeNameField;
-    
+
     @FXML
     private Label enrollmentHelperText;
 
@@ -90,12 +90,16 @@ public class SignupLoginController {
             passwordLabel.setLayoutY(266);
             passwordField.setLayoutY(267);
 
-            // Move buttons down
-            signUpButton.setLayoutY(329);
-            logInButton.setLayoutY(367);
-
+            // Show enrollment section below phone field
             enrollmentSection.setVisible(true);
             enrollmentHelperText.setVisible(true);
+
+            // Position buttons side by side in signup mode (lower to avoid overlap)
+            signUpButton.setLayoutX(380);
+            signUpButton.setLayoutY(520);
+            logInButton.setLayoutX(520);
+            logInButton.setLayoutY(520);
+
             isSignUpMode = true;
         } else {
             // Handle sign up logic
@@ -113,16 +117,16 @@ public class SignupLoginController {
             System.out.println("Degree ID: " + degreeId);
             System.out.println("Degree Name: " + degreeName);
 
-            FormValidator.ValidationResult registrationResult = 
-                FormValidator.validateRegistration(firstName, lastName, email, phone, password);
-            
+            FormValidator.ValidationResult registrationResult =
+                    FormValidator.validateRegistration(firstName, lastName, email, phone, password);
+
             if (!registrationResult.isValid()) {
                 showAlert("Error", registrationResult.getErrorMessage());
                 return;
             }
-            
-            FormValidator.ValidationResult degreeInfoResult = 
-                FormValidator.validateDegreeInfo(degreeId, degreeName);
+
+            FormValidator.ValidationResult degreeInfoResult =
+                    FormValidator.validateDegreeInfo(degreeId, degreeName);
             if (!degreeInfoResult.isValid()) {
                 showAlert("Error", degreeInfoResult.getErrorMessage());
                 return;
@@ -130,7 +134,7 @@ public class SignupLoginController {
 
             try {
                 Degree existingDegree = degreeService.getDegreeById(degreeId);
-                
+
                 if (existingDegree != null) {
                     // If degree exists, verify the name matches
                     // TODO: Allow user to update degree name?
@@ -141,14 +145,14 @@ public class SignupLoginController {
                 } else {
                     degreeService.addDegree(degreeName, degreeId);
                 }
-                
+
                 try {
                     // Register the user
                     User newUser = authService.registerUser(firstName, lastName, email, phone, password, null);
-                    
+
                     // Create the enrollment with the degree ID
                     Enrollment enrollment = enrollmentService.createEnrollment(newUser, degreeId);
-                    
+
                     if (enrollment != null) {
                         showAlert("Success", "Sign Up successful!");
                         try {
@@ -186,26 +190,30 @@ public class SignupLoginController {
             phoneLabel.setVisible(false);
 
             // Move email and password fields back up
-            emailLabel.setLayoutY(106);
-            emailField.setLayoutY(107);
-            passwordLabel.setLayoutY(146);
-            passwordField.setLayoutY(147);
+            emailLabel.setLayoutY(232);
+            emailField.setLayoutY(232);
+            passwordLabel.setLayoutY(272);
+            passwordField.setLayoutY(272);
 
-            // Move buttons back up
-            signUpButton.setLayoutY(209);
-            logInButton.setLayoutY(247);
-
+            // Hide enrollment section
             enrollmentSection.setVisible(false);
             enrollmentHelperText.setVisible(false);
+
+            // Restore buttons to original stacked position for login mode
+            signUpButton.setLayoutX(440);
+            signUpButton.setLayoutY(325);
+            logInButton.setLayoutX(440);
+            logInButton.setLayoutY(362);
+
             isSignUpMode = false;
         } else {
             // Handle log in logic
             String email = emailField.getText();
             String password = passwordField.getText();
 
-            FormValidator.ValidationResult loginResult = 
-                FormValidator.validateLogin(email, password);
-            
+            FormValidator.ValidationResult loginResult =
+                    FormValidator.validateLogin(email, password);
+
             if (!loginResult.isValid()) {
                 showAlert("Error", loginResult.getErrorMessage());
                 return;
@@ -223,7 +231,7 @@ public class SignupLoginController {
             }
         }
     }
-    
+
     @FXML
     protected void handleDegreeIdChanged() {
         System.out.println("handleDegreeIdChanged triggered");
@@ -233,7 +241,7 @@ public class SignupLoginController {
             if (!degreeIdResult.isValid()) {
                 return;
             }
-            
+
             Degree degree = degreeService.getDegreeById(degreeId);
             if (degree != null) {
                 System.out.println("Degree found: " + degree.getDegree_Name());
@@ -245,17 +253,17 @@ public class SignupLoginController {
             System.out.println("Degree ID is empty");
         }
     }
-    
+
     @FXML
     public void initialize() {
         allDegrees = degreeService.getAllDegrees();
-        
+
         degreeIdField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null && !newValue.isEmpty()) {
                 handleDegreeIdChanged();
             }
         });
-        
+
         enrollmentHelperText.setVisible(false);
     }
 
