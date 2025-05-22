@@ -13,7 +13,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.Rectangle?>
 
-<AnchorPane prefHeight="650.0" prefWidth="1000.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.grade_predictor.controller.HomeController">
+<AnchorPane prefHeight="650.0" prefWidth="1000.0" stylesheets="@style.css" xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.grade_predictor.controller.HomeController">
 
     <!-- Background SubScene -->
     <SubScene fill="#185e8a" height="200.0" layoutX="21.0" layoutY="90.0" width="958.0">

@@ -40,7 +40,7 @@ public class ProfileController {
 
     @FXML
     public void initialize() {
-        User currentUser = authenticateService.getCurrentUser();
+        this.currentUser = authenticateService.getCurrentUser();
         if (currentUser != null) {
             firstNameField.setText(currentUser.getFirst_name());
             lastNameField.setText(currentUser.getLast_name());
