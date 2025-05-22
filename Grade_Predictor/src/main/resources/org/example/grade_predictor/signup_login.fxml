@@ -10,7 +10,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="650.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.grade_predictor.controller.SignupLoginController">
+<AnchorPane prefHeight="650.0" prefWidth="1000.0" xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.grade_predictor.controller.SignupLoginController">
     <children>
         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#d7d7d7" height="455.0" layoutX="280.0" layoutY="125.0" stroke="BLACK" strokeType="INSIDE" width="440.0" />
         <Label layoutX="428.0" layoutY="168.0" style="-fx-font-size: 24px;" text="Signup/Login" textFill="#309adc" />
