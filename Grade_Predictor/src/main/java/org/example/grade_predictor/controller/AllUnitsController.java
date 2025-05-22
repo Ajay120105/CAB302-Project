@@ -1,6 +1,7 @@
 package org.example.grade_predictor.controller;
 
 import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
@@ -143,20 +144,6 @@ public class AllUnitsController {
     }
 
     @FXML
-    protected void handleAllUnits() {
-        showAlert("All Units", "You are already on the All Units page.");
-    }
-
-    @FXML
-    protected void handleEditUnit() {
-        try {
-            HelloApplication.switchToEditUnitPage();
-        } catch (Exception e) {
-            showAlert("Navigation Error", "Could not open Enrolled Units page.");
-        }
-    }
-
-    @FXML
     protected void handleSettings() {
         showAlert("Settings", "Settings page is under construction.");
     }
@@ -192,5 +179,22 @@ public class AllUnitsController {
         } catch (Exception e) {
             showAlert("Navigation Error", "Could not open Predict Grade page.");
         }
+
     }
-}
+
+    @FXML
+    protected void goToEditUnit() {
+        try {
+            HelloApplication.switchToEditUnitPage();
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert("Navigation Error", "Could not open Edit Unit page.");
+        }
+    }
+
+    @FXML
+    public void goToAllUnits(ActionEvent actionEvent)  {
+        showAlert("All Units", "You are already on the All units page.");
+    }
+    }
+

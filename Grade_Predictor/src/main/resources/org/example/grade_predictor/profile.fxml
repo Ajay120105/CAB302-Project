@@ -17,15 +17,15 @@
            style="-fx-font-size: 18px;" text="Welcome!"/>
 
     <!-- Navigation Bar -->
-    <MenuBar layoutX="323.0" layoutY="18.0" prefHeight="28.0" prefWidth="522.0">
-        <Menu text="Home"><MenuItem onAction="#handleHome" text="Home"/></Menu>
-        <Menu text="Edit Units"><MenuItem onAction="#goToEditUnit" text="Edit Units"/></Menu>
-        <Menu text="All Units"><MenuItem onAction="#goToAllUnits" text="All Units"/></Menu>
-        <Menu text="Predict Grade"><MenuItem onAction="#goToPredictGrade" text="Predict Grade"/></Menu>
-        <Menu text="Profile"><MenuItem onAction="#handleProfile" text="Profile"/></Menu>
-        <Menu text="Settings"><MenuItem onAction="#handleSettings" text="Settings"/></Menu>
-        <Menu text="Log Out"><MenuItem onAction="#handleLogout" text="Log Out"/></Menu>
-    </MenuBar>
+    <HBox layoutX="389.0" layoutY="20.0" spacing="10">
+        <Button text="Home" onAction="#handleHome" styleClass="nav-button"/>
+        <Button text="Edit Units" onAction="#goToEditUnit" styleClass="nav-button"/>
+        <Button text="All Units" onAction="#goToAllUnits" styleClass="nav-button"/>
+        <Button text="Predict Grade" onAction="#goToPredictGrade" styleClass="nav-button"/>
+        <Button text="Profile" onAction="#handleProfile" styleClass="nav-button"/>
+        <Button text="Settings" onAction="#handleSettings" styleClass="nav-button"/>
+        <Button text="Log Out" onAction="#handleLogout" styleClass="nav-button"/>
+    </HBox>
 
     <VBox layoutX="200" layoutY="160" spacing="15"
           style="-fx-background-color: #E0E0E0; -fx-padding: 30; -fx-border-radius: 10; -fx-pref-width: 600;">

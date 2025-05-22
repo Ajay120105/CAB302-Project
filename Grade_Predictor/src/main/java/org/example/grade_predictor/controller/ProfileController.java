@@ -79,11 +79,7 @@ public class ProfileController {
 
     @FXML
     protected void handleProfile() {
-        try{
-            HelloApplication.switchToProfilePage();
-        } catch (IOException e) {
-            showAlert("Navigation Error", " Could not open profile page");
-        }
+        showAlert("Profile", "You are already on the Profile page.");
     }
 
     @FXML
