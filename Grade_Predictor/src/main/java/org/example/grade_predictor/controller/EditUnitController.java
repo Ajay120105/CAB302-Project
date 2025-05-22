@@ -244,6 +244,14 @@ public class EditUnitController {
     protected void handleLogout() {
         authenticateService.logoutUser();
         showAlert("Log Out", "You have been logged out.");
+
+        // Redirect to the first page (signup/login)
+        try {
+            HelloApplication.switchToSignup_LoginPage();
+        } catch (IOException e) {
+            showAlert("Navigation Error", "Could not open Signup/Login page.");
+            e.printStackTrace();
+        }
     }
 
     @FXML
