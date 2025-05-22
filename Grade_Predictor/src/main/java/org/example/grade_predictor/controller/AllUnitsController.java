@@ -45,12 +45,6 @@ public class AllUnitsController {
     public void initialize() {
         // Retrieve the currently logged-in user.
         User currentUser = authenticateService.getCurrentUser();
-        if (currentUser != null) {
-            String fullName = currentUser.getFirst_name() + " " + currentUser.getLast_name();
-            welcomeLabel.setText("Welcome, " + fullName + "!");
-        } else {
-            welcomeLabel.setText("Welcome!");
-        }
         loadAllUnits();
     }
 

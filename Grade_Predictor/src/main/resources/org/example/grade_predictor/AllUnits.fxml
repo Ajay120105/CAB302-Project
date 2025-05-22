@@ -1,45 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.control.Button?>
-<AnchorPane prefHeight="650.0" prefWidth="1000.0" stylesheets="@style.css"
-            xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="org.example.grade_predictor.controller.AllUnitsController">
+<AnchorPane prefHeight="650.0" prefWidth="1000.0" style="-fx-background-color: #D3D3D3;" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.grade_predictor.controller.AllUnitsController"> <!-- Grey background layer -->
 
-    <!-- Application Header -->
-    <Label layoutX="25.0" layoutY="20.0" style="-fx-font-size: 18px; -fx-font-weight: bold;"
-           text="Grade Predictor" textFill="#309adc" underline="true" />
-    <Label layoutX="25.0" layoutY="45.0" style="-fx-font-size: 18px; -fx-font-weight: bold;"
-           text="Bachelor of Information Technology" textFill="#309adc" underline="true" />
-    <Label layoutX="25.0" layoutY="70.0" style="-fx-font-size: 14px; -fx-font-weight: bold;"
-           text="Units" textFill="#309adc" />
-    <Label fx:id="welcomeLabel" layoutX="25.0" layoutY="110.0"
-           style="-fx-font-size: 18px;" text="Welcome!" />
-
-    <!-- Navigation Menu (matching the Edit Unit page) -->
-    <HBox layoutX="389.0" layoutY="20.0" spacing="10">
-        <Button text="Home" onAction="#handleHome" styleClass="nav-button"/>
-        <Button text="Edit Units" onAction="#goToEditUnit" styleClass="nav-button"/>
-        <Button text="All Units" onAction="#goToAllUnits" styleClass="nav-button"/>
-        <Button text="Predict Grade" onAction="#goToPredictGrade" styleClass="nav-button"/>
-        <Button text="Profile" onAction="#handleProfile" styleClass="nav-button"/>
-        <Button text="Settings" onAction="#handleSettings" styleClass="nav-button"/>
-        <Button text="Log Out" onAction="#handleLogout" styleClass="nav-button"/>
-    </HBox>
-
-
-    <!-- VBox for dynamically inserted unit rows (consistent with Edit Unit page) -->
-    <VBox fx:id="unitsVBox" layoutX="25.0" layoutY="140.0" spacing="20.0">
-        <padding>
-            <Insets top="10" right="10" bottom="10" left="10"/>
-        </padding>
+    <!-- Navigation Bar Layer -->
+    <VBox layoutX="0" layoutY="0" prefHeight="60" prefWidth="1000" style="-fx-background-color: #E0E0E0; -fx-padding: 10; -fx-border-color: #CCCCCC;">
+        <HBox alignment="CENTER" spacing="15">
+           <Label style="-fx-font-size: 22px; -fx-font-weight: bold;" text="Grade Predictor" />
+            <Button onAction="#handleHome" styleClass="nav-button" text="Home" />
+            <Button onAction="#goToEditUnit" styleClass="nav-button" text="Edit Units" />
+            <Button onAction="#goToAllUnits" styleClass="nav-button" text="All Units" />
+            <Button onAction="#goToPredictGrade" styleClass="nav-button" text="Predict Grade" />
+            <Button onAction="#handleProfile" styleClass="nav-button" text="Profile" />
+            <Button onAction="#handleSettings" styleClass="nav-button" text="Settings" />
+            <Button onAction="#handleLogout" styleClass="nav-button" text="Log Out" />
+        </HBox>
     </VBox>
+
+    <!-- Units Section Layer -->
+    <VBox layoutX="8.0" layoutY="134.0" prefHeight="497.0" prefWidth="966.0" spacing="10" style="-fx-background-color: #E0E0E0; -fx-padding: 20; -fx-border-radius: 10; -fx-border-color: #CCCCCC;">
+        <Label style="-fx-font-size: 20px; -fx-font-weight: bold;" text="All Available Units" />
+        <VBox fx:id="unitsVBox" spacing="15" />
+    </VBox>
+   <VBox layoutX="5.0" layoutY="65.0" prefHeight="65.0" prefWidth="968.0" style="-fx-background-color: #F5F5F5; -fx-padding: 20; -fx-border-radius: 10; -fx-border-color: #CCCCCC;">
+      <children>
+         <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Bachelor of Information Technology" />
+      </children>
+   </VBox>
+
 </AnchorPane>
