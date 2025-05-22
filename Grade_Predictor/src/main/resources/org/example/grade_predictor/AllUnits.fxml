@@ -14,16 +14,16 @@
 
     <!-- Application Header -->
     <Label layoutX="25.0" layoutY="20.0" style="-fx-font-size: 18px; -fx-font-weight: bold;"
-           text="Grade Predictor" underline="true" />
+           text="Grade Predictor" textFill="#309adc" underline="true" />
     <Label layoutX="25.0" layoutY="45.0" style="-fx-font-size: 18px; -fx-font-weight: bold;"
-           text="Bachelor of Information Technology" underline="true" />
+           text="Bachelor of Information Technology" textFill="#309adc" underline="true" />
     <Label layoutX="25.0" layoutY="70.0" style="-fx-font-size: 14px; -fx-font-weight: bold;"
-           text="Units" />
+           text="Units" textFill="#309adc" />
     <Label fx:id="welcomeLabel" layoutX="25.0" layoutY="110.0"
            style="-fx-font-size: 18px;" text="Welcome!" />
 
     <!-- Navigation Menu (matching the Edit Unit page) -->
-    <MenuBar layoutX="323.0" layoutY="18.0" prefHeight="28.0" prefWidth="522.0">
+    <MenuBar layoutX="389.0" layoutY="20.0" prefHeight="28.0" prefWidth="522.0">
         <Menu text="Home">
             <MenuItem onAction="#handleHome" text="Home"/>
         </Menu>
