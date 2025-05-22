@@ -25,10 +25,6 @@ public class ProfileController {
     private final SqliteUserDAO userDAO = new SqliteUserDAO();
     private User currentUser;
 
-    // Label for displaying a welcome message.
-    @FXML
-    private Label welcomeLabel;
-
     // Services
     private final AuthenticateService authenticateService;
     private final EnrollmentService enrollmentService;
@@ -46,9 +42,6 @@ public class ProfileController {
             lastNameField.setText(currentUser.getLast_name());
             emailField.setText(currentUser.getEmail());
             phoneField.setText(currentUser.getPhone());
-            // Set Welcome Label
-            String fullName = currentUser.getFirst_name() + " " + currentUser.getLast_name();
-            welcomeLabel.setText("Welcome, " + fullName + "!");
         } else {
             showAlert("Error", "No user logged in.");
         }

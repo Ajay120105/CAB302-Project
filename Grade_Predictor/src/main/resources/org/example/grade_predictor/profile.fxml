@@ -1,62 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="org.example.grade_predictor.controller.ProfileController"
-            prefHeight="650.0" prefWidth="1000.0" stylesheets="@style.css">
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 
-    <!-- Application Header -->
-    <Label layoutX="25.0" layoutY="20.0" style="-fx-font-size: 18px; -fx-font-weight: bold;"
-           text="Grade Predictor" textFill="#309adc" underline="true"/>
-    <Label layoutX="25.0" layoutY="45.0" style="-fx-font-size: 18px; -fx-font-weight: bold;"
-           text="Bachelor of Information Technology" textFill="#309adc" underline="true"/>
-    <Label layoutX="25.0" layoutY="70.0" style="-fx-font-size: 14px; -fx-font-weight: bold;"
-           text="Units" textFill="#309adc" />
-    <Label fx:id="welcomeLabel" layoutX="25.0" layoutY="110.0"
-           style="-fx-font-size: 18px;" text="Welcome!"/>
+<AnchorPane prefHeight="650.0" prefWidth="1000.0" style="-fx-background-color: #D3D3D3;" stylesheets="@style.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="org.example.grade_predictor.controller.ProfileController"> <!-- Grey background layer -->
 
-    <!-- Navigation Bar -->
-    <HBox layoutX="389.0" layoutY="20.0" spacing="10">
-        <Button text="Home" onAction="#handleHome" styleClass="nav-button"/>
-        <Button text="Edit Units" onAction="#goToEditUnit" styleClass="nav-button"/>
-        <Button text="All Units" onAction="#goToAllUnits" styleClass="nav-button"/>
-        <Button text="Predict Grade" onAction="#goToPredictGrade" styleClass="nav-button"/>
-        <Button text="Profile" onAction="#handleProfile" styleClass="nav-button"/>
-        <Button text="Settings" onAction="#handleSettings" styleClass="nav-button"/>
-        <Button text="Log Out" onAction="#handleLogout" styleClass="nav-button"/>
-    </HBox>
-
-    <VBox layoutX="200" layoutY="160" spacing="15"
-          style="-fx-background-color: #E0E0E0; -fx-padding: 30; -fx-border-radius: 10; -fx-pref-width: 600;">
-
-        <!-- Profile Title -->
-        <Label text="User Profile" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
-
-        <!-- Divider -->
-        <Separator style="-fx-background-color: #333333;"/>
-
-        <!-- Profile Form -->
-        <GridPane hgap="20" vgap="15">
-            <Label text="First Name:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-            <TextField fx:id="firstNameField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
-
-            <Label text="Last Name:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-            <TextField fx:id="lastNameField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
-
-            <Label text="Email:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-            <TextField fx:id="emailField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
-
-            <Label text="Phone:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-            <TextField fx:id="phoneField" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
-        </GridPane>
-
-        <!-- Save Button -->
-        <Button fx:id="saveButton" text="Save Changes" onAction="#handleSaveChanges"
-                style="-fx-font-size: 16px; -fx-background-color: #2a9d8f; -fx-text-fill: white;
-                   -fx-padding: 10; -fx-border-radius: 5;"/>
+    <!-- Navigation Bar Layer -->
+    <VBox prefHeight="60" prefWidth="1000" style="-fx-background-color: #E0E0E0; -fx-padding: 10; -fx-border-color: #CCCCCC;">
+        <HBox alignment="CENTER" spacing="15">
+           <Label style="-fx-font-size: 22px; -fx-font-weight: bold;" text="Grade Predictor" />
+            <Button onAction="#handleHome" styleClass="nav-button" text="Home" />
+            <Button onAction="#goToEditUnit" styleClass="nav-button" text="Edit Units" />
+            <Button onAction="#goToAllUnits" styleClass="nav-button" text="All Units" />
+            <Button onAction="#goToPredictGrade" styleClass="nav-button" text="Predict Grade" />
+            <Button onAction="#handleProfile" styleClass="nav-button" text="Profile" />
+            <Button onAction="#handleSettings" styleClass="nav-button" text="Settings" />
+            <Button onAction="#handleLogout" styleClass="nav-button" text="Log Out" />
+        </HBox>
     </VBox>
 
+    <!-- Profile Section Layer -->
+    <VBox layoutX="207.0" layoutY="91.0" prefWidth="600" spacing="25" style="-fx-background-color: #E0E0E0; -fx-padding: 30; -fx-border-radius: 10; -fx-border-color: #CCCCCC;">
+        <Label style="-fx-font-size: 24px; -fx-font-weight: bold;" text="User Profile" />
+        <Separator />
+
+        <GridPane alignment="CENTER" hgap="30" vgap="20">
+            <Label text="First Name:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <TextField fx:id="firstNameField" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+            <Label text="Last Name:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+            <TextField fx:id="lastNameField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+            <Label text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+            <TextField fx:id="emailField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+            <Label text="Phone:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+            <TextField fx:id="phoneField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+         <columnConstraints>
+            <ColumnConstraints />
+            <ColumnConstraints />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+         </rowConstraints>
+        </GridPane>
+
+        <Button fx:id="saveButton" onAction="#handleSaveChanges" style="-fx-font-size: 16px; -fx-background-color: #2a9d8f; -fx-text-fill: white;                        -fx-padding: 15; -fx-border-radius: 5;" text="Save Changes" />
+    </VBox>
 
 </AnchorPane>
-
