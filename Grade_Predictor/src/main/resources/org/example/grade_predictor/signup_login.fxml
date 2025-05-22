@@ -12,55 +12,56 @@
 
 <AnchorPane prefHeight="650.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.grade_predictor.controller.SignupLoginController">
     <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#d7d7d7" height="400.0" layoutX="280.0" layoutY="125.0" stroke="BLACK" strokeType="INSIDE" width="440.0" />
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#d7d7d7" height="455.0" layoutX="280.0" layoutY="125.0" stroke="BLACK" strokeType="INSIDE" width="440.0" />
         <Label layoutX="428.0" layoutY="168.0" style="-fx-font-size: 24px;" text="Signup/Login" textFill="#309adc" />
 
         <!-- First Name field (initially hidden) -->
-        <Label fx:id="firstNameLabel" layoutX="93.0" layoutY="106.0" text="First Name" textFill="#309adc" visible="false">
+        <Label fx:id="firstNameLabel" layoutX="376.0" layoutY="312.0" text="First Name" textFill="#309adc" visible="false">
             <font>
                 <Font name="System Bold" size="19.0" />
             </font>
         </Label>
-        <TextField fx:id="firstNameField" layoutX="195.0" layoutY="107.0" visible="false" />
+        <TextField fx:id="firstNameField" layoutX="479.0" layoutY="312.0" visible="false" />
 
         <!-- Last Name field (initially hidden) -->
-        <Label fx:id="lastNameLabel" layoutX="93.0" layoutY="146.0" text="Last Name" textFill="#309adc" visible="false">
+        <Label fx:id="lastNameLabel" layoutX="376.0" layoutY="352.0" text="Last Name" textFill="#309adc" visible="false">
             <font>
                 <Font name="System Bold" size="19.0" />
             </font>
         </Label>
-        <TextField fx:id="lastNameField" layoutX="195.0" layoutY="147.0" visible="false" />
+        <TextField fx:id="lastNameField" layoutX="479.0" layoutY="352.0" visible="false" />
 
         <!-- Phone field (initially hidden) -->
-        <Label fx:id="phoneLabel" layoutX="93.0" layoutY="186.0" text="Phone" textFill="#309adc" visible="false">
+        <Label fx:id="phoneLabel" layoutX="376.0" layoutY="392.0" text="Phone" textFill="#309adc" visible="false">
             <font>
                 <Font name="System Bold" size="19.0" />
             </font>
         </Label>
-        <TextField fx:id="phoneField" layoutX="195.0" layoutY="187.0" visible="false" />
+        <TextField fx:id="phoneField" layoutX="479.0" layoutY="392.0" visible="false" />
 
         <!-- Email field (initially positioned higher) -->
-        <Label fx:id="emailLabel" layoutX="386.0" layoutY="232.0" text="Email" textFill="#309adc">
+        <Label fx:id="emailLabel" layoutX="376.0" layoutY="232.0" text="Email" textFill="#309adc">
             <font>
                 <Font name="System Bold" size="19.0" />
             </font>
         </Label>
-        <TextField fx:id="emailField" layoutX="479.0" layoutY="233.0" />
+        <TextField fx:id="emailField" layoutX="479.0" layoutY="232.0" />
 
         <!-- Password field (initially positioned higher) -->
-        <Label fx:id="passwordLabel" layoutX="386.0" layoutY="272.0" text="Password" textFill="#309adc">
+        <Label fx:id="passwordLabel" layoutX="376.0" layoutY="272.0" text="Password" textFill="#309adc">
             <font>
                 <Font name="System Bold" size="19.0" />
             </font>
         </Label>
-        <PasswordField fx:id="passwordField" layoutX="479.0" layoutY="273.0" />
+        <PasswordField fx:id="passwordField" layoutX="479.0" layoutY="272.0" />
 
-        <VBox fx:id="enrollmentSection" spacing="10.0" visible="false">
-            <Label style="-fx-font-size: 16px;" text="Enrollment Information" />
+        <!-- Enrollment Section positioned below phone field -->
+        <VBox fx:id="enrollmentSection" layoutX="376.0" layoutY="432.0" spacing="5.0" visible="false">
+            <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Enrollment Information" textFill="#309adc" />
             <Label fx:id="enrollmentHelperText" style="-fx-font-size: 12px; -fx-text-fill: #555555;" text="Enter a degree ID to automatically populate the degree name." visible="false" />
             <HBox spacing="10.0">
-                <TextField fx:id="degreeIdField" onKeyReleased="#handleDegreeIdChanged" prefWidth="150" promptText="Degree ID" />
-                <TextField fx:id="degreeNameField" prefWidth="300" promptText="Degree Name" />
+                <TextField fx:id="degreeIdField" onKeyReleased="#handleDegreeIdChanged" prefWidth="100" promptText="Degree ID" />
+                <TextField fx:id="degreeNameField" prefWidth="200" promptText="Degree Name" />
             </HBox>
         </VBox>
 
