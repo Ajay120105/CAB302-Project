@@ -27,10 +27,6 @@ public class EditUnitController {
     @FXML
     private VBox unitsVBox;
 
-    // Label added to show welcome message, e.g., "Welcome, John Doe!"
-    @FXML
-    private Label welcomeLabel;
-    
     // Services
     private final AuthenticateService authenticateService;
     private final EnrollmentService enrollmentService;
@@ -46,15 +42,6 @@ public class EditUnitController {
     public void initialize() {
         // Retrieve the currently logged-in user.
         User currentUser = authenticateService.getCurrentUser();
-        if (currentUser != null) {
-            String fullName = currentUser.getFirst_name() + " " + currentUser.getLast_name();
-            welcomeLabel.setText("Welcome, " + fullName + "!");
-            displayEnrolledUnits();
-            
-            addNewUnitComponent();
-        } else {
-            welcomeLabel.setText("Welcome!");
-        }
     }
 
     /**
@@ -257,6 +244,14 @@ public class EditUnitController {
     protected void handleLogout() {
         authenticateService.logoutUser();
         showAlert("Log Out", "You have been logged out.");
+
+        // Redirect to the first page (signup/login)
+        try {
+            HelloApplication.switchToSignup_LoginPage();
+        } catch (IOException e) {
+            showAlert("Navigation Error", "Could not open Signup/Login page.");
+            e.printStackTrace();
+        }
     }
 
     @FXML

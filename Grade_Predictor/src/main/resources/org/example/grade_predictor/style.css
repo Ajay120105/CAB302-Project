@@ -17,3 +17,17 @@
 .menu-item:hover {
     -fx-background-color: #00008b; /* Dark blue highlight on hover */
 }
+
+.nav-button {
+    -fx-background-color: #2a9d8f;
+    -fx-text-fill: white;
+    -fx-padding: 10px;
+    -fx-border-radius: 5px;
+}
+
+.save-button {
+    -fx-background-color: #add8e6;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-padding: 10px;
+}

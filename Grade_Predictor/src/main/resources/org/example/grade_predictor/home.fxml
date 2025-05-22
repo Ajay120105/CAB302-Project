@@ -1,69 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.SubScene?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
-<?import javafx.scene.shape.Rectangle?>
 
-<AnchorPane prefHeight="650.0" prefWidth="1000.0" stylesheets="@style.css" xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.grade_predictor.controller.HomeController">
+<AnchorPane prefHeight="650.0" prefWidth="1000.0" style="-fx-background-color: #D3D3D3;" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.grade_predictor.controller.HomeController"> <!-- Grey background layer -->
 
-    <!-- Background SubScene -->
-    <SubScene fill="#185e8a" height="200.0" layoutX="21.0" layoutY="90.0" width="958.0">
-        <root>
-            <Region />
-        </root>
-    </SubScene>
+    <!-- Navigation Bar Layer -->
+    <VBox layoutX="0" layoutY="0" prefHeight="60" prefWidth="1000" style="-fx-background-color: #E0E0E0; -fx-padding: 10; -fx-border-color: #CCCCCC;">
+        <HBox alignment="CENTER" spacing="15">
+           <Label style="-fx-font-size: 22px; -fx-font-weight: bold;" text="Grade Predictor" />
+            <Button onAction="#handleHome" styleClass="nav-button" text="Home" />
+            <Button onAction="#goToEditUnit" styleClass="nav-button" text="Edit Units" />
+            <Button onAction="#goToAllUnits" styleClass="nav-button" text="All Units" />
+            <Button onAction="#goToPredictGrade" styleClass="nav-button" text="Predict Grade" />
+            <Button onAction="#handleProfile" styleClass="nav-button" text="Profile" />
+            <Button onAction="#handleSettings" styleClass="nav-button" text="Settings" />
+            <Button onAction="#handleLogout" styleClass="nav-button" text="Log Out" />
+        </HBox>
+    </VBox>
 
-    <!-- App name and Label at the top left -->
-    <Label layoutX="25.0" layoutY="20.0" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Grade Predictor" textFill="#309adc" underline="true" />
-    <Label layoutX="25.0" layoutY="45.0" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Bachelor of Information Technology" textFill="#309adc" underline="true" />
-    <Label layoutX="25.0" layoutY="80.0" style="-fx-font-size: 14px; -fx-font-weight: bold;" text="Units" textFill="#309adc" />
-    <Label fx:id="welcomeLabel" layoutX="25.0" layoutY="110.0" style="-fx-font-size: 18px;" text="Welcome!" />
+    <!-- Welcome Section Layer -->
+    <VBox layoutX="14.0" layoutY="69.0" prefHeight="85.0" prefWidth="967.0" style="-fx-background-color: #F5F5F5; -fx-padding: 20; -fx-border-radius: 10; -fx-border-color: #CCCCCC;">
+        <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Bachelor of Information Technology" />
+        <Label fx:id="welcomeLabel" style="-fx-font-size: 20px;" text="Welcome!" />
+    </VBox>
 
+    <!-- Predicted Grade Display -->
+    <VBox layoutX="621.0" layoutY="174.0" prefHeight="452.0" prefWidth="364.0" spacing="20" style="-fx-background-color: #E0E0E0; -fx-padding: 30; -fx-border-radius: 10; -fx-border-color: #CCCCCC;">
+        <Label style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Predicted Grade" />
+        <Separator />
 
-    <!-- Unused BorderPane removed or left as a placeholder if needed -->
-    <!-- <BorderPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" /> -->
+        <HBox alignment="CENTER" spacing="20">
+            <Circle fill="#309adc" radius="50" />
+            <TextField fx:id="predictedGradeField" prefWidth="150" text="6.2 GPA" />
+        </HBox>
+    </VBox>
 
-    <!-- Navigation Menu -->
-    <MenuBar layoutX="389.0" layoutY="20.0" prefHeight="28.0" prefWidth="522.0">
-        <Menu text="Home">
-            <MenuItem onAction="#handleHome" text="Home" />
-        </Menu>
-        <Menu text="Edit Units">
-            <MenuItem onAction="#goToEditUnit" text="Edit Units" />
-        </Menu>
-        <Menu text="All Units">
-            <MenuItem onAction="#goToAllUnits" text="All Units" />
-        </Menu>
-        <Menu text="Predict Grade">
-            <MenuItem onAction="#goToPredictGrade" text="Predict Grade" />
-        </Menu>
-        <Menu text="Profile">
-            <MenuItem onAction="#handleProfile" text="Profile" />
-        </Menu>
-        <Menu text="Settings">
-            <MenuItem onAction="#handleSettings" text="Settings" />
-        </Menu>
-        <Menu text="Log Out">
-            <MenuItem onAction="#handleLogout" text="Log Out" />
-        </Menu>
-    </MenuBar>
+             <!-- Units Section Layer -->
+    <VBox layoutX="18.0" layoutY="169.0" prefHeight="466.0" prefWidth="586.0" spacing="10" style="-fx-background-color: #E0E0E0; -fx-padding: 20; -fx-border-radius: 10; -fx-border-color: #CCCCCC;">
+        <Label style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Enrolled Units" />
+        <VBox fx:id="unitsVBox" spacing="15" />
+    </VBox>
 
-    <!-- Dynamic container for unit nodes -->
-    <VBox fx:id="unitsVBox" layoutX="25.0" layoutY="140.0" spacing="20" />
-
-    <!-- Optional Edit Button -->
-    <Button fx:id="goToEditUnit" layoutX="872.0" layoutY="169.0" mnemonicParsing="false" onAction="#goToEditUnit" text="EDIT" />
-   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="259.0" layoutX="214.0" layoutY="359.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="3.0" width="599.0" />
-    <Circle fill="#309adc" layoutX="513.0" layoutY="488.0" radius="100.0" stroke="BLACK" strokeType="INSIDE" />
-    <TextField layoutX="482.0" layoutY="475.0" prefHeight="26.0" prefWidth="62.0" text="6.2 GPA" />
-    <TextField layoutX="214.0" layoutY="325.0" text="Predicted Grade " />
 </AnchorPane>

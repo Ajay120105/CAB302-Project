@@ -25,10 +25,6 @@ public class ProfileController {
     private final SqliteUserDAO userDAO = new SqliteUserDAO();
     private User currentUser;
 
-    // Label for displaying a welcome message.
-    @FXML
-    private Label welcomeLabel;
-
     // Services
     private final AuthenticateService authenticateService;
     private final EnrollmentService enrollmentService;
@@ -40,7 +36,7 @@ public class ProfileController {
 
     @FXML
     public void initialize() {
-        this.currentUser = authenticateService.getCurrentUser();
+        currentUser = authenticateService.getCurrentUser();
         if (currentUser != null) {
             firstNameField.setText(currentUser.getFirst_name());
             lastNameField.setText(currentUser.getLast_name());
@@ -76,11 +72,7 @@ public class ProfileController {
 
     @FXML
     protected void handleProfile() {
-        try{
-            HelloApplication.switchToProfilePage();
-        } catch (IOException e) {
-            showAlert("Navigation Error", " Could not open profile page");
-        }
+        showAlert("Profile", "You are already on the Profile page.");
     }
 
     @FXML
@@ -92,6 +84,14 @@ public class ProfileController {
     protected void handleLogout() {
         authenticateService.logoutUser();
         showAlert("Log Out", "You have been logged out.");
+
+        // Redirect to the first page (signup/login)
+        try {
+            HelloApplication.switchToSignup_LoginPage();
+        } catch (IOException e) {
+            showAlert("Navigation Error", "Could not open Signup/Login page.");
+            e.printStackTrace();
+        }
     }
 
     @FXML

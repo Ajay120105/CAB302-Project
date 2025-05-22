@@ -30,10 +30,6 @@ public class PredictGradeController {
     @FXML
     private VBox unitsVBox;
 
-    // Label for greeting the current user.
-    @FXML
-    private Label welcomeLabel;
-
     @FXML
     private Button predictButton;
 
@@ -58,13 +54,6 @@ public class PredictGradeController {
     @FXML
     public void initialize() {
         User currentUser = authenticateService.getCurrentUser();
-        if (currentUser != null) {
-            String fullName = currentUser.getFirst_name() + " " + currentUser.getLast_name();
-            welcomeLabel.setText("Welcome, " + fullName + "!");
-            displayEnrolledUnits();
-        } else {
-            welcomeLabel.setText("Welcome!");
-        }
     }
 
     private void displayEnrolledUnits() {
@@ -188,6 +177,14 @@ public class PredictGradeController {
     protected void handleLogout() {
         authenticateService.logoutUser();
         showAlert("Log Out", "You have been logged out.");
+
+        // Redirect to the first page (signup/login)
+        try {
+            HelloApplication.switchToSignup_LoginPage();
+        } catch (IOException e) {
+            showAlert("Navigation Error", "Could not open Signup/Login page.");
+            e.printStackTrace();
+        }
     }
 
     @FXML

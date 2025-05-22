@@ -1,6 +1,7 @@
 package org.example.grade_predictor.controller;
 
 import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
@@ -44,12 +45,6 @@ public class AllUnitsController {
     public void initialize() {
         // Retrieve the currently logged-in user.
         User currentUser = authenticateService.getCurrentUser();
-        if (currentUser != null) {
-            String fullName = currentUser.getFirst_name() + " " + currentUser.getLast_name();
-            welcomeLabel.setText("Welcome, " + fullName + "!");
-        } else {
-            welcomeLabel.setText("Welcome!");
-        }
         loadAllUnits();
     }
 
@@ -143,20 +138,6 @@ public class AllUnitsController {
     }
 
     @FXML
-    protected void handleAllUnits() {
-        showAlert("All Units", "You are already on the All Units page.");
-    }
-
-    @FXML
-    protected void handleEditUnit() {
-        try {
-            HelloApplication.switchToEditUnitPage();
-        } catch (Exception e) {
-            showAlert("Navigation Error", "Could not open Enrolled Units page.");
-        }
-    }
-
-    @FXML
     protected void handleSettings() {
         showAlert("Settings", "Settings page is under construction.");
     }
@@ -174,7 +155,16 @@ public class AllUnitsController {
     protected void handleLogout() {
         authenticateService.logoutUser();
         showAlert("Log Out", "You have been logged out.");
+
+        // Redirect to the first page (signup/login)
+        try {
+            HelloApplication.switchToSignup_LoginPage();
+        } catch (IOException e) {
+            showAlert("Navigation Error", "Could not open Signup/Login page.");
+            e.printStackTrace();
+        }
     }
+
 
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -191,5 +181,22 @@ public class AllUnitsController {
         } catch (Exception e) {
             showAlert("Navigation Error", "Could not open Predict Grade page.");
         }
+
     }
-}
+
+    @FXML
+    protected void goToEditUnit() {
+        try {
+            HelloApplication.switchToEditUnitPage();
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert("Navigation Error", "Could not open Edit Unit page.");
+        }
+    }
+
+    @FXML
+    public void goToAllUnits(ActionEvent actionEvent)  {
+        showAlert("All Units", "You are already on the All units page.");
+    }
+    }
+
