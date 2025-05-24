@@ -36,11 +36,10 @@ public class UnitService {
      * 
      * @param unitCode The unit code
      * @param unitName The unit name
-     * @param difficulty The unit difficulty
      * @return The newly created unit, or null if operation failed
      */
-    public Unit addUnit(String unitCode, String unitName, String difficulty) {
-        Unit unit = new Unit(unitCode, unitName, difficulty);
+    public Unit addUnit(String unitCode, String unitName) {
+        Unit unit = new Unit(unitCode, unitName);
         unitDAO.addUnit(unit);
         return unit;
     }

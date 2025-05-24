@@ -4,13 +4,11 @@ public class Unit {
 
     private String unit_code;
     private String unit_name;
-    public final int CREDIT_POINTS = 2;
-    private String difficulty;
 
-    public Unit(String unit_code, String unit_name, String difficulty) {
+
+    public Unit(String unit_code, String unit_name) {
         this.unit_code = unit_code;
         this.unit_name = unit_name;
-        this.difficulty = difficulty;
     }
 
     public String getUnit_code() {
@@ -29,17 +27,7 @@ public class Unit {
         this.unit_name = unit_name;
     }
 
-    public String getDifficulty() {
-        return difficulty;
-    }
 
-    public void setDifficulty(String difficulty) {
-        this.difficulty = difficulty;
-    }
-
-    public int getCREDIT_POINTS() {
-        return CREDIT_POINTS;
-    }
 
 
 }

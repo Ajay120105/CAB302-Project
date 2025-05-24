@@ -55,9 +55,9 @@ public class UnitDAO implements I_Unit{
     public UnitDAO() {
         if (units.isEmpty()) {
             // Add sample units (ensure they match the required format, e.g. 3 letters + 3 digits)
-            addUnit(new Unit("CAB302", "Software Engineering", "Medium"));
-            addUnit(new Unit("CAB303", "Data Structures", "High"));
-            addUnit(new Unit("CAB304", "Algorithms", "Low"));
+            addUnit(new Unit("CAB302", "Software Engineering"));
+            addUnit(new Unit("CAB303", "Data Structures"));
+            addUnit(new Unit("CAB304", "Algorithms"));
         }
     }
 

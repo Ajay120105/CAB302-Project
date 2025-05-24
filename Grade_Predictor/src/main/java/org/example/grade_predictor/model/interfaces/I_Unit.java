@@ -7,29 +7,32 @@ public interface I_Unit {
     /**
      * Adds a new unit to the database.
      * @param unit The unit to add.
-     *
      */
-    public void addUnit(Unit unit);
+    void addUnit(Unit unit);
+
     /**
      * Updates an existing unit in the database.
      * @param unit The unit to update.
      */
-    public void updateUnit(Unit unit);
+    void updateUnit(Unit unit);
+
     /**
      * Deletes a unit from the database.
      * @param unit The unit to delete.
      */
-    public void deleteUnit(Unit unit);
+    void deleteUnit(Unit unit);
+
     /**
-     * Retrieves a unit from the database.
-     * @param unit_code The id of the unit to retrieve.
-     * @return The unit with the given id, or null if not found.
+     * Retrieves a unit from the database by its unit code.
+     * @param unit_code The unit code of the unit to retrieve.
+     * @return The unit with the given unit code, or null if not found.
      */
-    public Unit getUnit(String unit_code);
+    Unit getUnit(String unit_code);
+
     /**
      * Retrieves all units from the database.
-     *
-     * @return A list of all units in the database.
+     * @return A list of all units.
      */
-    public List<Unit> getAllUnits();
+    List<Unit> getAllUnits();
 }
+

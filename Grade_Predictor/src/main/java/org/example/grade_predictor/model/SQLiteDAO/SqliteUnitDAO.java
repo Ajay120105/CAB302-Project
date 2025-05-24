@@ -17,7 +17,19 @@ public class SqliteUnitDAO implements I_Unit {
 
     public SqliteUnitDAO() {
         connection = SqliteConnection.getInstance();
-        createTable();
+        // createTable();
+        // deleteUnitsTable();
+    }
+
+    public void deleteUnitsTable() {
+        try {
+            Statement statement = connection.createStatement();
+            String query = "DROP TABLE IF EXISTS units";
+            statement.execute(query);
+            System.out.println("Units table deleted successfully.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void createTable() {
@@ -25,9 +37,7 @@ public class SqliteUnitDAO implements I_Unit {
             Statement statement = connection.createStatement();
             String query = "CREATE TABLE IF NOT EXISTS units (" +
                     "unit_code TEXT PRIMARY KEY," +
-                    "unit_name TEXT NOT NULL," +
-                    "difficulty TEXT NOT NULL," +
-                    "credit_points INTEGER NOT NULL" +
+                    "unit_name TEXT NOT NULL" +
                     ")";
             statement.execute(query);
         } catch (Exception e) {
@@ -39,11 +49,9 @@ public class SqliteUnitDAO implements I_Unit {
     public void addUnit(Unit unit) {
         try {
             PreparedStatement statement = connection.prepareStatement(
-                    "INSERT INTO units (unit_code, unit_name, difficulty, credit_points) VALUES (?, ?, ?, ?)");
+                    "INSERT INTO units (unit_code, unit_name) VALUES (?, ?)");
             statement.setString(1, unit.getUnit_code());
             statement.setString(2, unit.getUnit_name());
-            statement.setString(3, unit.getDifficulty());
-            statement.setInt(4, unit.getCREDIT_POINTS());
             statement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -54,10 +62,9 @@ public class SqliteUnitDAO implements I_Unit {
     public void updateUnit(Unit unit) {
         try {
             PreparedStatement statement = connection.prepareStatement(
-                    "UPDATE units SET unit_name = ?, difficulty = ? WHERE unit_code = ?");
+                    "UPDATE units SET unit_name = ? WHERE unit_code = ?");
             statement.setString(1, unit.getUnit_name());
-            statement.setString(2, unit.getDifficulty());
-            statement.setString(3, unit.getUnit_code());
+            statement.setString(2, unit.getUnit_code());
             statement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -85,8 +92,7 @@ public class SqliteUnitDAO implements I_Unit {
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 String unit_name = resultSet.getString("unit_name");
-                String difficulty = resultSet.getString("difficulty");
-                return new Unit(unit_code, unit_name, difficulty);
+                return new Unit(unit_code, unit_name); // Pass null for difficulty
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -103,14 +109,12 @@ public class SqliteUnitDAO implements I_Unit {
             while (resultSet.next()) {
                 String unit_code = resultSet.getString("unit_code");
                 String unit_name = resultSet.getString("unit_name");
-                String difficulty = resultSet.getString("difficulty");
-                units.add(new Unit(unit_code, unit_name, difficulty));
+                units.add(new Unit(unit_code, unit_name)); // Pass null for difficulty
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return units;
     }
-
-
 }
+

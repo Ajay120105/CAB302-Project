@@ -5,9 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d5ae6416-a402-4255-b90d-bbc5aa219925" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Grade_Predictor/src/main/java/org/example/grade_predictor/HelloApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/Grade_Predictor/src/main/java/org/example/grade_predictor/HelloApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Grade_Predictor/src/main/java/org/example/grade_predictor/model/DAO/UnitDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/Grade_Predictor/src/main/java/org/example/grade_predictor/model/DAO/UnitDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Grade_Predictor/src/main/java/org/example/grade_predictor/model/SQLiteDAO/SqliteDegreeDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/Grade_Predictor/src/main/java/org/example/grade_predictor/model/SQLiteDAO/SqliteDegreeDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Grade_Predictor/src/main/java/org/example/grade_predictor/model/SQLiteDAO/SqliteUnitDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/Grade_Predictor/src/main/java/org/example/grade_predictor/model/SQLiteDAO/SqliteUnitDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Grade_Predictor/src/main/java/org/example/grade_predictor/model/Unit.java" beforeDir="false" afterPath="$PROJECT_DIR$/Grade_Predictor/src/main/java/org/example/grade_predictor/model/Unit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Grade_Predictor/src/main/java/org/example/grade_predictor/model/interfaces/I_Unit.java" beforeDir="false" afterPath="$PROJECT_DIR$/Grade_Predictor/src/main/java/org/example/grade_predictor/model/interfaces/I_Unit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Grade_Predictor/src/main/java/org/example/grade_predictor/service/UnitService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Grade_Predictor/src/main/java/org/example/grade_predictor/service/UnitService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,10 +22,22 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 8
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "HerroQUT"
+  }
 }]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Ajay120105/CAB302-Project.git",
+    "accountId": "494ce86d-e6dc-4ab8-8b3a-ffff2e9d2311"
+  }
+}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 8
+}</component>
   <component name="ProjectId" id="2xTSJGwopFSvCi65838gFlvENqA" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -34,7 +51,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "OOP-refactoring",
+    "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true"
   }
 }]]></component>
