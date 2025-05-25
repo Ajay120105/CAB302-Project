@@ -18,8 +18,6 @@ public class SqliteDegreeDAO implements I_Degree {
     public SqliteDegreeDAO() {
         connection = SqliteConnection.getInstance();
         createTable();
-        SqliteUnitDAO unitDAO = new SqliteUnitDAO();
-        System.out.println("banana");
         //populateDegreesTable();
     }
 

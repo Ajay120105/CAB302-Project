@@ -97,7 +97,6 @@ public class OllamaGradePredictionService {
             if (unitDetails != null) {
                 sb.append("- ").append(unitDetails.getUnit_code())
                   .append(" (").append(unitDetails.getUnit_name()).append("): ")
-                  .append("Difficulty: ").append(unitDetails.getDifficulty())
                   .append(", Weekly hours: ").append(enrolledUnit.getWeekly_hours())
                   .append("\n");
             }
