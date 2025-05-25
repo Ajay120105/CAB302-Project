@@ -17,9 +17,9 @@ public class SqliteUnitDAO implements I_Unit {
 
     public SqliteUnitDAO() {
         connection = SqliteConnection.getInstance();
-        deleteUnitsTable();
-        createTable();
-        insertDummyUnits();
+        //deleteUnitsTable();
+        //createTable();
+        //insertDummyUnits();
 
     }
 

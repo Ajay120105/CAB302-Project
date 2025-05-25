@@ -17,7 +17,7 @@ public class SqliteDegreeDAO implements I_Degree {
 
     public SqliteDegreeDAO() {
         connection = SqliteConnection.getInstance();
-        createTable();
+        //createTable();
         //populateDegreesTable();
     }
 
