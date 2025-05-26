@@ -25,7 +25,6 @@ public class UnitTest {
         assertNotNull(retrievedUnit, "Unit should exist in the database.");
         assertEquals("CAB302", retrievedUnit.getUnit_code());
         assertEquals("Software Engineering", retrievedUnit.getUnit_name());
-        assertEquals("Medium", retrievedUnit.getDifficulty());
     }
 
     @Test

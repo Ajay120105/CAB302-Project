@@ -131,6 +131,8 @@ public class SignupLoginController {
                 showAlert("Error", degreeInfoResult.getErrorMessage());
                 return;
             }
+            
+            degreeId = degreeId.toUpperCase();
 
             try {
                 Degree existingDegree = degreeService.getDegreeById(degreeId);
@@ -259,7 +261,10 @@ public class SignupLoginController {
         allDegrees = degreeService.getAllDegrees();
 
         degreeIdField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null && !newValue.isEmpty()) {
+            if (newValue != null && !newValue.equals(newValue.toUpperCase())) {
+                // Convert to uppercase without triggering the listener again
+                degreeIdField.setText(newValue.toUpperCase());
+            } else if (newValue != null && !newValue.isEmpty()) {
                 handleDegreeIdChanged();
             }
         });

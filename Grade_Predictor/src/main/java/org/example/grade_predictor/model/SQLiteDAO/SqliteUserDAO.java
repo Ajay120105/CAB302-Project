@@ -18,25 +18,6 @@ public class SqliteUserDAO implements I_User {
 
     public SqliteUserDAO() {
         connection = SqliteConnection.getInstance();
-        createTable();
-    }
-
-    private void createTable() {
-        // Create table if not exists
-        try {
-            Statement statement = connection.createStatement();
-            String query = "CREATE TABLE IF NOT EXISTS users ("
-                    + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    + "firstName VARCHAR NOT NULL,"
-                    + "lastName VARCHAR NOT NULL,"
-                    + "phone VARCHAR NOT NULL,"
-                    + "email VARCHAR NOT NULL,"
-                    + "password VARCHAR NOT NULL"
-                    + ")";
-            statement.execute(query);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     @Override

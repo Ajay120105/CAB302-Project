@@ -17,24 +17,6 @@ public class SqliteEnrollmentDAO implements I_Enrollment {
 
     public SqliteEnrollmentDAO() {
         connection = SqliteConnection.getInstance();
-        createTable();
-    }
-
-    private void createTable() {
-        try {
-            Statement statement = connection.createStatement();
-            String query = "CREATE TABLE IF NOT EXISTS enrollments (" +
-                    "enrollment_ID INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    "user_ID INTEGER NOT NULL," +
-                    "degree_ID CHAR(4) NOT NULL," +
-                    "current_gpa INTEGER," +
-                    "predicted_gpa INTEGER," +
-                    "FOREIGN KEY(user_ID) REFERENCES users(user_ID)" +
-                    ")";
-            statement.execute(query);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     @Override

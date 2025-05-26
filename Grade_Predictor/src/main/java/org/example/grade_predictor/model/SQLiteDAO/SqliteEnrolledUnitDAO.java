@@ -7,7 +7,6 @@ import org.example.grade_predictor.model.interfaces.I_EnrolledUnit;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,33 +16,6 @@ public class SqliteEnrolledUnitDAO implements I_EnrolledUnit {
 
     public SqliteEnrolledUnitDAO() {
         connection = SqliteConnection.getInstance();
-        createTable();
-    }
-
-    private void deleteTable() {
-        try {
-            Statement statement = connection.createStatement();
-            String query = "DROP TABLE IF EXISTS enrolled_units";
-            statement.execute(query);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void createTable() {
-        try {
-            Statement statement = connection.createStatement();
-            String query = "CREATE TABLE IF NOT EXISTS enrolled_units (" +
-                    "enrollment_ID INTEGER NOT NULL, " +
-                    "unit_code TEXT NOT NULL, " +
-                    "year_enrolled INTEGER, " +
-                    "semester_enrolled INTEGER, " +
-                    "weekly_hours INTEGER, " +
-                    "PRIMARY KEY (enrollment_ID, unit_code))";
-            statement.execute(query);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
