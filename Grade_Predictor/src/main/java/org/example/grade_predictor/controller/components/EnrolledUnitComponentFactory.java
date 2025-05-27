@@ -10,11 +10,24 @@ import javafx.scene.paint.Color;
 import org.example.grade_predictor.model.EnrolledUnit;
 import org.example.grade_predictor.model.Unit;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.geometry.Insets;
+import javafx.fxml.FXMLLoader;
+import java.io.IOException;
+import java.util.function.Consumer;
 
 /**
  * Factory class for creating UI components for EnrolledUnit display
  */
 public class EnrolledUnitComponentFactory {
+    
+    /**
+     * Functional interface for handling selection of an enrolled unit.
+     */
+    @FunctionalInterface
+    public interface EnrolledUnitSelectionHandler {
+        void onSelect(EnrolledUnit unit);
+    }
     
     /**
      * Creates a simple view-only component for an enrolled unit
@@ -34,66 +47,59 @@ public class EnrolledUnitComponentFactory {
     }
     
     /**
+     * Creates a selectable, view-only component for an enrolled unit.
+     * When clicked, it invokes the provided selection handler.
+     */
+    public static Node createSelectableEnrolledUnitNode(EnrolledUnit eu, EnrolledUnitSelectionHandler selectionHandler) {
+        TitledPane pane = new TitledPane();
+        pane.setText(eu.getUnit_code() + " - Click to Select");
+        
+        String content = "Year: " + eu.getYear_enrolled() + "\n" +
+                "Semester: " + eu.getSemester_enrolled() + "\n" +
+                "Weekly Hours: " + eu.getWeekly_hours();
+        
+        Label contentLabel = new Label(content);
+        pane.setContent(contentLabel);
+        pane.setAnimated(false);
+        
+        // Make the TitledPane itself clickable for selection
+        pane.setOnMouseClicked(event -> {
+            if (selectionHandler != null) {
+                selectionHandler.onSelect(eu);
+            }
+        });
+        
+        return pane;
+    }
+    
+    /**
      * Creates an editable component for an enrolled unit
      * Used in EditUnit page where users can modify unit details
      */
     public static Node createEditableEnrolledUnitNode(EnrolledUnit eu, 
                                                      EnrolledUnitActionHandler actionHandler) {
-        AnchorPane contentPane = new AnchorPane();
+        try {
+            FXMLLoader loader = new FXMLLoader(EnrolledUnitComponentFactory.class.getResource("/org/example/grade_predictor/components/editable_enrolled_unit_item.fxml"));
+            Node node = loader.load();
+            EditableEnrolledUnitItemController controller = loader.getController();
+            controller.initializeData(eu, actionHandler);
 
-        // Create editable fields
-        TextField codeField = new TextField(eu.getUnit_code());
-        codeField.setLayoutX(20);
-        codeField.setLayoutY(14);
-
-        TextField yearField = new TextField(String.valueOf(eu.getYear_enrolled()));
-        yearField.setLayoutX(20);
-        yearField.setLayoutY(50);
-
-        TextField semesterField = new TextField(String.valueOf(eu.getSemester_enrolled()));
-        semesterField.setLayoutX(20);
-        semesterField.setLayoutY(86);
-
-        TextField hoursField = new TextField(String.valueOf(eu.getWeekly_hours()));
-        hoursField.setLayoutX(20);
-        hoursField.setLayoutY(122);
-        
-        // Create action buttons
-        Button saveButton = new Button("Save");
-        saveButton.setTextFill(Color.GREEN);
-        saveButton.setLayoutX(150);
-        saveButton.setLayoutY(86);
-        saveButton.setOnAction(evt -> {
-            try {
-                String newUnitCode = codeField.getText();
-                int newYear = Integer.parseInt(yearField.getText());
-                int newSemester = Integer.parseInt(semesterField.getText());
-                int newWeeklyHours = Integer.parseInt(hoursField.getText());
-                
-                actionHandler.onSave(eu, newUnitCode, newYear, newSemester, newWeeklyHours);
-            } catch (NumberFormatException e) {
-                actionHandler.onInputError("Please enter valid numeric values for year, semester, and weekly hours.");
-            }
-        });
-
-        Button deleteButton = new Button("Delete");
-        deleteButton.setTextFill(Color.RED);
-        deleteButton.setLayoutX(150);
-        deleteButton.setLayoutY(122);
-        deleteButton.setOnAction(evt -> actionHandler.onDelete(eu));
-
-        contentPane.getChildren().addAll(codeField, yearField, semesterField, hoursField, saveButton, deleteButton);
-
-        TitledPane pane = new TitledPane(eu.getUnit_code(), contentPane);
-        pane.setAnimated(false);
-        return pane;
+            TitledPane pane = new TitledPane(eu.getUnit_code(), node);
+            pane.setAnimated(false);
+            pane.setExpanded(true);
+            return pane;
+        } catch (IOException e) {
+            e.printStackTrace();
+            Label errorLabel = new Label("Error loading unit editor: " + eu.getUnit_code());
+            return errorLabel;
+        }
     }
     
     /**
      * Interface for handling actions on enrolled units
      */
     public interface EnrolledUnitActionHandler {
-        void onSave(EnrolledUnit unit, String newCode, int newYear, int newSemester, int newWeeklyHours);
+        void onSave(EnrolledUnit unit, int newYear, int newSemester, int newWeeklyHours);
         void onDelete(EnrolledUnit unit);
         void onInputError(String errorMessage);
     }

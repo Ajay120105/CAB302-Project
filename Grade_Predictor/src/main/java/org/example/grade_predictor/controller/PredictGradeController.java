@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.VBox;
 import org.example.grade_predictor.HelloApplication;
@@ -19,6 +20,7 @@ import org.example.grade_predictor.model.User;
 import org.example.grade_predictor.service.OllamaGradePredictionService;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 public class PredictGradeController extends BaseController {
@@ -30,8 +32,24 @@ public class PredictGradeController extends BaseController {
     @FXML
     private Button predictButton;
 
+    @FXML
+    private Label selectedUnitCodeLabel;
+
+    @FXML
+    private Label selectedUnitYearLabel;
+
+    @FXML
+    private Label selectedUnitSemesterLabel;
+
+    @FXML
+    private TextField studyHoursField;
+
+    @FXML
+    private TextField studyEfficiencyField;
+
     private final SqliteDegreeDAO degreeDAO;
     private final OllamaGradePredictionService ollamaService;
+    private EnrolledUnit selectedEnrolledUnit;
 
     public PredictGradeController() {
         super();
@@ -41,6 +59,11 @@ public class PredictGradeController extends BaseController {
 
     @Override
     protected void initializePageSpecificContent() {
+        selectedUnitCodeLabel.setText("N/A");
+        selectedUnitYearLabel.setText("N/A");
+        selectedUnitSemesterLabel.setText("N/A");
+        studyHoursField.clear();
+        studyEfficiencyField.clear();
     }
 
     @Override
@@ -54,6 +77,8 @@ public class PredictGradeController extends BaseController {
         if (firstEnrollment == null) {
             unitsVBox.getChildren().clear();
             unitsVBox.getChildren().add(new Label("You have not enrolled in any classes yet."));
+            selectedEnrolledUnit = null;
+            updateSelectedUnitDetailsDisplay();
             return;
         }
         
@@ -64,17 +89,33 @@ public class PredictGradeController extends BaseController {
             unitsVBox.getChildren().add(new Label("You have not enrolled in any classes yet."));
         } else {
             for (EnrolledUnit eu : enrolledUnits) {
-                Node node = createEnrolledUnitNode(eu);
+                Node node = EnrolledUnitComponentFactory.createSelectableEnrolledUnitNode(eu, this::handleUnitSelection);
                 unitsVBox.getChildren().add(node);
             }
         }
+        selectedEnrolledUnit = null;
+        updateSelectedUnitDetailsDisplay();
     }
 
-    /**
-     * Creates a simple UI node for each enrolled unit using a TitledPane.
-     */
-    private Node createEnrolledUnitNode(EnrolledUnit eu) {
-        return EnrolledUnitComponentFactory.createSimpleEnrolledUnitNode(eu);
+    private void handleUnitSelection(EnrolledUnit eu) {
+        this.selectedEnrolledUnit = eu;
+        updateSelectedUnitDetailsDisplay();
+    }
+
+    private void updateSelectedUnitDetailsDisplay() {
+        if (selectedEnrolledUnit != null) {
+            selectedUnitCodeLabel.setText(selectedEnrolledUnit.getUnit_code());
+            selectedUnitYearLabel.setText(String.valueOf(selectedEnrolledUnit.getYear_enrolled()));
+            selectedUnitSemesterLabel.setText(String.valueOf(selectedEnrolledUnit.getSemester_enrolled()));
+            studyHoursField.setText(String.valueOf(selectedEnrolledUnit.getWeekly_hours()));
+            studyEfficiencyField.clear();
+        } else {
+            selectedUnitCodeLabel.setText("N/A");
+            selectedUnitYearLabel.setText("N/A");
+            selectedUnitSemesterLabel.setText("N/A");
+            studyHoursField.clear();
+            studyEfficiencyField.clear();
+        }
     }
 
     /**
@@ -87,8 +128,13 @@ public class PredictGradeController extends BaseController {
             showAlert("Error", "No user is currently logged in.");
             return;
         }
+
+        if (selectedEnrolledUnit == null) {
+            showAlert("Error", "Please select a unit from the list.");
+            return;
+        }
         
-        System.out.println("Starting grade prediction...");
+        System.out.println("Starting grade prediction: " + selectedEnrolledUnit.getUnit_code());
         
         Enrollment enrollment = enrollmentService.getCurrentUserFirstEnrollment();
         if (enrollment == null) {
@@ -96,29 +142,29 @@ public class PredictGradeController extends BaseController {
             return;
         }
         
-        List<EnrolledUnit> enrolledUnits = enrollmentService.getEnrolledUnits(enrollment);
-        if (enrolledUnits == null || enrolledUnits.isEmpty()) {
-            showAlert("Error", "You are not enrolled in any units.");
-            return;
-        }
-        
-        List<Unit> allUnits = unitService.getAllUnits();
+        List<EnrolledUnit> allEnrolledUnits = enrollmentService.getEnrolledUnits(enrollment);
         
         Degree degree = degreeDAO.getDegree(String.valueOf(enrollment.getDegree_ID()));
         if (degree == null) {
-            // Fallback to a default degree if needed
-            degree = new Degree("Default Degree", String.valueOf(enrollment.getDegree_ID()));
+            showAlert("Error", "Could not find degree.");
+            return;
         }
         
-        // Default study values - get from model in future
-        int studyHours = 10; // Default 10 hours
-        int studyEfficiency = 5; // Default 5 out of 10
+        int studyHours;
+        int studyEfficiency;
+        try {
+            studyHours = Integer.parseInt(studyHoursField.getText());
+            studyEfficiency = Integer.parseInt(studyEfficiencyField.getText());
+        } catch (NumberFormatException e) {
+            showAlert("Invalid Input", "Please enter a valid number for study hours and study efficiency.");
+            return;
+        }
         
         ollamaService.predictGrade(
             enrollment, 
             degree, 
-            enrolledUnits, 
-            allUnits, 
+            selectedEnrolledUnit, 
+            allEnrolledUnits, 
             studyHours, 
             studyEfficiency,
             new OllamaGradePredictionService.GradePredictionCallback() {

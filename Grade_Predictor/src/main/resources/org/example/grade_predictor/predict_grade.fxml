@@ -37,17 +37,33 @@
         <Label style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Grade Prediction" />
         <Separator />
 
-        <GridPane alignment="CENTER" hgap="30" vgap="20">
-            <Label text="Weekly Average Study Hours:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-            <TextField fx:id="studyHoursField" prefWidth="250" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+        <GridPane alignment="CENTER" hgap="30" vgap="15">
+            <fx:define>
+               <ColumnConstraints minWidth="150"/>
+               <ColumnConstraints prefWidth="250"/>
+            </fx:define>
+            <Label text="Unit Code:" GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-font-weight: bold;"/>
+            <Label fx:id="selectedUnitCodeLabel" text="N/A" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
-            <Label text="Study Efficiency (1-10):" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-            <TextField fx:id="studyEfficiencyField" prefWidth="250" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label text="Year:" GridPane.columnIndex="0" GridPane.rowIndex="1" style="-fx-font-weight: bold;"/>
+            <Label fx:id="selectedUnitYearLabel" text="N/A" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+            <Label text="Semester:" GridPane.columnIndex="0" GridPane.rowIndex="2" style="-fx-font-weight: bold;"/>
+            <Label fx:id="selectedUnitSemesterLabel" text="N/A" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            
+            <Label text="Weekly Unit Study Hours:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+            <TextField fx:id="studyHoursField" prefWidth="250" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+            <Label text="Study Efficiency (1-10):" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+            <TextField fx:id="studyEfficiencyField" prefWidth="250" GridPane.columnIndex="1" GridPane.rowIndex="4" />
          <columnConstraints>
             <ColumnConstraints />
             <ColumnConstraints />
          </columnConstraints>
          <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
             <RowConstraints />
             <RowConstraints />
          </rowConstraints>

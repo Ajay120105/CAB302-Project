@@ -40,14 +40,14 @@ public class OllamaGradePredictionService {
      * @param studyEfficiency Study efficiency (1-10)
      * @param callback The callback to handle the response
      */
-    public void predictGrade(Enrollment enrollment, Degree degree, List<EnrolledUnit> enrolledUnits, 
-                             List<Unit> units, int studyHours, int studyEfficiency, 
+    public void predictGrade(Enrollment enrollment, Degree degree, EnrolledUnit enrolledUnit, 
+                             List<EnrolledUnit> enrolledUnits, int studyHours, int studyEfficiency, 
                              GradePredictionCallback callback) {
         
         Task<GradeResponseDTO> task = new Task<>() {
             @Override
             protected GradeResponseDTO call() throws Exception {
-                String prompt = buildPrompt(enrollment, degree, enrolledUnits, units, studyHours, studyEfficiency);
+                String prompt = buildPrompt(enrollment, degree, enrolledUnit, enrolledUnits, studyHours, studyEfficiency);
                 OllamaRequestDTO request = new OllamaRequestDTO(prompt);
                 request.setStream(false);
                 
@@ -77,8 +77,8 @@ public class OllamaGradePredictionService {
     /**
      * Builds the prompt for the Ollama API based on enrollment data
      */
-    private String buildPrompt(Enrollment enrollment, Degree degree, List<EnrolledUnit> enrolledUnits,
-                             List<Unit> units, int studyHours, int studyEfficiency) {
+    private String buildPrompt(Enrollment enrollment, Degree degree, EnrolledUnit enrolledUnit,
+                             List<EnrolledUnit> enrolledUnits, int studyHours, int studyEfficiency) {
         StringBuilder sb = new StringBuilder();
         sb.append("You are a university grade prediction professional. predict their grade based on the following data. ");
         
@@ -88,15 +88,14 @@ public class OllamaGradePredictionService {
         sb.append("- Degree program: ").append(degree.getDegree_Name()).append("\n");
         
         sb.append("Enrolled units:\n");
-        for (EnrolledUnit enrolledUnit : enrolledUnits) {
-            Unit unitDetails = units.stream()
+        for (EnrolledUnit eu : enrolledUnits) {
+            EnrolledUnit unitDetails = enrolledUnits.stream()
                     .filter(u -> u.getUnit_code().equals(enrolledUnit.getUnit_code()))
                     .findFirst()
                     .orElse(null);
             
             if (unitDetails != null) {
                 sb.append("- ").append(unitDetails.getUnit_code())
-                  .append(" (").append(unitDetails.getUnit_name()).append("): ")
                   .append(", Weekly hours: ").append(enrolledUnit.getWeekly_hours())
                   .append("\n");
             }

@@ -85,6 +85,9 @@ public class EnrollmentService {
         if (enrollment == null) {
             return null;
         }
+        if (enrolledUnitDAO.getEnrolledUnit(enrollment.getEnrollment_ID(), unitCode) != null) {
+            return null;
+        }
         
         EnrolledUnit newUnit = new EnrolledUnit(
             enrollment.getEnrollment_ID(),

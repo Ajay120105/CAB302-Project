@@ -36,8 +36,8 @@ public class EditUnitController extends BaseController implements EnrolledUnitCo
     }
 
     @Override
-    public void onSave(EnrolledUnit unit, String newCode, int newYear, int newSemester, int newWeeklyHours) {
-        boolean success = enrollmentService.updateEnrolledUnit(unit, newCode, newYear, newSemester, newWeeklyHours);
+    public void onSave(EnrolledUnit unit, int newYear, int newSemester, int newWeeklyHours) {
+        boolean success = enrollmentService.updateEnrolledUnit(unit, unit.getUnit_code(), newYear, newSemester, newWeeklyHours);
         if (success) {
             displayEnrolledUnits();
         } else {
