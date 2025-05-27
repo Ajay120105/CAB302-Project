@@ -70,68 +70,6 @@ public class ProfileController {
         }
     }
 
-    @FXML
-    protected void handleProfile() {
-        showAlert("Profile", "You are already on the Profile page.");
-    }
-
-    @FXML
-    protected void handleSettings() {
-        showAlert("Settings", "Settings page is under construction.");
-    }
-
-    @FXML
-    protected void handleLogout() {
-        authenticateService.logoutUser();
-        showAlert("Log Out", "You have been logged out.");
-
-        // Redirect to the first page (signup/login)
-        try {
-            HelloApplication.switchToSignup_LoginPage();
-        } catch (IOException e) {
-            showAlert("Navigation Error", "Could not open Signup/Login page.");
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    protected void handleHome() {
-        try {
-            HelloApplication.switchToHomePage();
-        } catch (IOException e) {
-            showAlert("Navigation Error", "Could not open Home page");
-        }
-    }
-
-    @FXML
-    protected void goToEditUnit() {
-        try {
-            HelloApplication.switchToEditUnitPage();
-        } catch (Exception e) {
-            e.printStackTrace();
-            showAlert("Navigation Error", "Could not open Edit Unit page.");
-        }
-    }
-
-    @FXML
-    protected void goToPredictGrade() {
-        try {
-            HelloApplication.switchToPredictGradePage();
-        } catch (Exception e) {
-            e.printStackTrace();
-            showAlert("Navigation Error", "Could not open Predict Grade page.");
-        }
-    }
-
-    public void goToAllUnits(ActionEvent actionEvent) {
-        try {
-            HelloApplication.switchToAllUnitsPage();
-        } catch (Exception e) {
-            e.printStackTrace();
-            showAlert("Navigation Error", "Could not open All Units page.");
-        }
-    }
-
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);

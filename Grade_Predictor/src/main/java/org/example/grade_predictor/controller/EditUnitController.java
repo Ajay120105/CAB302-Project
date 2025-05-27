@@ -2,6 +2,7 @@ package org.example.grade_predictor.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -11,37 +12,52 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import org.example.grade_predictor.HelloApplication;
+import org.example.grade_predictor.controller.components.EnrolledUnitComponentFactory;
 import org.example.grade_predictor.model.EnrolledUnit;
 import org.example.grade_predictor.model.Enrollment;
-import org.example.grade_predictor.model.User;
-import org.example.grade_predictor.service.AuthenticateService;
-import org.example.grade_predictor.service.EnrollmentService;
-import org.example.grade_predictor.service.UnitService;
 
 import java.io.IOException;
 import java.util.List;
 
-public class EditUnitController {
+public class EditUnitController extends BaseController implements EnrolledUnitComponentFactory.EnrolledUnitActionHandler {
 
     // Container for dynamically added enrollment panels.
     @FXML
     private VBox unitsVBox;
 
-    // Services
-    private final AuthenticateService authenticateService;
-    private final EnrollmentService enrollmentService;
-    private final UnitService unitService;
-
-    public EditUnitController() {
-        this.authenticateService = AuthenticateService.getInstance();
-        this.enrollmentService = new EnrollmentService(authenticateService);
-        this.unitService = new UnitService();
+    @Override
+    protected void initializePageSpecificContent() {
+        addNewUnitComponent();
     }
 
-    @FXML
-    public void initialize() {
-        // Retrieve the currently logged-in user.
-        User currentUser = authenticateService.getCurrentUser();
+    @Override
+    protected void loadPageData() {
+        displayEnrolledUnits();
+    }
+
+    @Override
+    public void onSave(EnrolledUnit unit, String newCode, int newYear, int newSemester, int newWeeklyHours) {
+        boolean success = enrollmentService.updateEnrolledUnit(unit, newCode, newYear, newSemester, newWeeklyHours);
+        if (success) {
+            displayEnrolledUnits();
+        } else {
+            showAlert("Error", "Failed to update the unit.");
+        }
+    }
+
+    @Override
+    public void onDelete(EnrolledUnit unit) {
+        boolean success = enrollmentService.deleteEnrolledUnit(unit);
+        if (success) {
+            displayEnrolledUnits();
+        } else {
+            showAlert("Error", "Failed to delete the unit.");
+        }
+    }
+
+    @Override
+    public void onInputError(String errorMessage) {
+        showAlert("Input Error", errorMessage);
     }
 
     /**
@@ -63,7 +79,7 @@ public class EditUnitController {
             unitsVBox.getChildren().add(new Label("No enrolled units found."));
         } else {
             for (EnrolledUnit eu : enrolledUnits) {
-                TitledPane pane = createEnrolledUnitTitledPane(eu);
+                Node pane = EnrolledUnitComponentFactory.createEditableEnrolledUnitNode(eu, this);
                 unitsVBox.getChildren().add(pane);
             }
         }
@@ -138,145 +154,5 @@ public class EditUnitController {
         addNewUnitPane.setExpanded(false);
         
         unitsVBox.getChildren().add(0, addNewUnitPane);
-    }
-
-    /**
-     * Creates a TitledPane for an enrolled unit, displaying key details.
-     */
-    private TitledPane createEnrolledUnitTitledPane(EnrolledUnit eu) {
-        AnchorPane contentPane = new AnchorPane();
-
-        // Create a TextField for unit code (if you'd like them to be editable).
-        TextField codeField = new TextField(eu.getUnit_code());
-        codeField.setLayoutX(20);
-        codeField.setLayoutY(14);
-
-        // Create a TextField for enrollment year.
-        TextField yearField = new TextField(String.valueOf(eu.getYear_enrolled()));
-        yearField.setLayoutX(20);
-        yearField.setLayoutY(50);
-
-        // Create a TextField for semester enrolled.
-        TextField semesterField = new TextField(String.valueOf(eu.getSemester_enrolled()));
-        semesterField.setLayoutX(20);
-        semesterField.setLayoutY(86);
-
-        // Create a TextField for weekly hours.
-        TextField hoursField = new TextField(String.valueOf(eu.getWeekly_hours()));
-        hoursField.setLayoutX(20);
-        hoursField.setLayoutY(122);
-        
-        Button saveButton = new Button("Save");
-        saveButton.setTextFill(Color.GREEN);
-        saveButton.setLayoutX(150);
-        saveButton.setLayoutY(86);
-        saveButton.setOnAction(evt -> {
-            try {
-                String newUnitCode = codeField.getText();
-                int newYear = Integer.parseInt(yearField.getText());
-                int newSemester = Integer.parseInt(semesterField.getText());
-                int newWeeklyHours = Integer.parseInt(hoursField.getText());
-                
-                boolean success = enrollmentService.updateEnrolledUnit(eu, newUnitCode, newYear, newSemester, newWeeklyHours);
-                if (success) {
-                    displayEnrolledUnits();
-                } else {
-                    showAlert("Error", "Failed to update the unit.");
-                }
-            } catch (NumberFormatException e) {
-                showAlert("Input Error", "Please enter valid numeric values for year, semester, and weekly hours.");
-            }
-        });
-
-        // Create a delete button.
-        Button deleteButton = new Button("Delete");
-        deleteButton.setTextFill(Color.RED);
-        deleteButton.setLayoutX(150);
-        deleteButton.setLayoutY(122);
-        deleteButton.setOnAction(evt -> {
-            boolean success = enrollmentService.deleteEnrolledUnit(eu);
-            if (success) {
-                displayEnrolledUnits();
-            } else {
-                showAlert("Error", "Failed to delete the unit.");
-            }
-        });
-
-        // Add controls to the content pane.
-        contentPane.getChildren().addAll(codeField, yearField, semesterField, hoursField, saveButton, deleteButton);
-
-        // Create a TitledPane that uses the unit_code as the title.
-        TitledPane pane = new TitledPane(eu.getUnit_code(), contentPane);
-        pane.setAnimated(false);
-        return pane;
-    }
-
-    // Navigation and alert methods:
-    @FXML
-    protected void handleHome() {
-        try {
-            HelloApplication.switchToHomePage();
-        } catch (Exception e) {
-            showAlert("Navigation Error", "Could not open Home page");
-        }
-    }
-
-    @FXML
-    protected void goToEditUnit() {
-        showAlert("Edit Units", "You are already on the Edit Units Page.");
-    }
-
-    @FXML
-    protected void handleProfile() {
-        try{
-            HelloApplication.switchToProfilePage();
-        } catch (IOException e) {
-            showAlert("Navigation Error", " Could not open profile page");
-        }
-    }
-
-    @FXML
-    protected void handleSettings() {
-        showAlert("Settings", "Settings page is under construction.");
-    }
-
-    @FXML
-    protected void handleLogout() {
-        authenticateService.logoutUser();
-        showAlert("Log Out", "You have been logged out.");
-
-        // Redirect to the first page (signup/login)
-        try {
-            HelloApplication.switchToSignup_LoginPage();
-        } catch (IOException e) {
-            showAlert("Navigation Error", "Could not open Signup/Login page.");
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    protected void goToPredictGrade() {
-        try {
-            HelloApplication.switchToPredictGradePage();
-        } catch (Exception e) {
-            showAlert("Navigation Error", "Could not open Predict Grade page.");
-        }
-    }
-
-    public void goToAllUnits(ActionEvent actionEvent) {
-        try {
-            HelloApplication.switchToAllUnitsPage();
-        } catch (Exception e) {
-            e.printStackTrace();
-            showAlert("Navigation Error", "Could not open Edit Unit page.");
-        }
-    }
-
-    private void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
     }
 }

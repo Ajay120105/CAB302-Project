@@ -22,8 +22,8 @@
    </VBox>
 
    <!-- Welcome Section Layer -->
-   <VBox layoutX="2.0" layoutY="64.0" prefHeight="65.0" prefWidth="968.0" style="-fx-background-color: #F5F5F5; -fx-padding: 20; -fx-border-radius: 10; -fx-border-color: #CCCCCC;">
-      <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Bachelor of Information Technology" />
+   <VBox layoutX="14.0" layoutY="69.0" prefHeight="65.0" prefWidth="967.0" style="-fx-background-color: #F5F5F5; -fx-padding: 20; -fx-border-radius: 10; -fx-border-color: #CCCCCC;">
+      <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Bachelor of DUMMY" />
    </VBox>
 
    <!-- Units Section Layer -->
