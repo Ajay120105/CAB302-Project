@@ -1,10 +1,12 @@
 package org.example.grade_predictor.controller;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.VBox;
@@ -46,6 +48,15 @@ public class PredictGradeController extends BaseController {
 
     @FXML
     private TextField studyEfficiencyField;
+
+    @FXML
+    private VBox loadingContainer;
+
+    @FXML
+    private ProgressIndicator loadingIndicator;
+
+    @FXML
+    private Label loadingLabel;
 
     private final SqliteDegreeDAO degreeDAO;
     private final OllamaGradePredictionService ollamaService;
@@ -118,6 +129,17 @@ public class PredictGradeController extends BaseController {
         }
     }
 
+    private void setLoadingState() {
+        predictButton.setDisable(true);
+        loadingContainer.setVisible(true);
+        loadingIndicator.setProgress(-1);
+    }
+
+    private void setNormalState() {
+        predictButton.setDisable(false);
+        loadingContainer.setVisible(false);
+    }
+
     /**
      * Handler for the Predict Grade button click
      */
@@ -160,6 +182,8 @@ public class PredictGradeController extends BaseController {
             return;
         }
         
+        setLoadingState();
+        
         ollamaService.predictGrade(
             enrollment, 
             degree, 
@@ -170,12 +194,20 @@ public class PredictGradeController extends BaseController {
             new OllamaGradePredictionService.GradePredictionCallback() {
                 @Override
                 public void onPredictionComplete(GradeResponseDTO response) {
-                    System.out.println(response.toString());
+                    Platform.runLater(() -> {
+                        setNormalState();
+                        System.out.println(response.toString());
+                        showAlert("Prediction", "Grade prediction: " + response.toString());
+                    });
                 }
                 
                 @Override
                 public void onPredictionFailed(String errorMessage) {
-                    System.err.println("Grade prediction failed: " + errorMessage);
+                    Platform.runLater(() -> {
+                        setNormalState();
+                        System.err.println("Grade prediction failed: " + errorMessage);
+                        showAlert("Prediction", "Grade prediction failed: " + errorMessage);
+                    });
                 }
             }
         );

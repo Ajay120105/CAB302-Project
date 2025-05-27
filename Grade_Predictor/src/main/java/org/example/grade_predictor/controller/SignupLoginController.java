@@ -222,7 +222,6 @@ public class SignupLoginController {
             }
 
             if (authService.loginUser(email, password)) {
-                showAlert("Success", "Log In successful!");
                 try {
                     HelloApplication.switchToHomePage();
                 } catch (IOException e) {
