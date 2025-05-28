@@ -78,7 +78,7 @@ public class AuthenticateServiceTest {
             return null;
         }).when(userDAO).addUser(any(User.class));
 
-        User result = authenticateService.registerUser(firstName, lastName, email, phone, password, "IN01", 2024, 1, 2025, 2);
+        User result = authenticateService.registerUser(firstName, lastName, email, phone, password);
 
         verify(userDAO).addUser(any(User.class));
         verify(enrollmentDAO, never()).addEnrollment(any(Enrollment.class));
