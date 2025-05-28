@@ -10,18 +10,30 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.layout.VBox;
 import org.example.grade_predictor.HelloApplication;
 import org.example.grade_predictor.controller.components.EnrolledUnitComponentFactory;
+import org.example.grade_predictor.controller.components.SemesterComponentFactory;
 import org.example.grade_predictor.model.EnrolledUnit;
 import org.example.grade_predictor.model.Enrollment;
 import org.example.grade_predictor.service.FormValidator;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.Comparator;
 
 public class HomeController extends BaseController {
 
-    // Container for displaying enrolled units.
     @FXML
-    private VBox unitsVBox;
+    private VBox semestersVBox;
+
+    @FXML
+    private Label selectedYearLabel;
+
+    @FXML
+    private Label selectedSemesterLabel;
+
+    @FXML
+    private Button predictSemesterButton;
 
     @FXML
     private TextField currentYearField;
@@ -35,11 +47,13 @@ public class HomeController extends BaseController {
     @Override
     protected void initializePageSpecificContent() {
         populateCurrentAcademicPeriodFields();
+        // Initialize labels for selected semester
+        selectedYearLabel.setText("N/A");
+        selectedSemesterLabel.setText("N/A");
     }
 
     @Override
     protected void loadPageData() {
-        // Display enrolled units using the service
         displayEnrolledUnits();
     }
 
@@ -84,25 +98,69 @@ public class HomeController extends BaseController {
      */
     private void displayEnrolledUnits() {
         Enrollment firstEnrollment = enrollmentService.getCurrentUserFirstEnrollment();
-        
+        semestersVBox.getChildren().clear();
+
         if (firstEnrollment == null) {
-            unitsVBox.getChildren().clear();
-            unitsVBox.getChildren().add(new Label("You have not enrolled in any classes yet."));
+            semestersVBox.getChildren().add(new Label("You have not enrolled in any classes yet."));
             return;
         }
-        
+
         List<EnrolledUnit> enrolledUnits = enrollmentService.getEnrolledUnits(firstEnrollment);
-        
-        unitsVBox.getChildren().clear();
+
         if (enrolledUnits == null || enrolledUnits.isEmpty()) {
-            unitsVBox.getChildren().add(new Label("You have not enrolled in any classes yet."));
+            semestersVBox.getChildren().add(new Label("You have not enrolled in any classes yet."));
         } else {
-            for (EnrolledUnit eu : enrolledUnits) {
-                Node node = createEnrolledUnitNode(eu);
-                unitsVBox.getChildren().add(node);
-            }
+            // by year and semester
+            Map<Integer, Map<Integer, List<EnrolledUnit>>> unitsByYearThenSemester = enrolledUnits.stream()
+                    .collect(Collectors.groupingBy(EnrolledUnit::getYear_enrolled,
+                            Collectors.groupingBy(EnrolledUnit::getSemester_enrolled)));
+
+            // descend order
+            unitsByYearThenSemester.entrySet().stream()
+                    .sorted(Map.Entry.<Integer, Map<Integer, List<EnrolledUnit>>>comparingByKey().reversed())
+                    .forEach(yearEntry -> {
+                        yearEntry.getValue().entrySet().stream()
+                                .sorted(Map.Entry.<Integer, List<EnrolledUnit>>comparingByKey().reversed())
+                                .forEach(semesterEntry -> {
+                                    int year = yearEntry.getKey();
+                                    int semester = semesterEntry.getKey();
+                                    List<EnrolledUnit> unitsInSemester = semesterEntry.getValue();
+
+                                    TitledPane semesterNode = SemesterComponentFactory.createSemesterNode(
+                                            year, semester, unitsInSemester, this::handleSemesterSelection);
+                                    semestersVBox.getChildren().add(semesterNode);
+                                });
+                    });
         }
     }
+
+    /**
+     * Handles the selection of a semester.
+     * Updates the UI to show the selected semester for prediction.
+     * @param year The selected year.
+     * @param semester The selected semester.
+     */
+    private void handleSemesterSelection(int year, int semester) {
+        selectedYearLabel.setText(String.valueOf(year));
+        selectedSemesterLabel.setText(String.valueOf(semester));
+    }
+
+
+    /**
+     * Handles the prediction of grades for a selected semester.
+     */
+    @FXML
+    private void handlePredictForSemester(ActionEvent event) {
+        String year = selectedYearLabel.getText();
+        String semester = selectedSemesterLabel.getText();
+
+        if ("N/A".equals(year) || "N/A".equals(semester)) {
+            showAlert("No Semester Selected", "Please click on a semester from the list to select that semester for predict grades.");
+            return;
+        }
+        System.out.println("Dummy Year: " + year + " Semester: " + semester);
+    }
+
 
     /**
      * Creates a read-only UI component for an enrolled unit using the factory.

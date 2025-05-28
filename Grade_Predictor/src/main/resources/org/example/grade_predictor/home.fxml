@@ -37,21 +37,31 @@
         </HBox>
     </VBox>
 
-    <!-- Predicted Grade Display -->
+    <!-- Predict Semester Display -->
     <VBox layoutX="621.0" layoutY="174.0" prefHeight="452.0" prefWidth="364.0" spacing="20" style="-fx-background-color: #E0E0E0; -fx-padding: 30; -fx-border-radius: 10; -fx-border-color: #CCCCCC;">
-        <Label style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Predicted Grade" />
+        <Label style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Predict Semester" />
         <Separator />
+
+        <HBox spacing="10">
+            <Label text="Selected Year:" />
+            <Label fx:id="selectedYearLabel" text="N/A" />
+        </HBox>
+        <HBox spacing="10">
+            <Label text="Selected Semester:" />
+            <Label fx:id="selectedSemesterLabel" text="N/A" />
+        </HBox>
 
         <HBox alignment="CENTER" spacing="20">
             <Circle fill="#309adc" radius="50" />
             <TextField fx:id="predictedGradeField" prefWidth="150" text="6.2 GPA" />
         </HBox>
+        <Button fx:id="predictSemesterButton" onAction="#handlePredictForSemester" text="Predict" prefWidth="100.0" alignment="CENTER"/>
     </VBox>
 
              <!-- Units Section Layer -->
     <VBox layoutX="18.0" layoutY="169.0" prefHeight="466.0" prefWidth="586.0" spacing="10" style="-fx-background-color: #E0E0E0; -fx-padding: 20; -fx-border-radius: 10; -fx-border-color: #CCCCCC;">
-        <Label style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Enrolled Units" />
-        <VBox fx:id="unitsVBox" spacing="15" />
+        <Label style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Semester" />
+        <VBox fx:id="semestersVBox" spacing="15" />
     </VBox>
 
 </AnchorPane>
