@@ -6,6 +6,7 @@ import org.example.grade_predictor.model.EnrolledUnit;
 import org.example.grade_predictor.model.SQLiteDAO.SqliteUserDAO;
 import org.example.grade_predictor.model.SQLiteDAO.SqliteEnrollmentDAO;
 import org.example.grade_predictor.model.SQLiteDAO.SqliteEnrolledUnitDAO;
+import at.favre.lib.crypto.bcrypt.BCrypt;
 
 import java.util.List;
 
@@ -69,7 +70,8 @@ public class AuthenticateService {
      * @return The newly created user
      */
     public User registerUser(String firstName, String lastName, String email, String phone, String password) {
-        User newUser = new User(firstName, lastName, email, phone, password);
+        String bcryptHash = BCrypt.withDefaults().hashToString(12, password.toCharArray());
+        User newUser = new User(firstName, lastName, email, phone, bcryptHash);
         userDAO.addUser(newUser);
         
         this.currentUser = newUser;
@@ -85,22 +87,26 @@ public class AuthenticateService {
      */
     public boolean loginUser(String email, String password) {
         User user = userDAO.getAllUsers().stream()
-                .filter(u -> u.getEmail().equals(email) && u.getPassword().equals(password))
+                .filter(u -> u.getEmail().equals(email))
                 .findFirst()
                 .orElse(null);
 
         if (user != null) {
-            this.currentUser = user; // Fix: Ensure currentUser is stored
+            BCrypt.Result result = BCrypt.verifyer().verify(password.toCharArray(), user.getPassword());
+            
+            if (result.verified) {
+                this.currentUser = user;
 
-            List<Enrollment> enrollments = enrollmentDAO.getEnrollmentsForUser(user.getUser_ID());
-            user.setEnrollments(enrollments);
+                List<Enrollment> enrollments = enrollmentDAO.getEnrollmentsForUser(user.getUser_ID());
+                user.setEnrollments(enrollments);
 
-            for (Enrollment enrollment : enrollments) {
-                List<EnrolledUnit> enrolledUnits = enrolledUnitDAO.getEnrolledUnitsForEnrollment(enrollment.getEnrollment_ID());
-                enrollment.setEnrolledUnits(enrolledUnits);
+                for (Enrollment enrollment : enrollments) {
+                    List<EnrolledUnit> enrolledUnits = enrolledUnitDAO.getEnrolledUnitsForEnrollment(enrollment.getEnrollment_ID());
+                    enrollment.setEnrolledUnits(enrolledUnits);
+                }
+
+                return true;
             }
-
-            return true;
         }
 
         return false;
