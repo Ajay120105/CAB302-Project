@@ -65,6 +65,18 @@ public class SignupLoginController {
     private TextField degreeNameField;
 
     @FXML
+    private TextField firstYearField;
+
+    @FXML
+    private TextField firstSemesterField;
+
+    @FXML
+    private TextField currentYearField;
+
+    @FXML
+    private TextField currentSemesterField;
+
+    @FXML
     private Label enrollmentHelperText;
 
     private final AuthenticateService authService = AuthenticateService.getInstance();
@@ -110,12 +122,20 @@ public class SignupLoginController {
             String password = passwordField.getText();
             String degreeId = degreeIdField.getText();
             String degreeName = degreeNameField.getText();
+            String firstYear = firstYearField.getText();
+            String firstSemester = firstSemesterField.getText();
+            String currentYear = currentYearField.getText();
+            String currentSemester = currentSemesterField.getText();
 
             System.out.println("Debug:");
             System.out.println("Name: " + firstName + lastName);
             System.out.println("Email: " + email);
             System.out.println("Degree ID: " + degreeId);
             System.out.println("Degree Name: " + degreeName);
+            System.out.println("First Year: " + firstYear);
+            System.out.println("First Semester: " + firstSemester);
+            System.out.println("Current Year: " + currentYear);
+            System.out.println("Current Semester: " + currentSemester);
 
             FormValidator.ValidationResult registrationResult =
                     FormValidator.validateRegistration(firstName, lastName, email, phone, password);
@@ -129,6 +149,12 @@ public class SignupLoginController {
                     FormValidator.validateDegreeInfo(degreeId, degreeName);
             if (!degreeInfoResult.isValid()) {
                 showAlert("Error", degreeInfoResult.getErrorMessage());
+                return;
+            }
+
+            FormValidator.ValidationResult enrollmentYearsResult = FormValidator.validateEnrollmentYears(firstYear, firstSemester, currentYear, currentSemester);
+            if(!enrollmentYearsResult.isValid()){
+                showAlert("Error", enrollmentYearsResult.getErrorMessage());
                 return;
             }
             
@@ -150,10 +176,10 @@ public class SignupLoginController {
 
                 try {
                     // Register the user
-                    User newUser = authService.registerUser(firstName, lastName, email, phone, password, null);
+                    User newUser = authService.registerUser(firstName, lastName, email, phone, password);
 
                     // Create the enrollment with the degree ID
-                    Enrollment enrollment = enrollmentService.createEnrollment(newUser, degreeId);
+                    Enrollment enrollment = enrollmentService.createEnrollment(newUser, degreeId, Integer.parseInt(firstYear), Integer.parseInt(firstSemester), Integer.parseInt(currentYear), Integer.parseInt(currentSemester));
 
                     if (enrollment != null) {
                         showAlert("Success", "Sign Up successful!");
@@ -165,6 +191,12 @@ public class SignupLoginController {
                     } else {
                         showAlert("Error", "Failed to create enrollment. Please try again.");
                         authService.logoutUser();
+                        try {
+                            authService.deleteUser(newUser);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            showAlert("Error", "Failed to delete user: " + e.getMessage());
+                        }
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

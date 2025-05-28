@@ -22,12 +22,16 @@ public class SqliteEnrollmentDAO implements I_Enrollment {
     @Override
     public void addEnrollment(Enrollment enrollment) {
         try {
-            String query = "INSERT INTO enrollments (user_ID, degree_ID, current_gpa, predicted_gpa) VALUES (?, ?, ?, ?)";
+            String query = "INSERT INTO enrollments (user_ID, degree_ID, current_gpa, predicted_gpa, first_year, first_semester, current_year, current_semester) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setInt(1, enrollment.getUser_ID());
             preparedStatement.setString(2, enrollment.getDegree_ID());
             preparedStatement.setInt(3, enrollment.getCurrent_gpa());
             preparedStatement.setInt(4, enrollment.getPredicted_gpa());
+            preparedStatement.setInt(5, enrollment.getFirstYear());
+            preparedStatement.setInt(6, enrollment.getFirstSemester());
+            preparedStatement.setInt(7, enrollment.getCurrentYear());
+            preparedStatement.setInt(8, enrollment.getCurrentSemester());
             preparedStatement.executeUpdate();
             
             ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
@@ -42,12 +46,16 @@ public class SqliteEnrollmentDAO implements I_Enrollment {
     @Override
     public void updateEnrollment(Enrollment enrollment) {
         try {
-            String query = "UPDATE enrollments SET user_ID = ?, degree_ID = ?, current_gpa = ?, predicted_gpa = ? WHERE enrollment_ID = ?";
+            String query = "UPDATE enrollments SET user_ID = ?, degree_ID = ?, current_gpa = ?, predicted_gpa = ?, first_year = ?, first_semester = ?, current_year = ?, current_semester = ? WHERE enrollment_ID = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, enrollment.getUser_ID());
             preparedStatement.setString(2, enrollment.getDegree_ID());
             preparedStatement.setInt(3, enrollment.getCurrent_gpa());
             preparedStatement.setInt(4, enrollment.getPredicted_gpa());
+            preparedStatement.setInt(5, enrollment.getFirstYear());
+            preparedStatement.setInt(6, enrollment.getFirstSemester());
+            preparedStatement.setInt(7, enrollment.getCurrentYear());
+            preparedStatement.setInt(8, enrollment.getCurrentSemester());
             preparedStatement.setInt(5, enrollment.getEnrollment_ID());
             preparedStatement.executeUpdate();
         } catch (Exception e) {
@@ -79,7 +87,11 @@ public class SqliteEnrollmentDAO implements I_Enrollment {
                         resultSet.getInt("user_ID"),
                         resultSet.getString("degree_ID"),
                         resultSet.getInt("current_gpa"),
-                        resultSet.getInt("predicted_gpa")
+                        resultSet.getInt("predicted_gpa"),
+                        resultSet.getInt("first_year"),
+                        resultSet.getInt("first_semester"),
+                        resultSet.getInt("current_year"),
+                        resultSet.getInt("current_semester")
                 );
             }
         } catch (Exception e) {
@@ -101,7 +113,11 @@ public class SqliteEnrollmentDAO implements I_Enrollment {
                         resultSet.getInt("user_ID"),
                         resultSet.getString("degree_ID"),
                         resultSet.getInt("current_gpa"),
-                        resultSet.getInt("predicted_gpa")
+                        resultSet.getInt("predicted_gpa"),
+                        resultSet.getInt("first_year"),
+                        resultSet.getInt("first_semester"),
+                        resultSet.getInt("current_year"),
+                        resultSet.getInt("current_semester")
                 );
                 enrollments.add(enrollment);
             }
@@ -125,7 +141,11 @@ public class SqliteEnrollmentDAO implements I_Enrollment {
                         resultSet.getInt("user_ID"),
                         resultSet.getString("degree_ID"),
                         resultSet.getInt("current_gpa"),
-                        resultSet.getInt("predicted_gpa")
+                        resultSet.getInt("predicted_gpa"),
+                        resultSet.getInt("first_year"),
+                        resultSet.getInt("first_semester"),
+                        resultSet.getInt("current_year"),
+                        resultSet.getInt("current_semester")
                 );
                 enrollments.add(enrollment);
             }

@@ -139,6 +139,33 @@ public class FormValidator {
         return new ValidationResult(true, "");
     }
     
+    public static ValidationResult validateEnrollmentYears(String firstYear, String firstSemester, String currentYear, String currentSemester) {
+        if (firstYear == null || firstYear.trim().isEmpty() || !firstYear.matches("\\d{4}")) {
+            return new ValidationResult(false, "First year must be a 4-digit number.");
+        }
+        if (firstSemester == null || firstSemester.trim().isEmpty() || !firstSemester.matches("[1-2]")) {
+            return new ValidationResult(false, "First semester must be 1 or 2.");
+        }
+        if (currentYear == null || currentYear.trim().isEmpty() || !currentYear.matches("\\d{4}")) {
+            return new ValidationResult(false, "Current year must be a 4-digit number.");
+        }
+        if (currentSemester == null || currentSemester.trim().isEmpty() || !currentSemester.matches("[1-2]")) {
+            return new ValidationResult(false, "Current semester must be 1 or 2.");
+        }
+        return new ValidationResult(true, "");
+    }
+
+    public static ValidationResult validateIntake(String intakeYear, String intakeSemester) {
+        if (intakeYear == null || intakeYear.trim().isEmpty() || !intakeYear.matches("\\d{4}")) {
+            return new ValidationResult(false, "Intake year must be a 4-digit number.");
+        }
+        if (intakeSemester == null || intakeSemester.trim().isEmpty() || !intakeSemester.matches("[1-2]")) {
+            return new ValidationResult(false, "Intake semester must be 1 or 2.");
+        }
+        return new ValidationResult(true, "");
+    }
+    
+    
     public static class ValidationResult {
         private final boolean valid;
         private final String errorMessage;

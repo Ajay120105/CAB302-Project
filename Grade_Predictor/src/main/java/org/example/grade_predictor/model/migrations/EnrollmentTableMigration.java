@@ -21,6 +21,10 @@ public class EnrollmentTableMigration implements IDatabaseMigration {
                     "degree_ID CHAR(4) NOT NULL," +
                     "current_gpa INTEGER," +
                     "predicted_gpa INTEGER," +
+                    "first_year INTEGER," +
+                    "first_semester INTEGER," +
+                    "current_year INTEGER," +
+                    "current_semester INTEGER," +
                     "FOREIGN KEY(user_ID) REFERENCES users(id)" +
                     ")";
             statement.execute(query);

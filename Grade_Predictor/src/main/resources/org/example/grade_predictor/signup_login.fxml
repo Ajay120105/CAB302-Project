@@ -63,10 +63,18 @@
                 <TextField fx:id="degreeIdField" onKeyReleased="#handleDegreeIdChanged" prefWidth="100" promptText="Degree ID" />
                 <TextField fx:id="degreeNameField" prefWidth="200" promptText="Degree Name" />
             </HBox>
+            <HBox spacing="10.0">
+                <TextField fx:id="firstYearField" prefWidth="150" promptText="First Year" />
+                <TextField fx:id="firstSemesterField" prefWidth="150" promptText="First Semester" />
+            </HBox>
+            <HBox spacing="10.0">
+                <TextField fx:id="currentYearField" prefWidth="150" promptText="Current Year" />
+                <TextField fx:id="currentSemesterField" prefWidth="150" promptText="Current Semester" />
+            </HBox>
         </VBox>
 
         <!-- Buttons (initially positioned higher) -->
-        <Button fx:id="signUpButton" layoutX="440.0" layoutY="325.0" onAction="#handleSignUp" prefHeight="26.0" prefWidth="118.0" text="Sign Up" />
-        <Button fx:id="logInButton" layoutX="440.0" layoutY="362.0" onAction="#handleLogIn" prefHeight="26.0" prefWidth="118.0" text="Log In" />
+        <Button fx:id="signUpButton" layoutX="440.0" layoutY="530.0" onAction="#handleSignUp" prefHeight="26.0" prefWidth="118.0" text="Sign Up" />
+        <Button fx:id="logInButton" layoutX="440.0" layoutY="567.0" onAction="#handleLogIn" prefHeight="26.0" prefWidth="118.0" text="Log In" />
     </children>
 </AnchorPane>

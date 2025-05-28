@@ -69,7 +69,7 @@ public class EnrollmentServiceTest {
             return null;
         }).when(enrollmentDAO).addEnrollment(any(Enrollment.class));
 
-        Enrollment result = enrollmentService.createEnrollment(testUser, degreeId);
+        Enrollment result = enrollmentService.createEnrollment(testUser, degreeId, 2024, 1, 2025, 2);
 
         assertNotNull(result, "Enrollment should not be null");
         verify(enrollmentDAO).addEnrollment(any(Enrollment.class));
@@ -83,7 +83,7 @@ public class EnrollmentServiceTest {
         String degreeId = null;
 
         Exception exception = assertThrows(Exception.class, () -> {
-            enrollmentService.createEnrollment(testUser, degreeId);
+            enrollmentService.createEnrollment(testUser, degreeId, 2024, 1, 2025, 2);
         });
         
         System.out.println("Exception when null degree ID: " + exception.getMessage());

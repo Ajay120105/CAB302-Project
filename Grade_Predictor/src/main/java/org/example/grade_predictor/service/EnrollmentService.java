@@ -173,13 +173,17 @@ public class EnrollmentService {
      * 
      * @param user The user to create enrollment for
      * @param degreeId The degree ID as a string (e.g., "IN01")
+     * @param firstYear The first year of enrollment
+     * @param firstSemester The first semester of enrollment
+     * @param currentYear The current year of enrollment
+     * @param currentSemester The current semester of enrollment
      * @return The new enrollment, or null if operation failed
      */
-    public Enrollment createEnrollment(User user, String degreeId) {
+    public Enrollment createEnrollment(User user, String degreeId, int firstYear, int firstSemester, int currentYear, int currentSemester) {
         if (user == null || degreeId == null) {
             throw new IllegalArgumentException("User and degree ID cannot be null");
         }
-        Enrollment enrollment = new Enrollment(0, user.getUser_ID(), degreeId, 0, 0);
+        Enrollment enrollment = new Enrollment(0, user.getUser_ID(), degreeId, 0, 0, firstYear, firstSemester, currentYear, currentSemester);
         enrollmentDAO.addEnrollment(enrollment);
         
         refreshCurrentUserData();

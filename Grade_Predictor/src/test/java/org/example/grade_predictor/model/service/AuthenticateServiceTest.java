@@ -78,7 +78,7 @@ public class AuthenticateServiceTest {
             return null;
         }).when(userDAO).addUser(any(User.class));
 
-        User result = authenticateService.registerUser(firstName, lastName, email, phone, password, null);
+        User result = authenticateService.registerUser(firstName, lastName, email, phone, password, "IN01", 2024, 1, 2025, 2);
 
         verify(userDAO).addUser(any(User.class));
         verify(enrollmentDAO, never()).addEnrollment(any(Enrollment.class));
@@ -106,7 +106,7 @@ public class AuthenticateServiceTest {
         mockUsers.add(mockUser);
         
         List<Enrollment> mockEnrollments = new ArrayList<>();
-        Enrollment mockEnrollment = new Enrollment(10, 5, "IN01", 0, 0);
+        Enrollment mockEnrollment = new Enrollment(10, 5, "IN01", 0, 0, 2024, 1, 2025, 2);
         mockEnrollments.add(mockEnrollment);
         
         List<EnrolledUnit> mockEnrolledUnits = new ArrayList<>();

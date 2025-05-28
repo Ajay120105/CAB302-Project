@@ -10,14 +10,22 @@ public class Enrollment {
     private int current_gpa;
     private int predicted_gpa;
     private List<EnrolledUnit> enrolledUnits;
+    private int firstYear;
+    private int firstSemester;
+    private int currentYear;
+    private int currentSemester;
 
-    public Enrollment(int enrollment_ID, int user_ID, String degree_ID, int current_gpa, int predicted_gpa) {
+    public Enrollment(int enrollment_ID, int user_ID, String degree_ID, int current_gpa, int predicted_gpa, int firstYear, int firstSemester, int currentYear, int currentSemester) {
         this.enrollment_ID = enrollment_ID;
         this.user_ID = user_ID;
         this.degree_ID = degree_ID;
         this.current_gpa = current_gpa;
         this.predicted_gpa = predicted_gpa;
         this.enrolledUnits = new ArrayList<>();
+        this.firstYear = firstYear;
+        this.firstSemester = firstSemester;
+        this.currentYear = currentYear;
+        this.currentSemester = currentSemester;
     }
 
     public int getEnrollment_ID() {
@@ -70,5 +78,37 @@ public class Enrollment {
     
     public void addEnrolledUnit(EnrolledUnit enrolledUnit) {
         this.enrolledUnits.add(enrolledUnit);
+    }
+
+    public int getFirstYear() {
+        return firstYear;
+    }
+
+    public void setFirstYear(int firstYear) {
+        this.firstYear = firstYear;
+    }
+
+    public int getFirstSemester() {
+        return firstSemester;
+    }
+
+    public void setFirstSemester(int firstSemester) {
+        this.firstSemester = firstSemester;
+    }
+    
+    public int getCurrentYear() {
+        return currentYear;
+    }
+
+    public void setCurrentYear(int currentYear) {
+        this.currentYear = currentYear;
+    }
+    
+    public int getCurrentSemester() {
+        return currentSemester;
+    }
+
+    public void setCurrentSemester(int currentSemester) {
+        this.currentSemester = currentSemester;
     }
 } 

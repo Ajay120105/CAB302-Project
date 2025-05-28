@@ -61,19 +61,16 @@ public class AuthenticateService {
      * @param email User's email
      * @param phone User's phone number
      * @param password User's password
-     * @param degreeId Optional degree ID for initial enrollment???
+     * @param degreeId Degree ID for initial enrollment
+     * @param firstYear First year of enrollment
+     * @param firstSemester First semester of enrollment
+     * @param currentYear Current year of enrollment
+     * @param currentSemester Current semester of enrollment
      * @return The newly created user
      */
-    public User registerUser(String firstName, String lastName, String email, String phone, String password, String degreeId) {
+    public User registerUser(String firstName, String lastName, String email, String phone, String password) {
         User newUser = new User(firstName, lastName, email, phone, password);
         userDAO.addUser(newUser);
-        
-        if (degreeId != null) {
-            Enrollment enrollment = new Enrollment(0, newUser.getUser_ID(), degreeId, 0, 0);
-            enrollmentDAO.addEnrollment(enrollment);
-            
-            newUser.addEnrollment(enrollment);
-        }
         
         this.currentUser = newUser;
         return newUser;
@@ -133,6 +130,15 @@ public class AuthenticateService {
      */
     public void logoutUser() {
         this.currentUser = null;
+    }
+
+    /**
+     * Deletes a user from the database
+     * 
+     * @param user The user to delete
+     */
+    public void deleteUser(User user) {
+        userDAO.deleteUser(user);
     }
 
     /**
