@@ -5,6 +5,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import javafx.util.StringConverter;
 import org.example.grade_predictor.HelloApplication;
 import org.example.grade_predictor.model.Degree;
 import org.example.grade_predictor.model.Enrollment;
@@ -59,10 +60,7 @@ public class SignupLoginController {
     private VBox enrollmentSection;
 
     @FXML
-    private TextField degreeIdField;
-
-    @FXML
-    private TextField degreeNameField;
+    private ComboBox<Degree> degreeComboBox;
 
     @FXML
     private TextField firstYearField;
@@ -75,9 +73,6 @@ public class SignupLoginController {
 
     @FXML
     private TextField currentSemesterField;
-
-    @FXML
-    private Label enrollmentHelperText;
 
     private final AuthenticateService authService = AuthenticateService.getInstance();
     private final DegreeService degreeService = new DegreeService();
@@ -104,7 +99,7 @@ public class SignupLoginController {
 
             // Show enrollment section below phone field
             enrollmentSection.setVisible(true);
-            enrollmentHelperText.setVisible(true);
+            degreeComboBox.setVisible(true);
 
             // Position buttons side by side in signup mode (lower to avoid overlap)
             signUpButton.setLayoutX(380);
@@ -120,12 +115,18 @@ public class SignupLoginController {
             String phone = phoneField.getText();
             String email = emailField.getText();
             String password = passwordField.getText();
-            String degreeId = degreeIdField.getText();
-            String degreeName = degreeNameField.getText();
+            Degree selectedDegree = degreeComboBox.getValue();
             String firstYear = firstYearField.getText();
             String firstSemester = firstSemesterField.getText();
             String currentYear = currentYearField.getText();
             String currentSemester = currentSemesterField.getText();
+
+            if (selectedDegree == null) {
+                showAlert("Error", "Please select a degree.");
+                return;
+            }
+            String degreeId = selectedDegree.getDegree_ID();
+            String degreeName = selectedDegree.getDegree_Name();
 
             System.out.println("Debug:");
             System.out.println("Name: " + firstName + lastName);
@@ -231,7 +232,7 @@ public class SignupLoginController {
 
             // Hide enrollment section
             enrollmentSection.setVisible(false);
-            enrollmentHelperText.setVisible(false);
+            degreeComboBox.setVisible(false);
 
             // Restore buttons to original stacked position for login mode
             signUpButton.setLayoutX(440);
@@ -266,41 +267,40 @@ public class SignupLoginController {
     }
 
     @FXML
-    protected void handleDegreeIdChanged() {
-        System.out.println("handleDegreeIdChanged triggered");
-        String degreeId = degreeIdField.getText();
-        if (!degreeId.isEmpty()) {
-            FormValidator.ValidationResult degreeIdResult = FormValidator.validateDegreeId(degreeId);
-            if (!degreeIdResult.isValid()) {
-                return;
-            }
-
-            Degree degree = degreeService.getDegreeById(degreeId);
-            if (degree != null) {
-                System.out.println("Degree found: " + degree.getDegree_Name());
-                degreeNameField.setText(degree.getDegree_Name());
-            } else {
-                System.out.println("Degree not found: " + degreeId);
-            }
-        } else {
-            System.out.println("Degree ID is empty");
-        }
-    }
-
-    @FXML
     public void initialize() {
         allDegrees = degreeService.getAllDegrees();
 
-        degreeIdField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null && !newValue.equals(newValue.toUpperCase())) {
-                // Convert to uppercase without triggering the listener again
-                degreeIdField.setText(newValue.toUpperCase());
-            } else if (newValue != null && !newValue.isEmpty()) {
-                handleDegreeIdChanged();
+        degreeComboBox.setConverter(new StringConverter<Degree>() {
+            @Override
+            public String toString(Degree degree) {
+                if (degree == null) {
+                    return null;
+                } else {
+                    return degree.getDegree_Name() + " (" + degree.getDegree_ID() + ")";
+                }
+            }
+
+            @Override
+            public Degree fromString(String string) {
+                // Not needed for a non-editable ComboBox
+                return null;
             }
         });
 
-        enrollmentHelperText.setVisible(false);
+        degreeComboBox.setCellFactory(param -> new ListCell<Degree>() {
+            @Override
+            protected void updateItem(Degree item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(item.getDegree_Name() + " (" + item.getDegree_ID() + ")");
+                }
+            }
+        });
+
+        degreeComboBox.getItems().addAll(allDegrees);
+        degreeComboBox.setVisible(false);
     }
 
     private void showAlert(String title, String message) {

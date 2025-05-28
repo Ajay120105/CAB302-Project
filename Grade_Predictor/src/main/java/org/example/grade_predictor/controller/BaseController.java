@@ -4,9 +4,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import org.example.grade_predictor.model.User;
+import org.example.grade_predictor.model.Enrollment;
+import org.example.grade_predictor.model.Degree;
 import org.example.grade_predictor.service.AuthenticateService;
 import org.example.grade_predictor.service.EnrollmentService;
 import org.example.grade_predictor.service.UnitService;
+import org.example.grade_predictor.service.DegreeService;
 import org.example.grade_predictor.HelloApplication;
 import java.io.IOException;
 import javafx.event.ActionEvent;
@@ -16,14 +19,19 @@ public abstract class BaseController {
     @FXML
     protected Label welcomeLabel;
     
+    @FXML
+    protected Label degreeNameLabel;
+    
     protected final AuthenticateService authenticateService;
     protected final EnrollmentService enrollmentService;
     protected final UnitService unitService;
+    protected final DegreeService degreeService;
     
     public BaseController() {
         this.authenticateService = AuthenticateService.getInstance();
         this.enrollmentService = new EnrollmentService(authenticateService);
         this.unitService = new UnitService();
+        this.degreeService = new DegreeService();
     }
     
     /**
@@ -34,6 +42,7 @@ public abstract class BaseController {
         User currentUser = authenticateService.getCurrentUser();
         if (currentUser != null) {
             initializeWelcomeMessage(currentUser);
+            initializeDegreeName(currentUser);
         }
         
         // Hook method for subclasses to implement
@@ -49,6 +58,25 @@ public abstract class BaseController {
     protected void initializeWelcomeMessage(User user) {
         if (welcomeLabel != null) {
             welcomeLabel.setText("Welcome, " + user.getFirst_name() + " " + user.getLast_name() + "!");
+        }
+    }
+
+    /**
+     * Sets up the degree name label
+     */
+    protected void initializeDegreeName(User user) {
+        if (degreeNameLabel != null) {
+            Enrollment firstEnrollment = enrollmentService.getCurrentUserFirstEnrollment();
+            if (firstEnrollment != null) {
+                Degree degree = degreeService.getDegreeById(firstEnrollment.getDegree_ID());
+                if (degree != null) {
+                    degreeNameLabel.setText(degree.getDegree_Name());
+                } else {
+                    degreeNameLabel.setText("Degree not found.");
+                }
+            } else {
+                degreeNameLabel.setText("No enrollment information available.");
+            }
         }
     }
     
@@ -108,6 +136,7 @@ public abstract class BaseController {
             HelloApplication.switchToProfilePage();
         } catch (IOException e) {
             showAlert("Navigation Error", " Could not open profile page");
+            e.printStackTrace();
         }
     }
 

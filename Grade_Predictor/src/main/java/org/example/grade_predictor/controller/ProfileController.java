@@ -14,7 +14,7 @@ import org.example.grade_predictor.service.EnrollmentService;
 
 import java.io.IOException;
 
-public class ProfileController {
+public class ProfileController extends BaseController {
 
     @FXML private TextField firstNameField;
     @FXML private TextField lastNameField;
@@ -25,17 +25,12 @@ public class ProfileController {
     private final SqliteUserDAO userDAO = new SqliteUserDAO();
     private User currentUser;
 
-    // Services
-    private final AuthenticateService authenticateService;
-    private final EnrollmentService enrollmentService;
-
     public ProfileController() {
-        this.authenticateService = AuthenticateService.getInstance();
-        this.enrollmentService = new EnrollmentService(authenticateService);
+        super();
     }
 
-    @FXML
-    public void initialize() {
+    @Override
+    protected void initializePageSpecificContent() {
         currentUser = authenticateService.getCurrentUser();
         if (currentUser != null) {
             firstNameField.setText(currentUser.getFirst_name());
@@ -45,6 +40,10 @@ public class ProfileController {
         } else {
             showAlert("Error", "No user logged in.");
         }
+    }
+
+    @Override
+    protected void loadPageData() {
     }
 
     @FXML
@@ -68,13 +67,5 @@ public class ProfileController {
             showAlert("Error", "Failed to update profile.");
             e.printStackTrace();
         }
-    }
-
-    private void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
     }
 }
