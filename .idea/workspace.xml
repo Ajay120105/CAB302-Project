@@ -4,11 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d5ae6416-a402-4255-b90d-bbc5aa219925" name="Changes" comment="">
+    <list default="true" id="d5ae6416-a402-4255-b90d-bbc5aa219925" name="Changes" comment="Minor changes to UI layout">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Grade_Predictor/src/main/java/org/example/grade_predictor/controller/SignupLoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Grade_Predictor/src/main/java/org/example/grade_predictor/controller/SignupLoginController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Grade_Predictor/src/main/java/org/example/grade_predictor/controller/AllUnitsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Grade_Predictor/src/main/java/org/example/grade_predictor/controller/AllUnitsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Grade_Predictor/src/main/java/org/example/grade_predictor/controller/EditUnitController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Grade_Predictor/src/main/java/org/example/grade_predictor/controller/EditUnitController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Grade_Predictor/src/main/java/org/example/grade_predictor/controller/HomeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Grade_Predictor/src/main/java/org/example/grade_predictor/controller/HomeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Grade_Predictor/src/main/java/org/example/grade_predictor/controller/PredictGradeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Grade_Predictor/src/main/java/org/example/grade_predictor/controller/PredictGradeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Grade_Predictor/src/main/java/org/example/grade_predictor/controller/components/EnrolledUnitComponentFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/Grade_Predictor/src/main/java/org/example/grade_predictor/controller/components/EnrolledUnitComponentFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Grade_Predictor/src/main/resources/org/example/grade_predictor/all_units.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/Grade_Predictor/src/main/resources/org/example/grade_predictor/all_units.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Grade_Predictor/src/main/resources/org/example/grade_predictor/edit_unit.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/Grade_Predictor/src/main/resources/org/example/grade_predictor/edit_unit.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Grade_Predictor/src/main/resources/org/example/grade_predictor/home.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/Grade_Predictor/src/main/resources/org/example/grade_predictor/home.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Grade_Predictor/src/main/resources/org/example/grade_predictor/signup_login.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/Grade_Predictor/src/main/resources/org/example/grade_predictor/signup_login.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Grade_Predictor/src/main/resources/org/example/grade_predictor/predict_grade.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/Grade_Predictor/src/main/resources/org/example/grade_predictor/predict_grade.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,6 +36,9 @@
     "accountId": "a7e06e30-ce33-49c8-8803-bbee51d4b9ac"
   }
 }]]></component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 8
@@ -125,6 +134,19 @@
       <option name="presentableId" value="Default" />
       <updated>1747960498183</updated>
     </task>
+    <task id="LOCAL-00001" summary="Minor changes to UI layout">
+      <option name="closed" value="true" />
+      <created>1748444383682</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1748444383682</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Minor changes to UI layout" />
+    <option name="LAST_COMMIT_MESSAGE" value="Minor changes to UI layout" />
   </component>
 </project>

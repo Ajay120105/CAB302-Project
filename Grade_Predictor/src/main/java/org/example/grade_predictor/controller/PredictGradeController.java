@@ -4,11 +4,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ProgressIndicator;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TitledPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import org.example.grade_predictor.HelloApplication;
 import org.example.grade_predictor.controller.components.EnrolledUnitComponentFactory;
@@ -31,6 +27,9 @@ public class PredictGradeController extends BaseController {
     // The VBox container for showing enrolled units.
     @FXML
     private VBox unitsVBox;
+
+    @FXML
+    private ScrollPane unitsScrollPane;
 
     @FXML
     private Button predictButton;

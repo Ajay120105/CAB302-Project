@@ -5,16 +5,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.Pane;
 import org.example.grade_predictor.model.EnrolledUnit;
 import org.example.grade_predictor.model.Unit;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.geometry.Insets;
 import javafx.fxml.FXMLLoader;
 import java.io.IOException;
-import java.util.function.Consumer;
 
 /**
  * Factory class for creating UI components for EnrolledUnit display
@@ -76,24 +71,76 @@ public class EnrolledUnitComponentFactory {
      * Creates an editable component for an enrolled unit
      * Used in EditUnit page where users can modify unit details
      */
-    public static Node createEditableEnrolledUnitNode(EnrolledUnit eu, 
-                                                     EnrolledUnitActionHandler actionHandler) {
-        try {
-            FXMLLoader loader = new FXMLLoader(EnrolledUnitComponentFactory.class.getResource("/org/example/grade_predictor/components/editable_enrolled_unit_item.fxml"));
-            Node node = loader.load();
-            EditableEnrolledUnitItemController controller = loader.getController();
-            controller.initializeData(eu, actionHandler);
+    public static Node createEditableEnrolledUnitNode(EnrolledUnit eu, EnrolledUnitActionHandler actionHandler) {
+        // Enlarged Pane for better layout
+        Pane unitPane = new Pane();
+        unitPane.setPrefSize(300, 150); // Increased height
+        unitPane.setStyle("-fx-background-color: #FFFFFF; -fx-border-color: #CCCCCC; -fx-border-radius: 5; -fx-padding: 10;");
 
-            TitledPane pane = new TitledPane(eu.getUnit_code(), node);
-            pane.setAnimated(false);
-            pane.setExpanded(true);
-            return pane;
-        } catch (IOException e) {
-            e.printStackTrace();
-            Label errorLabel = new Label("Error loading unit editor: " + eu.getUnit_code());
-            return errorLabel;
-        }
+        // Unit Label
+        Label unitLabel = new Label("Unit Code: " + eu.getUnit_code());
+        unitLabel.setLayoutX(10);
+        unitLabel.setLayoutY(10);
+        unitLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
+
+        // Labels for each field
+        Label yearLabel = new Label("Year:");
+        yearLabel.setLayoutX(10);
+        yearLabel.setLayoutY(35);
+
+        Label semesterLabel = new Label("Semester:");
+        semesterLabel.setLayoutX(160); // Increased spacing
+        semesterLabel.setLayoutY(35);
+
+        Label weeklyHoursLabel = new Label("Weekly Hours:");
+        weeklyHoursLabel.setLayoutX(10);
+        weeklyHoursLabel.setLayoutY(75);
+
+        // Text Fields
+        TextField yearField = new TextField(String.valueOf(eu.getYear_enrolled()));
+        yearField.setLayoutX(10);
+        yearField.setLayoutY(50);
+        yearField.setPrefWidth(130); // Prevent overlapping
+
+        TextField semesterField = new TextField(String.valueOf(eu.getSemester_enrolled()));
+        semesterField.setLayoutX(160);
+        semesterField.setLayoutY(50);
+        semesterField.setPrefWidth(130); // Prevent overlapping
+
+        TextField weeklyHoursField = new TextField(String.valueOf(eu.getWeekly_hours()));
+        weeklyHoursField.setLayoutX(10);
+        weeklyHoursField.setLayoutY(90);
+        weeklyHoursField.setPrefWidth(130);
+
+        // Save & Delete Buttons - Next to Weekly Hours
+        Button saveButton = new Button("Save");
+        saveButton.setStyle("-fx-background-color: #309adc; -fx-text-fill: white;");
+        saveButton.setLayoutX(160);
+        saveButton.setLayoutY(90);
+
+        Button deleteButton = new Button("Delete");
+        deleteButton.setStyle("-fx-background-color: #FF5555; -fx-text-fill: white;");
+        deleteButton.setLayoutX(230);
+        deleteButton.setLayoutY(90);
+
+        saveButton.setOnAction(event -> {
+            int newYear = Integer.parseInt(yearField.getText());
+            int newSemester = Integer.parseInt(semesterField.getText());
+            int newWeeklyHours = Integer.parseInt(weeklyHoursField.getText());
+            actionHandler.onSave(eu, newYear, newSemester, newWeeklyHours);
+        });
+
+        deleteButton.setOnAction(event -> actionHandler.onDelete(eu));
+
+        // Add components to Pane
+        unitPane.getChildren().addAll(unitLabel, yearLabel, semesterLabel, weeklyHoursLabel,
+                yearField, semesterField, weeklyHoursField,
+                saveButton, deleteButton);
+
+        return unitPane;
     }
+
+
     
     /**
      * Interface for handling actions on enrolled units
@@ -115,13 +162,29 @@ public class EnrolledUnitComponentFactory {
      * Creates a UI row (HBox) for an available unit with unit info and an "Enroll" button.
      */
     public static Node createAvailableUnitNode(Unit unit, AvailableUnitEnrollHandler enrollHandler) {
-        HBox row = new HBox(10); // Using HBox as in the original createUnitRow
-        Label unitInfo = new Label(unit.getUnit_code() + ": " + unit.getUnit_name());
-        Button enrollButton = new Button("Enroll");
+        Pane unitPane = new Pane();
+        unitPane.setPrefSize(300, 80);
+        unitPane.setStyle("-fx-background-color: #FFFFFF; -fx-border-color: #CCCCCC; -fx-border-radius: 5; -fx-padding: 10;");
 
+        // Unit Name Label (Auto-wrapping)
+        Label unitLabel = new Label(unit.getUnit_code() + ": " + unit.getUnit_name());
+        unitLabel.setLayoutX(10);
+        unitLabel.setLayoutY(10);
+        unitLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
+        unitLabel.setWrapText(true); // Enables automatic text wrapping
+        unitLabel.setMaxWidth(280); // Ensures text stays within pane boundaries
+
+        // Enroll Button
+        Button enrollButton = new Button("Enroll");
+        enrollButton.setLayoutX(200);
+        enrollButton.setLayoutY(40);
+        enrollButton.setStyle("-fx-background-color: #309adc; -fx-text-fill: white; -fx-padding: 5;");
         enrollButton.setOnAction(event -> enrollHandler.onEnroll(unit));
 
-        row.getChildren().addAll(unitInfo, enrollButton);
-        return row;
+        // Add elements to Pane
+        unitPane.getChildren().addAll(unitLabel, enrollButton);
+
+        return unitPane;
     }
+
 }

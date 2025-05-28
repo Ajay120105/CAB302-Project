@@ -12,6 +12,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.control.ScrollPane?>
 <AnchorPane prefHeight="650.0" prefWidth="1000.0" style="-fx-background-color: #D3D3D3;" stylesheets="@style.css" xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.grade_predictor.controller.PredictGradeController">
     <!-- Navigation Bar Layer -->
     <VBox layoutX="0" layoutY="0" prefHeight="60" prefWidth="1000" style="-fx-background-color: #E0E0E0; -fx-padding: 10; -fx-border-color: #CCCCCC;">
@@ -28,10 +29,11 @@
     </VBox>
 
     <!-- Units Section -->
-    <VBox layoutX="7.0" layoutY="147.0" prefHeight="476.0" prefWidth="345.0" spacing="10" style="-fx-background-color: #E0E0E0; -fx-padding: 20; -fx-border-radius: 10; -fx-border-color: #CCCCCC;">
-        <Label style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Enrolled Units" />
-        <VBox fx:id="unitsVBox" spacing="15" />
-    </VBox>
+    <ScrollPane fx:id="unitsScrollPane" layoutX="7.0" layoutY="147.0" prefHeight="476.0" prefWidth="345.0" style="-fx-background-color: #E0E0E0; -fx-padding: 10; -fx-border-radius: 10; -fx-border-color: #CCCCCC;">
+        <content>
+            <VBox fx:id="unitsVBox" spacing="15" />
+        </content>
+    </ScrollPane>
 
     <!-- Prediction Section Layer -->
     <VBox layoutX="356.0" layoutY="147.0" prefHeight="475.0" prefWidth="632.0" spacing="20" style="-fx-background-color: #E0E0E0; -fx-padding: 30; -fx-border-radius: 10; -fx-border-color: #CCCCCC;">

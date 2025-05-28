@@ -3,12 +3,9 @@ package org.example.grade_predictor.controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TitledPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import org.example.grade_predictor.HelloApplication;
@@ -24,6 +21,12 @@ public class EditUnitController extends BaseController implements EnrolledUnitCo
     // Container for dynamically added enrollment panels.
     @FXML
     private VBox unitsVBox;
+
+    @FXML
+    private ScrollPane scrollPane;
+
+    @FXML
+    private GridPane unitsGridPane;
 
     @Override
     protected void initializePageSpecificContent() {
@@ -65,25 +68,36 @@ public class EditUnitController extends BaseController implements EnrolledUnitCo
      */
     private void displayEnrolledUnits() {
         Enrollment firstEnrollment = enrollmentService.getCurrentUserFirstEnrollment();
-        
+
+        unitsGridPane.getChildren().clear(); // Reset grid layout
+
         if (firstEnrollment == null) {
-            unitsVBox.getChildren().clear();
-            unitsVBox.getChildren().add(new Label("No enrolled units found."));
+            unitsGridPane.add(new Label("No enrolled units found."), 0, 0);
             return;
         }
-        
+
         List<EnrolledUnit> enrolledUnits = enrollmentService.getEnrolledUnits(firstEnrollment);
-        
-        unitsVBox.getChildren().clear();
+
         if (enrolledUnits == null || enrolledUnits.isEmpty()) {
-            unitsVBox.getChildren().add(new Label("No enrolled units found."));
+            unitsGridPane.add(new Label("No enrolled units found."), 0, 0);
         } else {
+            int columns = 3; // Number of units per row
+            int row = 0;
+            int col = 0;
+
             for (EnrolledUnit eu : enrolledUnits) {
-                Node pane = EnrolledUnitComponentFactory.createEditableEnrolledUnitNode(eu, this);
-                unitsVBox.getChildren().add(pane);
+                Node unitNode = EnrolledUnitComponentFactory.createEditableEnrolledUnitNode(eu, this); // Now uses Pane layout
+                unitsGridPane.add(unitNode, col, row);
+
+                col++;
+                if (col >= columns) {
+                    col = 0;
+                    row++;
+                }
             }
         }
     }
+
     
     /**
      * Adds a component to the UI for adding new enrolled units
@@ -153,6 +167,6 @@ public class EditUnitController extends BaseController implements EnrolledUnitCo
         addNewUnitPane.setAnimated(false);
         addNewUnitPane.setExpanded(false);
         
-        unitsVBox.getChildren().add(0, addNewUnitPane);
+        unitsGridPane.getChildren().add(0, addNewUnitPane);
     }
 }

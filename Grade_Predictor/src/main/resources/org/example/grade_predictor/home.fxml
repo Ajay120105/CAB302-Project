@@ -8,6 +8,11 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.layout.TilePane?>
+<?import javafx.scene.layout.FlowPane?>
 <AnchorPane prefHeight="650.0" prefWidth="1000.0" style="-fx-background-color: #D3D3D3;" stylesheets="@style.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="org.example.grade_predictor.controller.HomeController">
     <!-- Navigation Bar Layer -->
     <VBox layoutX="0" layoutY="0" prefHeight="60" prefWidth="1000" style="-fx-background-color: #E0E0E0; -fx-padding: 10; -fx-border-color: #CCCCCC;">
@@ -56,10 +61,12 @@
         <Button fx:id="predictSemesterButton" alignment="CENTER" onAction="#handlePredictForSemester" prefWidth="100.0" text="Predict" />
     </VBox>
 
-             <!-- Units Section Layer -->
-    <VBox layoutX="18.0" layoutY="194.0" prefHeight="441.0" prefWidth="586.0" spacing="10" style="-fx-background-color: #E0E0E0; -fx-padding: 20; -fx-border-radius: 10; -fx-border-color: #CCCCCC;">
-        <Label style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Semester" />
-        <VBox fx:id="semestersVBox" spacing="15" />
-    </VBox>
+    <!-- Scrollable Semesters Section Layer -->
+    <ScrollPane fx:id="semestersScrollPane" layoutX="18.0" layoutY="194.0" prefHeight="441.0" prefWidth="586.0">
+        <content>
+            <FlowPane fx:id="semestersFlowPane" hgap="15" vgap="15" maxWidth="586.0" />
+        </content>
+    </ScrollPane>
+
 
 </AnchorPane>

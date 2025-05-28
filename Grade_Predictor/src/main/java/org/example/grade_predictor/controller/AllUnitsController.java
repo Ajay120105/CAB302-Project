@@ -8,6 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import org.example.grade_predictor.HelloApplication;
@@ -28,6 +29,12 @@ public class AllUnitsController extends BaseController implements EnrolledUnitCo
     // VBox container defined in the FXML to list all available units.
     @FXML
     private VBox unitsVBox;
+
+    @FXML
+    private ScrollPane scrollPane;
+
+    @FXML
+    private GridPane unitsGridPane;
 
     @Override
     protected void initializePageSpecificContent() {
@@ -51,23 +58,29 @@ public class AllUnitsController extends BaseController implements EnrolledUnitCo
 
         loadTask.setOnSucceeded(event -> {
             List<Unit> units = loadTask.getValue();
-            unitsVBox.getChildren().clear();
+            unitsGridPane.getChildren().clear();
+
             if (units.isEmpty()) {
-                unitsVBox.getChildren().add(new Label("No units available."));
+                unitsGridPane.add(new Label("No units available."), 0, 0);
             } else {
+                int columns = 3; // Adjust number of columns as needed
+                int row = 0;
+                int col = 0;
+
                 for (Unit unit : units) {
-                    unitsVBox.getChildren().add(EnrolledUnitComponentFactory.createAvailableUnitNode(unit, this));
+                    Node unitNode = EnrolledUnitComponentFactory.createAvailableUnitNode(unit, this);
+                    unitsGridPane.add(unitNode, col, row);
+
+                    col++;
+                    if (col >= columns) {
+                        col = 0;
+                        row++;
+                    }
                 }
             }
         });
 
-        loadTask.setOnFailed(event -> {
-            showAlert("Error", "Could not load available units.");
-        });
-
-        Thread thread = new Thread(loadTask);
-        thread.setDaemon(true);
-        thread.start();
+        new Thread(loadTask).start();
     }
 
     /**

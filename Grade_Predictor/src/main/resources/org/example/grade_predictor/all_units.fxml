@@ -6,6 +6,8 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.GridPane?>
 <AnchorPane prefHeight="650.0" prefWidth="1000.0" style="-fx-background-color: #D3D3D3;" stylesheets="@style.css" xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.grade_predictor.controller.AllUnitsController">
     <!-- Navigation Bar Layer -->
     <VBox layoutX="0" layoutY="0" prefHeight="60" prefWidth="1000" style="-fx-background-color: #E0E0E0; -fx-padding: 10; -fx-border-color: #CCCCCC;">
@@ -22,10 +24,12 @@
     </VBox>
 
     <!-- Units Section Layer -->
-    <VBox layoutX="8.0" layoutY="134.0" prefHeight="497.0" prefWidth="966.0" spacing="10" style="-fx-background-color: #E0E0E0; -fx-padding: 20; -fx-border-radius: 10; -fx-border-color: #CCCCCC;">
-        <Label style="-fx-font-size: 20px; -fx-font-weight: bold;" text="All Available Units" />
-        <VBox fx:id="unitsVBox" spacing="15" />
-    </VBox>
+    <ScrollPane fx:id="scrollPane" layoutX="8.0" layoutY="134.0" prefHeight="497.0" prefWidth="966.0">
+        <content>
+            <GridPane fx:id="unitsGridPane" hgap="20" vgap="20" style="-fx-background-color: #FFFFFF; -fx-padding: 10; -fx-border-radius: 5; -fx-border-color: #CCCCCC;" />
+        </content>
+    </ScrollPane>
+
    <VBox layoutX="14.0" layoutY="69.0" prefHeight="65.0" prefWidth="967.0" style="-fx-background-color: #F5F5F5; -fx-padding: 20; -fx-border-radius: 10; -fx-border-color: #CCCCCC;">
       <children>
          <Label fx:id="degreeNameLabel" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Bachelor of DUMMY" />

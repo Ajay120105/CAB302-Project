@@ -3,10 +3,10 @@ package org.example.grade_predictor.controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Button;
-import javafx.scene.control.TitledPane;
+import javafx.scene.control.*;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import org.example.grade_predictor.HelloApplication;
 import org.example.grade_predictor.controller.components.EnrolledUnitComponentFactory;
@@ -18,6 +18,7 @@ import org.example.grade_predictor.util.FormValidator;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.Comparator;
 
@@ -25,6 +26,21 @@ public class HomeController extends BaseController {
 
     @FXML
     private VBox semestersVBox;
+
+    @FXML
+    private ScrollPane semestersScrollPane;
+
+    @FXML
+    private GridPane semestersGridPane;
+
+    @FXML
+    private Accordion semestersAccordion;
+
+    @FXML
+    private TilePane semestersTilePane;
+
+    @FXML
+    private FlowPane semestersFlowPane;
 
     @FXML
     private Label selectedYearLabel;
@@ -98,24 +114,24 @@ public class HomeController extends BaseController {
      */
     private void displayEnrolledUnits() {
         Enrollment firstEnrollment = enrollmentService.getCurrentUserFirstEnrollment();
-        semestersVBox.getChildren().clear();
+        semestersFlowPane.getChildren().clear();
 
         if (firstEnrollment == null) {
-            semestersVBox.getChildren().add(new Label("You have not enrolled in any classes yet."));
+            semestersFlowPane.getChildren().add(new Label("No enrolled semesters found."));
             return;
         }
 
         List<EnrolledUnit> enrolledUnits = enrollmentService.getEnrolledUnits(firstEnrollment);
 
         if (enrolledUnits == null || enrolledUnits.isEmpty()) {
-            semestersVBox.getChildren().add(new Label("You have not enrolled in any classes yet."));
+            semestersFlowPane.getChildren().add(new Label("No enrolled semesters found."));
         } else {
-            // by year and semester
+            int maxColumns = 3; // Only three semesters per row
+
             Map<Integer, Map<Integer, List<EnrolledUnit>>> unitsByYearThenSemester = enrolledUnits.stream()
                     .collect(Collectors.groupingBy(EnrolledUnit::getYear_enrolled,
                             Collectors.groupingBy(EnrolledUnit::getSemester_enrolled)));
 
-            // descend order
             unitsByYearThenSemester.entrySet().stream()
                     .sorted(Map.Entry.<Integer, Map<Integer, List<EnrolledUnit>>>comparingByKey().reversed())
                     .forEach(yearEntry -> {
@@ -128,7 +144,10 @@ public class HomeController extends BaseController {
 
                                     TitledPane semesterNode = SemesterComponentFactory.createSemesterNode(
                                             year, semester, unitsInSemester, this::handleSemesterSelection);
-                                    semestersVBox.getChildren().add(semesterNode);
+
+                                    // Control layout: Ensure only 3 per row
+                                    semesterNode.setMaxWidth(180); // Adjusted for fit
+                                    semestersFlowPane.getChildren().add(semesterNode);
                                 });
                     });
         }
