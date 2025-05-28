@@ -11,6 +11,7 @@ import org.example.grade_predictor.model.Degree;
 import org.example.grade_predictor.model.EnrolledUnit;
 import org.example.grade_predictor.model.Enrollment;
 import org.example.grade_predictor.model.Unit;
+import org.example.grade_predictor.util.OllamaConnectionChecker;
 
 import java.io.IOException;
 import java.util.List;
@@ -31,8 +32,8 @@ public class OllamaGradePredictionService {
         this.authenticateService = AuthenticateService.getInstance();
         this.unitService = new UnitService();
         
-        if (!ollamaClient.isOllamaRunning()) {
-            System.err.println("WARNING: Ollama service is not running.");
+        if (!OllamaConnectionChecker.isOllamaReadyForGeneration()) {
+            System.err.println(OllamaConnectionChecker.getStatusErrorMessage());
         }
     }
 
@@ -132,6 +133,11 @@ public class OllamaGradePredictionService {
                              List<EnrolledUnit> enrolledUnits, int studyHours, int studyEfficiency, 
                              GradePredictionCallback callback) {
         
+        if (!OllamaConnectionChecker.isOllamaReadyForGeneration()) {
+            callback.onPredictionFailed(OllamaConnectionChecker.getStatusErrorMessage());
+            return;
+        }
+        
         Task<GradeResponseDTO> task = new Task<>() {
             @Override
             protected GradeResponseDTO call() throws Exception {
@@ -141,9 +147,16 @@ public class OllamaGradePredictionService {
                 request.setThinking(false);
                 
                 try {
+                    if (!ollamaClient.isOllamaRunning()) {
+                        throw new IOException(OllamaConnectionChecker.getConnectionErrorMessage());
+                    }
+                    
                     OllamaResponseDTO response = ollamaClient.sendRequest(request);
                     return parseJsonResponse(response.getResponse());
                 } catch (IOException e) {
+                    if (!OllamaConnectionChecker.isOllamaConnected()) {
+                        throw new Exception(OllamaConnectionChecker.getConnectionErrorMessage());
+                    }
                     e.printStackTrace();
                     throw new Exception("Failed to get grade prediction: " + e.getMessage());
                 }

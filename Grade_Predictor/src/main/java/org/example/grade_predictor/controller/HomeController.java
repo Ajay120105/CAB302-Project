@@ -13,7 +13,7 @@ import org.example.grade_predictor.controller.components.EnrolledUnitComponentFa
 import org.example.grade_predictor.controller.components.SemesterComponentFactory;
 import org.example.grade_predictor.model.EnrolledUnit;
 import org.example.grade_predictor.model.Enrollment;
-import org.example.grade_predictor.service.FormValidator;
+import org.example.grade_predictor.util.FormValidator;
 
 import java.io.IOException;
 import java.util.List;

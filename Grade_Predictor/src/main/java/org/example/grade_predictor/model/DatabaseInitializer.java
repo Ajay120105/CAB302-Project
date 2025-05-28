@@ -29,6 +29,7 @@ public class DatabaseInitializer {
         migrations.add(new UnitTableMigration());
         migrations.add(new EnrollmentTableMigration());
         migrations.add(new EnrolledUnitTableMigration());
+        migrations.add(new SettingsTableMigration());
     }
     
     /**

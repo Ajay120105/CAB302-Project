@@ -20,6 +20,7 @@ import org.example.grade_predictor.model.SQLiteDAO.SqliteDegreeDAO;
 import org.example.grade_predictor.model.Unit;
 import org.example.grade_predictor.model.User;
 import org.example.grade_predictor.service.OllamaGradePredictionService;
+import org.example.grade_predictor.util.OllamaConnectionChecker;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -75,11 +76,28 @@ public class PredictGradeController extends BaseController {
         selectedUnitSemesterLabel.setText("N/A");
         studyHoursField.clear();
         studyEfficiencyField.clear();
+        checkOllamaStatus();
     }
 
     @Override
     protected void loadPageData() {
         displayEnrolledUnits();
+    }
+
+    /**
+     * Check Ollama service 
+     */
+    private void checkOllamaStatus() {
+        if (!OllamaConnectionChecker.isOllamaReadyForGeneration()) {
+            predictButton.setDisable(true);
+            String errorMessage = OllamaConnectionChecker.getStatusErrorMessage();
+            
+            Platform.runLater(() -> {
+                showAlert("Ollama Error", errorMessage);
+            });
+        } else {
+            predictButton.setDisable(false);
+        }
     }
 
     private void displayEnrolledUnits() {
@@ -136,7 +154,7 @@ public class PredictGradeController extends BaseController {
     }
 
     private void setNormalState() {
-        predictButton.setDisable(false);
+        predictButton.setDisable(!OllamaConnectionChecker.isOllamaReadyForGeneration());
         loadingContainer.setVisible(false);
     }
 
@@ -148,6 +166,11 @@ public class PredictGradeController extends BaseController {
         User currentUser = authenticateService.getCurrentUser();
         if (currentUser == null) {
             showAlert("Error", "No user is currently logged in.");
+            return;
+        }
+
+        if (!OllamaConnectionChecker.isOllamaReadyForGeneration()) {
+            showAlert("Ollama Error", OllamaConnectionChecker.getStatusErrorMessage());
             return;
         }
 

@@ -3,11 +3,14 @@ package org.example.grade_predictor.client;
 import io.github.ollama4j.OllamaAPI;
 import io.github.ollama4j.exceptions.OllamaBaseException;
 import io.github.ollama4j.models.response.OllamaResult;
+import io.github.ollama4j.models.response.Model;
 import org.example.grade_predictor.config.OllamaConfig;
 import org.example.grade_predictor.dto.OllamaRequestDTO;
 import org.example.grade_predictor.dto.OllamaResponseDTO;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.ArrayList;
 
 public class OllamaClient {
     private final OllamaAPI ollamaAPI;
@@ -46,5 +49,23 @@ public class OllamaClient {
             System.err.println("Unexpected error: " + e.getMessage());
             return false;
         }
+    }
+    
+    /**
+     * Get list of available models from Ollama server
+     * @return List of model names available locally on the Ollama server
+     */
+    public List<String> getAvailableModels() {
+        List<String> modelNames = new ArrayList<>();
+        try {
+            List<Model> models = ollamaAPI.listModels();
+            for (Model model : models) {
+                modelNames.add(model.getName());
+            }
+        } catch (Exception e) {
+            System.err.println("Error fetching models: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return modelNames;
     }
 } 

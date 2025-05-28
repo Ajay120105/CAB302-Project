@@ -1,18 +1,18 @@
 package org.example.grade_predictor.config;
 
-import org.example.grade_predictor.HelloApplication;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
+import org.example.grade_predictor.model.SQLiteDAO.SqliteSettingsDAO;
+import org.example.grade_predictor.model.Setting;
 
 public class OllamaConfig
 {
     private String host;
 
     private String model;
+    
+    private SqliteSettingsDAO settingsDAO;
 
     public OllamaConfig() {
+        settingsDAO = new SqliteSettingsDAO();
         loadProperties();
     }
 
@@ -24,26 +24,29 @@ public class OllamaConfig
         return this.model;
     }
 
+    /**
+     * Load Ollama configuration from database
+     */
     private void loadProperties() {
-        Properties props = new Properties();
-
-        // Load properties
-        try (InputStream inputStream = HelloApplication.class.getResourceAsStream("ollama.properties")) {
-            if (inputStream != null) {
-                props.load(inputStream);
-            } else {
-                System.err.println("Ollama properties file not found.");
+        try {
+            Setting hostSetting = settingsDAO.getSettingByKey("ollama_host");
+            this.host = (hostSetting != null) ? hostSetting.getValue() : "http://localhost:11434";
+            
+            Setting modelSetting = settingsDAO.getSettingByKey("ollama_model");
+            this.model = (modelSetting != null) ? modelSetting.getValue() : "";
+            
+            // Host address fixup
+            if (this.host != null && this.host.endsWith("/")) {
+                this.host = this.host.substring(0, this.host.length() - 1);
             }
-        } catch (IOException e) {
-            System.err.println("Error loading ollama properties file.");
-        }
-
-        this.host = props.getProperty("ollama.host", "http://localhost:11434");
-        this.model = props.getProperty("ollama.model", "deepseek-r1:14b-qwen-distill-q4_K_M");
-
-        // Host address fixup
-        if (this.host != null && this.host.endsWith("/")) {
-            this.host = this.host.substring(0, this.host.length() - 1);
+            
+            if (this.model == null || this.model.trim().isEmpty()) {
+                System.err.println("Warning: No Ollama model configured");
+            }
+        } catch (Exception e) {
+            System.err.println("Error loading Ollama config: " + e.getMessage());
+            this.host = "http://localhost:11434";
+            this.model = "";
         }
     }
 }

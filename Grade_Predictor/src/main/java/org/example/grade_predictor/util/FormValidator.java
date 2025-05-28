@@ -1,4 +1,4 @@
-package org.example.grade_predictor.service;
+package org.example.grade_predictor.util;
 
 import java.util.regex.Pattern;
 
@@ -165,14 +165,46 @@ public class FormValidator {
         return new ValidationResult(true, "");
     }
     
+    /**
+     * Validates settings for Ollama host and model
+     * 
+     * @param host Ollama host URL
+     * @param model Ollama model name
+     * @return ValidationResult containing validation status and error message if any
+     */
+    public static ValidationResult validateSettings(String host, String model) {
+        if (host == null || host.trim().isEmpty()) {
+            return new ValidationResult(false, "Ollama host cannot be empty.");
+        }
+        
+        if (model == null || model.trim().isEmpty()) {
+            return new ValidationResult(false, "Please select a model from the list or enter a custom model name.");
+        }
+        
+        // Host address fixup
+        String fixedHost = host;
+        if (fixedHost.endsWith("/")) {
+            fixedHost = fixedHost.substring(0, fixedHost.length() - 1);
+        }
+        
+        return new ValidationResult(true, "", fixedHost);
+    }
     
     public static class ValidationResult {
         private final boolean valid;
         private final String errorMessage;
+        private String transformedValue;
         
         public ValidationResult(boolean valid, String errorMessage) {
             this.valid = valid;
             this.errorMessage = errorMessage;
+            this.transformedValue = null;
+        }
+        
+        public ValidationResult(boolean valid, String errorMessage, String transformedValue) {
+            this.valid = valid;
+            this.errorMessage = errorMessage;
+            this.transformedValue = transformedValue;
         }
         
         public boolean isValid() {
@@ -181,6 +213,10 @@ public class FormValidator {
         
         public String getErrorMessage() {
             return errorMessage;
+        }
+        
+        public String getTransformedValue() {
+            return transformedValue;
         }
     }
 } 

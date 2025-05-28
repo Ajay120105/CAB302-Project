@@ -126,8 +126,12 @@ public abstract class BaseController {
 
     @FXML
     protected void handleSettings() {
-        // TODO: Settings
-        showAlert("Settings", "Settings page is under construction.");
+        try {
+            HelloApplication.switchToSettingsPage();
+        } catch (Exception e) {
+            showAlert("Navigation Error", "Could not open Settings page.");
+            e.printStackTrace();
+        }
     }
 
     @FXML

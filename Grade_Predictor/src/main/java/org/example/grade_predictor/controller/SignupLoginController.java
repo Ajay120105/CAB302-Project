@@ -13,7 +13,7 @@ import org.example.grade_predictor.model.User;
 import org.example.grade_predictor.service.AuthenticateService;
 import org.example.grade_predictor.service.DegreeService;
 import org.example.grade_predictor.service.EnrollmentService;
-import org.example.grade_predictor.service.FormValidator;
+import org.example.grade_predictor.util.FormValidator;
 
 import java.io.IOException;
 import java.util.List;

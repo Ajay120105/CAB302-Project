@@ -4,7 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import org.example.grade_predictor.service.FormValidator;
+import org.example.grade_predictor.util.FormValidator;
 import javafx.scene.control.Alert;
 
 public class IntakeDialogController {

@@ -1,8 +1,9 @@
 package org.example.grade_predictor.model.service;
 
-import org.example.grade_predictor.service.FormValidator;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+
+import org.example.grade_predictor.util.FormValidator;
 
 public class FormValidatorTest {
 
