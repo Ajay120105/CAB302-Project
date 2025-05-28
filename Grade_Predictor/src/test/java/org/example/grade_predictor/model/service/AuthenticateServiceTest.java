@@ -13,6 +13,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
+import at.favre.lib.crypto.bcrypt.BCrypt;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,9 +70,6 @@ public class AuthenticateServiceTest {
         String phone = "1234567890";
         String password = "password123";
 
-        User mockUser = new User(firstName, lastName, email, phone, password);
-        mockUser.setUser_ID(1);
-
         doAnswer(invocation -> {
             User user = invocation.getArgument(0);
             user.setUser_ID(1);
@@ -88,7 +86,8 @@ public class AuthenticateServiceTest {
         assertEquals(lastName, result.getLast_name());
         assertEquals(email, result.getEmail());
         assertEquals(phone, result.getPhone());
-        assertEquals(password, result.getPassword());
+        
+        assertTrue(BCrypt.verifyer().verify(password.toCharArray(), result.getPassword()).verified);
         assertTrue(result.getEnrollments().isEmpty());
 
         assertEquals(result, authenticateService.getCurrentUser());
@@ -98,8 +97,10 @@ public class AuthenticateServiceTest {
     public void testLoginUser_Success() {
         String email = "test@example.com";
         String password = "correctPassword";
+        
+        String hashedPassword = BCrypt.withDefaults().hashToString(12, password.toCharArray());
 
-        User mockUser = new User("Test", "User", email, "12345", password);
+        User mockUser = new User("Test", "User", email, "12345", hashedPassword);
         mockUser.setUser_ID(5);
         
         List<User> mockUsers = new ArrayList<>();
@@ -142,8 +143,10 @@ public class AuthenticateServiceTest {
         String email = "wrong@example.com";
         String password = "correctPassword";
         
+        String hashedPassword = BCrypt.withDefaults().hashToString(12, "correctPassword".toCharArray());
+        
         List<User> mockUsers = new ArrayList<>();
-        mockUsers.add(new User("Test", "User", "test@example.com", "12345", password));
+        mockUsers.add(new User("Test", "User", "test@example.com", "12345", hashedPassword));
 
         when(userDAO.getAllUsers()).thenReturn(mockUsers);
 
@@ -162,8 +165,10 @@ public class AuthenticateServiceTest {
         String email = "test@example.com";
         String password = "wrongPassword";
         
+        String hashedPassword = BCrypt.withDefaults().hashToString(12, "correctPassword".toCharArray());
+        
         List<User> mockUsers = new ArrayList<>();
-        mockUsers.add(new User("Test", "User", email, "12345", "correctPassword"));
+        mockUsers.add(new User("Test", "User", email, "12345", hashedPassword));
 
         when(userDAO.getAllUsers()).thenReturn(mockUsers);
 
@@ -196,7 +201,8 @@ public class AuthenticateServiceTest {
         String email = "test@example.com";
         String password = "password";
         
-        User mockUser = new User("Test", "User", email, "12345", password);
+        String hashedPassword = BCrypt.withDefaults().hashToString(12, password.toCharArray());
+        User mockUser = new User("Test", "User", email, "12345", hashedPassword);
         mockUser.setUser_ID(1);
         
         List<User> mockUsers = new ArrayList<>();
