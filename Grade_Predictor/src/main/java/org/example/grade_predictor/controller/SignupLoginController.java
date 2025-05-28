@@ -103,9 +103,9 @@ public class SignupLoginController {
 
             // Position buttons side by side in signup mode (lower to avoid overlap)
             signUpButton.setLayoutX(380);
-            signUpButton.setLayoutY(520);
+            signUpButton.setLayoutY(550);
             logInButton.setLayoutX(520);
-            logInButton.setLayoutY(520);
+            logInButton.setLayoutY(550);
 
             isSignUpMode = true;
         } else {

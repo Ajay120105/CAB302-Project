@@ -7,9 +7,8 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Circle?>
 
-<AnchorPane prefHeight="650.0" prefWidth="1000.0" style="-fx-background-color: #D3D3D3;" stylesheets="@style.css" xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.grade_predictor.controller.HomeController">
+<AnchorPane prefHeight="650.0" prefWidth="1000.0" style="-fx-background-color: #D3D3D3;" stylesheets="@style.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="org.example.grade_predictor.controller.HomeController">
     <!-- Navigation Bar Layer -->
     <VBox layoutX="0" layoutY="0" prefHeight="60" prefWidth="1000" style="-fx-background-color: #E0E0E0; -fx-padding: 10; -fx-border-color: #CCCCCC;">
         <HBox alignment="CENTER" spacing="15">
@@ -25,20 +24,20 @@
     </VBox>
 
     <!-- Welcome Section Layer -->
-    <VBox layoutX="14.0" layoutY="69.0" prefHeight="85.0" prefWidth="967.0" style="-fx-background-color: #F5F5F5; -fx-padding: 20; -fx-border-radius: 10; -fx-border-color: #CCCCCC;" spacing="5">
+    <VBox layoutX="14.0" layoutY="69.0" prefHeight="85.0" prefWidth="967.0" spacing="5" style="-fx-background-color: #F5F5F5; -fx-padding: 20; -fx-border-radius: 10; -fx-border-color: #CCCCCC;">
         <Label fx:id="degreeNameLabel" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Bachelor of DUMMY" />
         <Label fx:id="welcomeLabel" style="-fx-font-size: 16px;" text="Welcome!" />
-        <HBox spacing="10" alignment="CENTER_LEFT">
+        <HBox alignment="CENTER_LEFT" spacing="10">
             <Label text="Current Year:" />
             <TextField fx:id="currentYearField" prefWidth="100" />
             <Label text="Current Semester:" />
             <TextField fx:id="currentSemesterField" prefWidth="100" />
-            <Button fx:id="saveCurrentAcademicPeriodButton" text="Save" onAction="#handleSaveCurrentAcademicPeriod" />
+            <Button fx:id="saveCurrentAcademicPeriodButton" onAction="#handleSaveCurrentAcademicPeriod" text="Save" />
         </HBox>
     </VBox>
 
     <!-- Predict Semester Display -->
-    <VBox layoutX="621.0" layoutY="174.0" prefHeight="452.0" prefWidth="364.0" spacing="20" style="-fx-background-color: #E0E0E0; -fx-padding: 30; -fx-border-radius: 10; -fx-border-color: #CCCCCC;">
+    <VBox layoutX="621.0" layoutY="195.0" prefHeight="431.0" prefWidth="364.0" spacing="20" style="-fx-background-color: #E0E0E0; -fx-padding: 30; -fx-border-radius: 10; -fx-border-color: #CCCCCC;">
         <Label style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Predict Semester" />
         <Separator />
 
@@ -52,14 +51,13 @@
         </HBox>
 
         <HBox alignment="CENTER" spacing="20">
-            <Circle fill="#309adc" radius="50" />
             <TextField fx:id="predictedGradeField" prefWidth="150" text="6.2 GPA" />
         </HBox>
-        <Button fx:id="predictSemesterButton" onAction="#handlePredictForSemester" text="Predict" prefWidth="100.0" alignment="CENTER"/>
+        <Button fx:id="predictSemesterButton" alignment="CENTER" onAction="#handlePredictForSemester" prefWidth="100.0" text="Predict" />
     </VBox>
 
              <!-- Units Section Layer -->
-    <VBox layoutX="18.0" layoutY="169.0" prefHeight="466.0" prefWidth="586.0" spacing="10" style="-fx-background-color: #E0E0E0; -fx-padding: 20; -fx-border-radius: 10; -fx-border-color: #CCCCCC;">
+    <VBox layoutX="18.0" layoutY="194.0" prefHeight="441.0" prefWidth="586.0" spacing="10" style="-fx-background-color: #E0E0E0; -fx-padding: 20; -fx-border-radius: 10; -fx-border-color: #CCCCCC;">
         <Label style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Semester" />
         <VBox fx:id="semestersVBox" spacing="15" />
     </VBox>

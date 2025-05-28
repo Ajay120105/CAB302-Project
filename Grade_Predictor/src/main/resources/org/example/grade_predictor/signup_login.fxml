@@ -11,9 +11,9 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="650.0" prefWidth="1000.0" xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.grade_predictor.controller.SignupLoginController">
+<AnchorPane prefHeight="650.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.grade_predictor.controller.SignupLoginController">
     <children>
-        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#d7d7d7" height="455.0" layoutX="280.0" layoutY="125.0" stroke="BLACK" strokeType="INSIDE" width="440.0" />
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#d7d7d7" height="515.0" layoutX="291.0" layoutY="125.0" stroke="BLACK" strokeType="INSIDE" width="440.0" />
         <Label layoutX="428.0" layoutY="168.0" style="-fx-font-size: 24px;" text="Signup/Login" textFill="#309adc" />
 
         <!-- First Name field (initially hidden) -->
@@ -71,7 +71,7 @@
         </VBox>
 
         <!-- Buttons (initially positioned higher) -->
-        <Button fx:id="signUpButton" layoutX="440.0" layoutY="530.0" onAction="#handleSignUp" prefHeight="26.0" prefWidth="118.0" text="Sign Up" />
-        <Button fx:id="logInButton" layoutX="440.0" layoutY="567.0" onAction="#handleLogIn" prefHeight="26.0" prefWidth="118.0" text="Log In" />
+        <Button fx:id="signUpButton" layoutX="452.0" layoutY="323.0" onAction="#handleSignUp" prefHeight="26.0" prefWidth="118.0" text="Sign Up" />
+        <Button fx:id="logInButton" layoutX="452.0" layoutY="356.0" onAction="#handleLogIn" prefHeight="26.0" prefWidth="118.0" text="Log In" />
     </children>
 </AnchorPane>
