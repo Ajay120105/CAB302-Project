@@ -29,7 +29,7 @@ public class EditUnitController extends BaseController implements EnrolledUnitCo
     private ScrollPane scrollPane;
 
     @FXML
-    private FlowPane semestersFlowPane;
+    private GridPane unitsGridPane;
 
     @Override
     protected void initializePageSpecificContent() {
@@ -71,17 +71,17 @@ public class EditUnitController extends BaseController implements EnrolledUnitCo
      */
     private void displayEnrolledUnits() {
         Enrollment firstEnrollment = enrollmentService.getCurrentUserFirstEnrollment();
-        semestersFlowPane.getChildren().clear();
+        unitsGridPane.getChildren().clear();
 
         if (firstEnrollment == null) {
-            semestersFlowPane.getChildren().add(new Label("No enrolled semesters found."));
+            unitsGridPane.getChildren().add(new Label("No enrolled semesters found."));
             return;
         }
 
         List<EnrolledUnit> enrolledUnits = enrollmentService.getEnrolledUnits(firstEnrollment);
 
         if (enrolledUnits == null || enrolledUnits.isEmpty()) {
-            semestersFlowPane.getChildren().add(new Label("No enrolled semesters found."));
+            unitsGridPane.getChildren().add(new Label("No enrolled semesters found."));
         } else {
             int maxColumns = 3; // Only three semesters per row
 
@@ -104,7 +104,7 @@ public class EditUnitController extends BaseController implements EnrolledUnitCo
                     boolean isCurrentSemester = (year == currentYear && semester == currentSemester);
 
                     TitledPane semesterPane = createEditableSemesterNode(year, semester, units, isCurrentSemester);
-                    semestersFlowPane.getChildren().add(semesterPane);
+                    unitsGridPane.getChildren().add(semesterPane);
 
                     columnCount++;
                     if (columnCount >= maxColumns) {
@@ -206,6 +206,6 @@ public class EditUnitController extends BaseController implements EnrolledUnitCo
         addNewUnitPane.setAnimated(false);
         addNewUnitPane.setExpanded(false);
         
-        semestersFlowPane.getChildren().add(0, addNewUnitPane);
+        unitsGridPane.getChildren().add(0, addNewUnitPane);
     }
 }
