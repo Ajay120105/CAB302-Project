@@ -8,6 +8,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import org.example.grade_predictor.HelloApplication;
 import org.example.grade_predictor.controller.components.EnrolledUnitComponentFactory;
+import org.example.grade_predictor.controller.components.PredictionResultDialog;
 import org.example.grade_predictor.dto.GradeResponseDTO;
 import org.example.grade_predictor.model.Degree;
 import org.example.grade_predictor.model.EnrolledUnit;
@@ -206,7 +207,7 @@ public class PredictGradeController extends BaseController {
         
         setLoadingState();
         
-        ollamaService.predictGrade(
+        ollamaService.predictUnitGrade(
             enrollment, 
             degree, 
             selectedEnrolledUnit, 
@@ -219,7 +220,7 @@ public class PredictGradeController extends BaseController {
                     Platform.runLater(() -> {
                         setNormalState();
                         System.out.println(response.toString());
-                        showAlert("Prediction", "Grade prediction: " + response.toString());
+                        PredictionResultDialog.showUnitPredictionResult(selectedEnrolledUnit.getUnit_code(), response);
                     });
                 }
                 

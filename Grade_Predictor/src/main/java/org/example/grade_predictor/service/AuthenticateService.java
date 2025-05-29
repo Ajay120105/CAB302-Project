@@ -70,6 +70,10 @@ public class AuthenticateService {
      * @return The newly created user
      */
     public User registerUser(String firstName, String lastName, String email, String phone, String password) {
+        if (userDAO.getAllUsers().stream().anyMatch(u -> u.getEmail().equals(email))) {
+            throw new IllegalArgumentException("User already exists");
+        }
+
         String bcryptHash = BCrypt.withDefaults().hashToString(12, password.toCharArray());
         User newUser = new User(firstName, lastName, email, phone, bcryptHash);
         userDAO.addUser(newUser);

@@ -36,6 +36,10 @@ public class EnrolledUnitComponentFactory {
                 "Semester: " + eu.getSemester_enrolled() + "\n" +
                 "Weekly Hours: " + eu.getWeekly_hours();
         
+        if (eu.getFinalised_gpa() != null) {
+            content += "\nFinal GPA: " + String.format("%.2f", eu.getFinalised_gpa());
+        }
+        
         pane.setContent(new Label(content));
         pane.setAnimated(false);
         return pane;
@@ -52,6 +56,10 @@ public class EnrolledUnitComponentFactory {
         String content = "Year: " + eu.getYear_enrolled() + "\n" +
                 "Semester: " + eu.getSemester_enrolled() + "\n" +
                 "Weekly Hours: " + eu.getWeekly_hours();
+        
+        if (eu.getFinalised_gpa() != null) {
+            content += "\nFinal GPA: " + String.format("%.2f", eu.getFinalised_gpa());
+        }
         
         Label contentLabel = new Label(content);
         pane.setContent(contentLabel);
@@ -71,10 +79,10 @@ public class EnrolledUnitComponentFactory {
      * Creates an editable component for an enrolled unit
      * Used in EditUnit page where users can modify unit details
      */
-    public static Node createEditableEnrolledUnitNode(EnrolledUnit eu, EnrolledUnitActionHandler actionHandler) {
+    public static Node createEditableEnrolledUnitNode(EnrolledUnit eu, EnrolledUnitActionHandler actionHandler, boolean isCurrentSemester) {
         // Enlarged Pane for better layout
         Pane unitPane = new Pane();
-        unitPane.setPrefSize(300, 150); // Increased height
+        unitPane.setPrefSize(300, 200); // Increased height for GPA field
         unitPane.setStyle("-fx-background-color: #FFFFFF; -fx-border-color: #CCCCCC; -fx-border-radius: 5; -fx-padding: 10;");
 
         // Unit Label
@@ -96,6 +104,10 @@ public class EnrolledUnitComponentFactory {
         weeklyHoursLabel.setLayoutX(10);
         weeklyHoursLabel.setLayoutY(75);
 
+        Label finalisedGpaLabel = new Label("Final GPA:");
+        finalisedGpaLabel.setLayoutX(160);
+        finalisedGpaLabel.setLayoutY(75);
+
         // Text Fields
         TextField yearField = new TextField(String.valueOf(eu.getYear_enrolled()));
         yearField.setLayoutX(10);
@@ -112,29 +124,54 @@ public class EnrolledUnitComponentFactory {
         weeklyHoursField.setLayoutY(90);
         weeklyHoursField.setPrefWidth(130);
 
-        // Save & Delete Buttons - Next to Weekly Hours
+        TextField finalisedGpaField = new TextField();
+        if (eu.getFinalised_gpa() != null) {
+            finalisedGpaField.setText(String.valueOf(eu.getFinalised_gpa()));
+        }
+        finalisedGpaField.setLayoutX(160);
+        finalisedGpaField.setLayoutY(90);
+        finalisedGpaField.setPrefWidth(130);
+        
+        if (isCurrentSemester) {
+            finalisedGpaField.setDisable(true);
+            finalisedGpaField.setPromptText("Current semester");
+        } else {
+            finalisedGpaField.setPromptText("Enter final GPA");
+        }
+
+        // Save & Delete Buttons - Bottom row
         Button saveButton = new Button("Save");
         saveButton.setStyle("-fx-background-color: #309adc; -fx-text-fill: white;");
-        saveButton.setLayoutX(160);
-        saveButton.setLayoutY(90);
+        saveButton.setLayoutX(10);
+        saveButton.setLayoutY(130);
+        saveButton.setPrefWidth(130);
 
         Button deleteButton = new Button("Delete");
         deleteButton.setStyle("-fx-background-color: #FF5555; -fx-text-fill: white;");
-        deleteButton.setLayoutX(230);
-        deleteButton.setLayoutY(90);
+        deleteButton.setLayoutX(160);
+        deleteButton.setLayoutY(130);
+        deleteButton.setPrefWidth(130);
 
         saveButton.setOnAction(event -> {
-            int newYear = Integer.parseInt(yearField.getText());
-            int newSemester = Integer.parseInt(semesterField.getText());
-            int newWeeklyHours = Integer.parseInt(weeklyHoursField.getText());
-            actionHandler.onSave(eu, newYear, newSemester, newWeeklyHours);
+            try {
+                int newYear = Integer.parseInt(yearField.getText());
+                int newSemester = Integer.parseInt(semesterField.getText());
+                int newWeeklyHours = Integer.parseInt(weeklyHoursField.getText());
+                Double finalisedGpa = null;
+                if (!finalisedGpaField.getText().trim().isEmpty()) {
+                    finalisedGpa = Double.parseDouble(finalisedGpaField.getText());
+                }
+                actionHandler.onSave(eu, newYear, newSemester, newWeeklyHours, finalisedGpa);
+            } catch (NumberFormatException e) {
+                actionHandler.onInputError("Please enter valid numeric values.");
+            }
         });
 
         deleteButton.setOnAction(event -> actionHandler.onDelete(eu));
 
         // Add components to Pane
-        unitPane.getChildren().addAll(unitLabel, yearLabel, semesterLabel, weeklyHoursLabel,
-                yearField, semesterField, weeklyHoursField,
+        unitPane.getChildren().addAll(unitLabel, yearLabel, semesterLabel, weeklyHoursLabel, finalisedGpaLabel,
+                yearField, semesterField, weeklyHoursField, finalisedGpaField,
                 saveButton, deleteButton);
 
         return unitPane;
@@ -146,7 +183,7 @@ public class EnrolledUnitComponentFactory {
      * Interface for handling actions on enrolled units
      */
     public interface EnrolledUnitActionHandler {
-        void onSave(EnrolledUnit unit, int newYear, int newSemester, int newWeeklyHours);
+        void onSave(EnrolledUnit unit, int newYear, int newSemester, int newWeeklyHours, Double finalisedGpa);
         void onDelete(EnrolledUnit unit);
         void onInputError(String errorMessage);
     }

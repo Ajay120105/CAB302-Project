@@ -6,13 +6,15 @@ public class EnrolledUnit {
     private int year_enrolled;
     private int semester_enrolled;
     private int weekly_hours;
+    private Double finalised_gpa;
 
-    public EnrolledUnit(int enrollment_ID, String unit_code, int year_enrolled, int semester_enrolled, int weekly_hours) {
+    public EnrolledUnit(int enrollment_ID, String unit_code, int year_enrolled, int semester_enrolled, int weekly_hours, Double finalised_gpa) {
         this.enrollment_ID = enrollment_ID;
         this.unit_code = unit_code;
         this.year_enrolled = year_enrolled;
         this.semester_enrolled = semester_enrolled;
         this.weekly_hours = weekly_hours;
+        this.finalised_gpa = finalised_gpa;
     }
 
     public int getEnrollment_ID() {
@@ -53,6 +55,14 @@ public class EnrolledUnit {
 
     public void setWeekly_hours(int weekly_hours) {
         this.weekly_hours = weekly_hours;
+    }
+
+    public Double getFinalised_gpa() {
+        return finalised_gpa;
+    }
+
+    public void setFinalised_gpa(Double finalised_gpa) {
+        this.finalised_gpa = finalised_gpa;
     }
 }
 

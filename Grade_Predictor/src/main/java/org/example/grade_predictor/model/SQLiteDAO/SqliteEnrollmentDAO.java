@@ -56,7 +56,7 @@ public class SqliteEnrollmentDAO implements I_Enrollment {
             preparedStatement.setInt(6, enrollment.getFirstSemester());
             preparedStatement.setInt(7, enrollment.getCurrentYear());
             preparedStatement.setInt(8, enrollment.getCurrentSemester());
-            preparedStatement.setInt(5, enrollment.getEnrollment_ID());
+            preparedStatement.setInt(9, enrollment.getEnrollment_ID());
             preparedStatement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();

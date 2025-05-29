@@ -166,6 +166,70 @@ public class FormValidator {
     }
     
     /**
+     * Validates current academic period inputs (year and semester)
+     * 
+     * @param yearStr Current year as string
+     * @param semesterStr Current semester as string
+     * @return ValidationResult containing validation status and error message if any
+     */
+    public static ValidationResult validateCurrentAcademicPeriod(String yearStr, String semesterStr) {
+        if (yearStr == null || yearStr.trim().isEmpty()) {
+            return new ValidationResult(false, "Current year is required.");
+        }
+        if (semesterStr == null || semesterStr.trim().isEmpty()) {
+            return new ValidationResult(false, "Current semester is required.");
+        }
+        
+        try {
+            int year = Integer.parseInt(yearStr);
+            int semester = Integer.parseInt(semesterStr);
+            
+            if (year < 2000 || year > 2100) {
+                return new ValidationResult(false, "Year must be between 2000 and 2100.");
+            }
+            
+            if (semester < 1 || semester > 2) {
+                return new ValidationResult(false, "Semester must be 1 or 2.");
+            }
+            
+            return new ValidationResult(true, "");
+        } catch (NumberFormatException e) {
+            return new ValidationResult(false, "Please enter valid numeric values for year and semester.");
+        }
+    }
+    
+    /**
+     * Validates study hours and efficiency inputs for grade prediction
+     * 
+     * @param studyHoursText Study hours per week as string
+     * @param studyEfficiencyText Study efficiency (1-10) as string
+     * @return ValidationResult containing validation status and error message if any
+     */
+    public static ValidationResult validateStudyInputs(String studyHoursText, String studyEfficiencyText) {
+        if (studyHoursText == null || studyHoursText.trim().isEmpty() || 
+            studyEfficiencyText == null || studyEfficiencyText.trim().isEmpty()) {
+            return new ValidationResult(false, "Please enter both study hours and study efficiency values.");
+        }
+        
+        try {
+            int studyHours = Integer.parseInt(studyHoursText);
+            int studyEfficiency = Integer.parseInt(studyEfficiencyText);
+            
+            if (studyHours < 1 || studyHours > 168) {
+                return new ValidationResult(false, "Study hours must be between 1 and 168 hours per week.");
+            }
+            
+            if (studyEfficiency < 1 || studyEfficiency > 10) {
+                return new ValidationResult(false, "Study efficiency must be between 1 and 10.");
+            }
+            
+            return new ValidationResult(true, "");
+        } catch (NumberFormatException e) {
+            return new ValidationResult(false, "Please enter valid numbers for study hours and study efficiency.");
+        }
+    }
+    
+    /**
      * Validates settings for Ollama host and model
      * 
      * @param host Ollama host URL

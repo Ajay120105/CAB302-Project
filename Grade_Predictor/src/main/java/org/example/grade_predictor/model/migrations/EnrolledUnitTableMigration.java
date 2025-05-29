@@ -21,6 +21,7 @@ public class EnrolledUnitTableMigration implements IDatabaseMigration {
                     "year_enrolled INTEGER, " +
                     "semester_enrolled INTEGER, " +
                     "weekly_hours INTEGER, " +
+                    "finalised_gpa REAL, " +
                     "PRIMARY KEY (enrollment_ID, unit_code)," +
                     "FOREIGN KEY(enrollment_ID) REFERENCES enrollments(enrollment_ID)," +
                     "FOREIGN KEY(unit_code) REFERENCES units(unit_code)" +

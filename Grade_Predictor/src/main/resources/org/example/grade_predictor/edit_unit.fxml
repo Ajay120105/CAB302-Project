@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.FlowPane?>
 <AnchorPane prefHeight="650.0" prefWidth="1000.0" style="-fx-background-color: #D3D3D3;" stylesheets="@style.css" xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.grade_predictor.controller.EditUnitController">
    <!-- Navigation Bar Layer -->
    <VBox layoutX="0" layoutY="0" prefHeight="60" prefWidth="1000" style="-fx-background-color: #E0E0E0; -fx-padding: 10; -fx-border-color: #CCCCCC;">
@@ -29,13 +29,13 @@
    </VBox>
 
    <!-- Units Section Layer -->
-   <!-- Units Section Layer -->
    <ScrollPane fx:id="scrollPane" layoutX="8.0" layoutY="134.0" prefHeight="497.0" prefWidth="966.0">
       <content>
-         <Label style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Edit Your Enrolled Units" />
-         <GridPane fx:id="unitsGridPane" hgap="20" vgap="20" style="-fx-background-color: #FFFFFF; -fx-padding: 10; -fx-border-radius: 5; -fx-border-color: #CCCCCC;" />
+         <VBox spacing="10">
+            <Label style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Edit Your Enrolled Units" />
+            <FlowPane fx:id="semestersFlowPane" hgap="20" vgap="20" style="-fx-background-color: #FFFFFF; -fx-padding: 10; -fx-border-radius: 5; -fx-border-color: #CCCCCC;" />
+         </VBox>
       </content>
    </ScrollPane>
-
 
 </AnchorPane>

@@ -32,6 +32,11 @@
         <TextField fx:id="hoursField" prefWidth="80" />
     </HBox>
 
+    <HBox spacing="5" alignment="CENTER_LEFT">
+        <Label text="Final GPA:" style="-fx-font-weight: bold;"/>
+        <TextField fx:id="finalisedGpaField" prefWidth="80" />
+    </HBox>
+
     <HBox spacing="10" alignment="CENTER_RIGHT">
         <Button fx:id="saveButton" text="Save" style="-fx-text-fill: green;" onAction="#handleSave"/>
         <Button fx:id="deleteButton" text="Delete" style="-fx-text-fill: red;" onAction="#handleDelete"/>

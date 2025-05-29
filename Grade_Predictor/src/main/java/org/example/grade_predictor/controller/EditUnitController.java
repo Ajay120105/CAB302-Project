@@ -5,20 +5,23 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import org.example.grade_predictor.HelloApplication;
 import org.example.grade_predictor.controller.components.EnrolledUnitComponentFactory;
+import org.example.grade_predictor.controller.components.SemesterComponentFactory;
 import org.example.grade_predictor.model.EnrolledUnit;
 import org.example.grade_predictor.model.Enrollment;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class EditUnitController extends BaseController implements EnrolledUnitComponentFactory.EnrolledUnitActionHandler {
 
-    // Container for dynamically added enrollment panels.
     @FXML
     private VBox unitsVBox;
 
@@ -26,7 +29,7 @@ public class EditUnitController extends BaseController implements EnrolledUnitCo
     private ScrollPane scrollPane;
 
     @FXML
-    private GridPane unitsGridPane;
+    private FlowPane semestersFlowPane;
 
     @Override
     protected void initializePageSpecificContent() {
@@ -39,8 +42,8 @@ public class EditUnitController extends BaseController implements EnrolledUnitCo
     }
 
     @Override
-    public void onSave(EnrolledUnit unit, int newYear, int newSemester, int newWeeklyHours) {
-        boolean success = enrollmentService.updateEnrolledUnit(unit, unit.getUnit_code(), newYear, newSemester, newWeeklyHours);
+    public void onSave(EnrolledUnit unit, int newYear, int newSemester, int newWeeklyHours, Double finalisedGpa) {
+        boolean success = enrollmentService.updateEnrolledUnit(unit, unit.getUnit_code(), newYear, newSemester, newWeeklyHours, finalisedGpa);
         if (success) {
             displayEnrolledUnits();
         } else {
@@ -64,41 +67,77 @@ public class EditUnitController extends BaseController implements EnrolledUnitCo
     }
 
     /**
-     * Displays all enrolled units for the current user from their enrollments
+     * Displays all enrolled units grouped by year and semester, similar to the home page
      */
     private void displayEnrolledUnits() {
         Enrollment firstEnrollment = enrollmentService.getCurrentUserFirstEnrollment();
-
-        unitsGridPane.getChildren().clear(); // Reset grid layout
+        semestersFlowPane.getChildren().clear();
 
         if (firstEnrollment == null) {
-            unitsGridPane.add(new Label("No enrolled units found."), 0, 0);
+            semestersFlowPane.getChildren().add(new Label("No enrolled semesters found."));
             return;
         }
 
         List<EnrolledUnit> enrolledUnits = enrollmentService.getEnrolledUnits(firstEnrollment);
 
         if (enrolledUnits == null || enrolledUnits.isEmpty()) {
-            unitsGridPane.add(new Label("No enrolled units found."), 0, 0);
+            semestersFlowPane.getChildren().add(new Label("No enrolled semesters found."));
         } else {
-            int columns = 3; // Number of units per row
-            int row = 0;
-            int col = 0;
+            int maxColumns = 3; // Only three semesters per row
 
-            for (EnrolledUnit eu : enrolledUnits) {
-                Node unitNode = EnrolledUnitComponentFactory.createEditableEnrolledUnitNode(eu, this); // Now uses Pane layout
-                unitsGridPane.add(unitNode, col, row);
+            Map<Integer, Map<Integer, List<EnrolledUnit>>> unitsByYearThenSemester = enrolledUnits.stream()
+                    .collect(Collectors.groupingBy(EnrolledUnit::getYear_enrolled,
+                            Collectors.groupingBy(EnrolledUnit::getSemester_enrolled)));
 
-                col++;
-                if (col >= columns) {
-                    col = 0;
-                    row++;
+            int currentYear = firstEnrollment.getCurrentYear();
+            int currentSemester = firstEnrollment.getCurrentSemester();
+
+            int columnCount = 0;
+            for (Map.Entry<Integer, Map<Integer, List<EnrolledUnit>>> yearEntry : unitsByYearThenSemester.entrySet()) {
+                int year = yearEntry.getKey();
+                Map<Integer, List<EnrolledUnit>> semesterMap = yearEntry.getValue();
+
+                for (Map.Entry<Integer, List<EnrolledUnit>> semesterEntry : semesterMap.entrySet()) {
+                    int semester = semesterEntry.getKey();
+                    List<EnrolledUnit> units = semesterEntry.getValue();
+
+                    boolean isCurrentSemester = (year == currentYear && semester == currentSemester);
+
+                    TitledPane semesterPane = createEditableSemesterNode(year, semester, units, isCurrentSemester);
+                    semestersFlowPane.getChildren().add(semesterPane);
+
+                    columnCount++;
+                    if (columnCount >= maxColumns) {
+                        columnCount = 0;
+                    }
                 }
             }
         }
     }
 
-    
+    /**
+     * Creates a semester node with editable enrolled units
+     */
+    private TitledPane createEditableSemesterNode(int year, int semester, List<EnrolledUnit> units, boolean isCurrentSemester) {
+        VBox unitsDisplayVBox = new VBox(10);
+        
+        for (EnrolledUnit unit : units) {
+            Node unitNode = EnrolledUnitComponentFactory.createEditableEnrolledUnitNode(unit, this, isCurrentSemester);
+            unitsDisplayVBox.getChildren().add(unitNode);
+        }
+
+        String titleText = "Year: " + year + ", Semester: " + semester;
+        if (isCurrentSemester) {
+            titleText += " (Current)";
+        }
+        
+        TitledPane semesterPane = new TitledPane(titleText, unitsDisplayVBox);
+        semesterPane.setAnimated(false);
+        semesterPane.setExpanded(true); // Expanded by default for editing
+        semesterPane.setPrefWidth(320);
+        return semesterPane;
+    }
+
     /**
      * Adds a component to the UI for adding new enrolled units
      */
@@ -167,6 +206,6 @@ public class EditUnitController extends BaseController implements EnrolledUnitCo
         addNewUnitPane.setAnimated(false);
         addNewUnitPane.setExpanded(false);
         
-        unitsGridPane.getChildren().add(0, addNewUnitPane);
+        semestersFlowPane.getChildren().add(0, addNewUnitPane);
     }
 }

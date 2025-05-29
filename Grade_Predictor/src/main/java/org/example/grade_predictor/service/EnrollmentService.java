@@ -94,7 +94,8 @@ public class EnrollmentService {
             unitCode,
             year,
             semester,
-            weeklyHours
+            weeklyHours,
+            null // finalised_gpa as null on initial
         );
         
         enrolledUnitDAO.addEnrolledUnit(newUnit);
@@ -116,6 +117,21 @@ public class EnrollmentService {
      * @return true if update successful, false otherwise
      */
     public boolean updateEnrolledUnit(EnrolledUnit originalUnit, String newUnitCode, int newYear, int newSemester, int newWeeklyHours) {
+        return updateEnrolledUnit(originalUnit, newUnitCode, newYear, newSemester, newWeeklyHours, originalUnit.getFinalised_gpa());
+    }
+    
+    /**
+     * Updates an existing enrolled unit with finalised GPA.
+     * 
+     * @param originalUnit The original enrolled unit
+     * @param newUnitCode The new unit code
+     * @param newYear The new year
+     * @param newSemester The new semester
+     * @param newWeeklyHours The new weekly hours
+     * @param finalisedGpa The finalised GPA (can be null)
+     * @return true if update successful, false otherwise
+     */
+    public boolean updateEnrolledUnit(EnrolledUnit originalUnit, String newUnitCode, int newYear, int newSemester, int newWeeklyHours, Double finalisedGpa) {
         if (originalUnit == null) {
             return false;
         }
@@ -130,7 +146,8 @@ public class EnrollmentService {
                 newUnitCode,
                 newYear,
                 newSemester,
-                newWeeklyHours
+                newWeeklyHours,
+                finalisedGpa
             );
             enrolledUnitDAO.addEnrolledUnit(newUnit);
         } else {
@@ -139,7 +156,8 @@ public class EnrollmentService {
                 newUnitCode,
                 newYear,
                 newSemester,
-                newWeeklyHours
+                newWeeklyHours,
+                finalisedGpa
             );
             enrolledUnitDAO.updateEnrolledUnit(updatedUnit);
         }

@@ -6,15 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="d5ae6416-a402-4255-b90d-bbc5aa219925" name="Changes" comment="Minor changes to UI layout">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Grade_Predictor/src/main/java/org/example/grade_predictor/controller/AllUnitsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Grade_Predictor/src/main/java/org/example/grade_predictor/controller/AllUnitsController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Grade_Predictor/src/main/java/org/example/grade_predictor/controller/EditUnitController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Grade_Predictor/src/main/java/org/example/grade_predictor/controller/EditUnitController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Grade_Predictor/src/main/java/org/example/grade_predictor/controller/HomeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Grade_Predictor/src/main/java/org/example/grade_predictor/controller/HomeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Grade_Predictor/src/main/java/org/example/grade_predictor/controller/PredictGradeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Grade_Predictor/src/main/java/org/example/grade_predictor/controller/PredictGradeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Grade_Predictor/src/main/java/org/example/grade_predictor/controller/components/EnrolledUnitComponentFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/Grade_Predictor/src/main/java/org/example/grade_predictor/controller/components/EnrolledUnitComponentFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Grade_Predictor/src/main/resources/org/example/grade_predictor/all_units.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/Grade_Predictor/src/main/resources/org/example/grade_predictor/all_units.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Grade_Predictor/src/main/resources/org/example/grade_predictor/edit_unit.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/Grade_Predictor/src/main/resources/org/example/grade_predictor/edit_unit.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Grade_Predictor/src/main/resources/org/example/grade_predictor/home.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/Grade_Predictor/src/main/resources/org/example/grade_predictor/home.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Grade_Predictor/src/main/resources/org/example/grade_predictor/predict_grade.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/Grade_Predictor/src/main/resources/org/example/grade_predictor/predict_grade.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,12 +21,12 @@
     &quot;assignee&quot;: &quot;HerroQUT&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/Ajay120105/CAB302-Project.git",
-    "accountId": "a7e06e30-ce33-49c8-8803-bbee51d4b9ac"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Ajay120105/CAB302-Project.git&quot;,
+    &quot;accountId&quot;: &quot;a7e06e30-ce33-49c8-8803-bbee51d4b9ac&quot;
   }
-}]]></component>
+}</component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
@@ -48,19 +39,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.HelloApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Maven.grade_predictor [clean,javafx:run].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.grade_predictor [clean].executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.HelloApplication.executor": "Run",
+    "JUnit.AuthenticateServiceTest.executor": "Run",
+    "Maven.grade_predictor [clean,javafx:run].executor": "Run",
+    "Maven.grade_predictor [clean].executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true"
   }
-}</component>
-  <component name="RunManager" selected="Maven.grade_predictor [clean,javafx:run]">
+}]]></component>
+  <component name="RunManager" selected="JUnit.AuthenticateServiceTest">
+    <configuration name="AuthenticateServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="grade_predictor" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.example.grade_predictor.model.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.example.grade_predictor.model.service" />
+      <option name="MAIN_CLASS_NAME" value="org.example.grade_predictor.model.service.AuthenticateServiceTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="grade_predictor [clean,javafx:run]" type="MavenRunConfiguration" factoryName="Maven" nameIsGenerated="true">
       <MavenSettings>
         <option name="myGeneralSettings" />
@@ -121,9 +128,15 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="JUnit.AuthenticateServiceTest" />
       <item itemvalue="Maven.grade_predictor [clean,javafx:run]" />
       <item itemvalue="Maven.grade_predictor" />
     </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.AuthenticateServiceTest" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">

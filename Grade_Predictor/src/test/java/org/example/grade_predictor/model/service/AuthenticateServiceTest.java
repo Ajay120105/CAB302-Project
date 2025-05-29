@@ -111,7 +111,7 @@ public class AuthenticateServiceTest {
         mockEnrollments.add(mockEnrollment);
         
         List<EnrolledUnit> mockEnrolledUnits = new ArrayList<>();
-        EnrolledUnit mockEnrolledUnit = new EnrolledUnit(10, "CAB302", 2023, 1, 4);
+        EnrolledUnit mockEnrolledUnit = new EnrolledUnit(10, "CAB302", 2023, 1, 4, 3.5);
         mockEnrolledUnits.add(mockEnrolledUnit);
 
         when(userDAO.getAllUsers()).thenReturn(mockUsers);

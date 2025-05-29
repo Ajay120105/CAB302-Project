@@ -24,6 +24,7 @@ public class OllamaGradePredictionService {
     private final ExecutorService executorService;
     private final AuthenticateService authenticateService;
     private final UnitService unitService;
+    private final EnrollmentService enrollmentService;
 
     public OllamaGradePredictionService() {
         OllamaConfig config = new OllamaConfig();
@@ -31,6 +32,7 @@ public class OllamaGradePredictionService {
         this.executorService = Executors.newFixedThreadPool(2);
         this.authenticateService = AuthenticateService.getInstance();
         this.unitService = new UnitService();
+        this.enrollmentService = new EnrollmentService();
         
         if (!OllamaConnectionChecker.isOllamaReadyForGeneration()) {
             System.err.println(OllamaConnectionChecker.getStatusErrorMessage());
@@ -59,16 +61,12 @@ public class OllamaGradePredictionService {
      * Data structure for student information
      */
     public static class StudentInfo {
-        private double currentGPA;
         private String degreeProgram;
         
-        public StudentInfo(double currentGPA, String degreeProgram) {
-            this.currentGPA = currentGPA;
+        public StudentInfo(String degreeProgram) {
             this.degreeProgram = degreeProgram;
         }
         
-        public double getCurrentGPA() { return currentGPA; }
-        public void setCurrentGPA(double currentGPA) { this.currentGPA = currentGPA; }
         public String getDegreeProgram() { return degreeProgram; }
         public void setDegreeProgram(String degreeProgram) { this.degreeProgram = degreeProgram; }
     }
@@ -92,7 +90,7 @@ public class OllamaGradePredictionService {
     }
     
     /**
-     * Complete data structure for grade prediction request
+     * Complete data structure for single unit grade prediction request
      */
     public static class GradePredictionData {
         private StudentInfo studentInfo;
@@ -119,19 +117,48 @@ public class OllamaGradePredictionService {
     }
 
     /**
-     * Predicts the grade for a user based on their enrollment, study hours, and efficiency
-     *
-     * @param enrollment The user's enrollment
-     * @param degree The degree program
-     * @param enrolledUnits List of units the user is enrolled in
-     * @param units List of unit details
-     * @param studyHours Weekly study hours
-     * @param studyEfficiency Study efficiency (1-10)
-     * @param callback The callback to handle the response
+     * Data structure for semester GPA prediction request
      */
-    public void predictGrade(Enrollment enrollment, Degree degree, EnrolledUnit enrolledUnit, 
-                             List<EnrolledUnit> enrolledUnits, int studyHours, int studyEfficiency, 
-                             GradePredictionCallback callback) {
+    public static class SemesterGPAPredictionData {
+        private StudentInfo studentInfo;
+        private List<EnrolledUnitWithDetails> semesterUnits;
+        private List<EnrolledUnitWithDetails> historicalUnits;
+        private StudyPreferences studyPreferences;
+        private int targetYear;
+        private int targetSemester;
+        
+        public SemesterGPAPredictionData(StudentInfo studentInfo, List<EnrolledUnitWithDetails> semesterUnits,
+                                        List<EnrolledUnitWithDetails> historicalUnits, StudyPreferences studyPreferences,
+                                        int targetYear, int targetSemester) {
+            this.studentInfo = studentInfo;
+            this.semesterUnits = semesterUnits;
+            this.historicalUnits = historicalUnits;
+            this.studyPreferences = studyPreferences;
+            this.targetYear = targetYear;
+            this.targetSemester = targetSemester;
+        }
+        
+        // Getters and setters
+        public StudentInfo getStudentInfo() { return studentInfo; }
+        public void setStudentInfo(StudentInfo studentInfo) { this.studentInfo = studentInfo; }
+        public List<EnrolledUnitWithDetails> getSemesterUnits() { return semesterUnits; }
+        public void setSemesterUnits(List<EnrolledUnitWithDetails> semesterUnits) { this.semesterUnits = semesterUnits; }
+        public List<EnrolledUnitWithDetails> getHistoricalUnits() { return historicalUnits; }
+        public void setHistoricalUnits(List<EnrolledUnitWithDetails> historicalUnits) { this.historicalUnits = historicalUnits; }
+        public StudyPreferences getStudyPreferences() { return studyPreferences; }
+        public void setStudyPreferences(StudyPreferences studyPreferences) { this.studyPreferences = studyPreferences; }
+        public int getTargetYear() { return targetYear; }
+        public void setTargetYear(int targetYear) { this.targetYear = targetYear; }
+        public int getTargetSemester() { return targetSemester; }
+        public void setTargetSemester(int targetSemester) { this.targetSemester = targetSemester; }
+    }
+
+    /**
+     * Predicts the grade for a specific unit
+     */
+    public void predictUnitGrade(Enrollment enrollment, Degree degree, EnrolledUnit enrolledUnit, 
+                                List<EnrolledUnit> enrolledUnits, int studyHours, int studyEfficiency, 
+                                GradePredictionCallback callback) {
         
         if (!OllamaConnectionChecker.isOllamaReadyForGeneration()) {
             callback.onPredictionFailed(OllamaConnectionChecker.getStatusErrorMessage());
@@ -141,28 +168,79 @@ public class OllamaGradePredictionService {
         Task<GradeResponseDTO> task = new Task<>() {
             @Override
             protected GradeResponseDTO call() throws Exception {
-                String prompt = buildPrompt(enrollment, degree, enrolledUnit, enrolledUnits, studyHours, studyEfficiency);
-                OllamaRequestDTO request = new OllamaRequestDTO(prompt);
-                request.setStream(false);
-                request.setThinking(false);
-                
-                try {
-                    if (!ollamaClient.isOllamaRunning()) {
-                        throw new IOException(OllamaConnectionChecker.getConnectionErrorMessage());
-                    }
-                    
-                    OllamaResponseDTO response = ollamaClient.sendRequest(request);
-                    return parseJsonResponse(response.getResponse());
-                } catch (IOException e) {
-                    if (!OllamaConnectionChecker.isOllamaConnected()) {
-                        throw new Exception(OllamaConnectionChecker.getConnectionErrorMessage());
-                    }
-                    e.printStackTrace();
-                    throw new Exception("Failed to get grade prediction: " + e.getMessage());
-                }
+                String prompt = buildUnitGradePrompt(enrollment, degree, enrolledUnit, enrolledUnits, studyHours, studyEfficiency);
+                return executeRequest(prompt);
             }
         };
         
+        setupTaskCallbacks(task, callback);
+        executorService.submit(task);
+    }
+
+    /**
+     * Predicts the GPA for an entire semester
+     */
+    public void predictSemesterGPA(Enrollment enrollment, Degree degree, int targetYear, int targetSemester,
+                                  List<EnrolledUnit> semesterUnits, int averageStudyHours, int studyEfficiency,
+                                  GradePredictionCallback callback) {
+        
+        if (!OllamaConnectionChecker.isOllamaReadyForGeneration()) {
+            callback.onPredictionFailed(OllamaConnectionChecker.getStatusErrorMessage());
+            return;
+        }
+        
+        Task<GradeResponseDTO> task = new Task<>() {
+            @Override
+            protected GradeResponseDTO call() throws Exception {
+                String prompt = buildSemesterGPAPrompt(enrollment, degree, targetYear, targetSemester, 
+                                                      semesterUnits, averageStudyHours, studyEfficiency);
+                System.out.println(prompt);
+                return executeRequest(prompt);
+            }
+        };
+        
+        setupTaskCallbacks(task, callback);
+        executorService.submit(task);
+    }
+
+    /**
+     * @deprecated Use predictUnitGrade instead
+     */
+    @Deprecated
+    public void predictGrade(Enrollment enrollment, Degree degree, EnrolledUnit enrolledUnit, 
+                             List<EnrolledUnit> enrolledUnits, int studyHours, int studyEfficiency, 
+                             GradePredictionCallback callback) {
+        predictUnitGrade(enrollment, degree, enrolledUnit, enrolledUnits, studyHours, studyEfficiency, callback);
+    }
+    
+    /**
+     * Execute the request to Ollama
+     */
+    private GradeResponseDTO executeRequest(String prompt) throws Exception {
+        OllamaRequestDTO request = new OllamaRequestDTO(prompt);
+        request.setStream(false);
+        request.setThinking(false);
+        
+        try {
+            if (!ollamaClient.isOllamaRunning()) {
+                throw new IOException(OllamaConnectionChecker.getConnectionErrorMessage());
+            }
+            
+            OllamaResponseDTO response = ollamaClient.sendRequest(request);
+            return parseJsonResponse(response.getResponse());
+        } catch (IOException e) {
+            if (!OllamaConnectionChecker.isOllamaConnected()) {
+                throw new Exception(OllamaConnectionChecker.getConnectionErrorMessage());
+            }
+            e.printStackTrace();
+            throw new Exception("Failed to get grade prediction: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Setup task callbacks
+     */
+    private void setupTaskCallbacks(Task<GradeResponseDTO> task, GradePredictionCallback callback) {
         task.setOnSucceeded(event -> {
             GradeResponseDTO result = task.getValue();
             callback.onPredictionComplete(result);
@@ -172,16 +250,14 @@ public class OllamaGradePredictionService {
             Throwable exception = task.getException();
             callback.onPredictionFailed(exception.getMessage());
         });
-        
-        executorService.submit(task);
     }
     
     /**
-     * Builds the prompt for the Ollama API based on enrollment data
+     * Builds the prompt for single unit grade prediction
      */
-    private String buildPrompt(Enrollment enrollment, Degree degree, EnrolledUnit enrolledUnit,
-                             List<EnrolledUnit> enrolledUnits, int studyHours, int studyEfficiency) {
-        StudentInfo studentInfo = new StudentInfo(enrollment.getCurrent_gpa(), degree.getDegree_Name());
+    private String buildUnitGradePrompt(Enrollment enrollment, Degree degree, EnrolledUnit enrolledUnit,
+                                       List<EnrolledUnit> enrolledUnits, int studyHours, int studyEfficiency) {
+        StudentInfo studentInfo = new StudentInfo(degree.getDegree_Name());
         
         Unit targetUnitDetails = unitService.getUnitByCode(enrolledUnit.getUnit_code());
         EnrolledUnitWithDetails targetUnit = new EnrolledUnitWithDetails(enrolledUnit, targetUnitDetails);
@@ -213,6 +289,58 @@ public class OllamaGradePredictionService {
         sb.append("  \"reasoning\": \"Detailed reasoning for the predicted grade based on the provided data...\",\n");
         sb.append("  \"advice\": \"Specific advice for the student to improve their grade in this unit...\"\n");
         sb.append("}");
+        sb.append("\n\nEnsure the predictedGrade is a number between 0.0 and 7.0 on the standard 7-point GPA scale.");
+        
+        return sb.toString();
+    }
+
+    /**
+     * Builds the prompt for semester GPA prediction
+     */
+    private String buildSemesterGPAPrompt(Enrollment enrollment, Degree degree, int targetYear, int targetSemester,
+                                         List<EnrolledUnit> semesterUnits, int averageStudyHours, int studyEfficiency) {
+        StudentInfo studentInfo = new StudentInfo(degree.getDegree_Name());
+        
+        // semester units
+        List<EnrolledUnitWithDetails> semesterUnitsWithDetails = semesterUnits.stream()
+                .map(eu -> {
+                    Unit unitDetails = unitService.getUnitByCode(eu.getUnit_code());
+                    return new EnrolledUnitWithDetails(eu, unitDetails);
+                })
+                .collect(Collectors.toList());
+        
+        // historical units
+        List<EnrolledUnit> allEnrolledUnits = enrollmentService.getEnrolledUnits(enrollment);
+        List<EnrolledUnitWithDetails> historicalUnits = allEnrolledUnits.stream()
+                .filter(eu -> eu.getYear_enrolled() != targetYear || eu.getSemester_enrolled() != targetSemester)
+                .map(eu -> {
+                    Unit unitDetails = unitService.getUnitByCode(eu.getUnit_code());
+                    return new EnrolledUnitWithDetails(eu, unitDetails);
+                })
+                .collect(Collectors.toList());
+        
+        StudyPreferences studyPreferences = new StudyPreferences(averageStudyHours, studyEfficiency);
+        
+        SemesterGPAPredictionData semesterData = new SemesterGPAPredictionData(
+                studentInfo, semesterUnitsWithDetails, historicalUnits, studyPreferences, targetYear, targetSemester);
+        
+        Gson gson = new Gson();
+        String jsonData = gson.toJson(semesterData);
+        
+        StringBuilder sb = new StringBuilder();
+        sb.append("You are a university academic performance analyst. Predict the overall GPA for the specified semester based on the following JSON data:\n\n");
+        sb.append("Data:\n");
+        sb.append(jsonData);
+        sb.append("\n\n");
+        sb.append("Please analyze the student's current GPA, historical performance, the units they're taking this semester, ");
+        sb.append("their study preferences, and provide a semester GPA prediction. Consider the difficulty and credit points of each unit. ");
+        sb.append("Respond in the following JSON format:\n");
+        sb.append("{\n");
+        sb.append("  \"predictedGrade\": *.*,\n");
+        sb.append("  \"reasoning\": \"Detailed analysis of how you arrived at this semester GPA prediction, considering each unit and the student's historical performance...\",\n");
+        sb.append("  \"advice\": \"Strategic advice for the student to achieve or improve their predicted semester GPA, including specific study recommendations...\"\n");
+        sb.append("}");
+        sb.append("\n\nEnsure the predictedGrade represents the overall semester GPA between 0.0 and 7.0 on the standard 7-point GPA scale.");
         
         return sb.toString();
     }
