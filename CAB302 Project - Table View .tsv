@@ -1,0 +1,29 @@
+Title	Assignees	Status	Priority 	Sprint
+Back end system	HerroQUT, Neveark	Done	Must	Sprint 1
+As a backend developer, I want to design a secure and scalable database so that all user and unit data is stored safely.	HerroQUT, Neveark	Done	Must	Sprint 1
+As a backend developer, I want to implement a secure authentication system using hashed passwords so that user accounts are protected.	HerroQUT, Neveark	Done	Must	Sprint 1
+As a backend developer, I want to build an API that handles CRUD operations for user data so that the front end can interact with the backend efficiently.	HerroQUT, Neveark	Done	Must	Sprint 1
+As a front-end developer, I want to create low-fidelity mock-ups so that the team can review and approve the user interface before development begins.	zachjari	Done	Must	Sprint 1
+As a front-end developer, I want to create medium-fidelity mock-ups so that the team can review and approve the user interface before development begins.	Ajay120105	Done	Must	Sprint 1
+As a front-end developer, I want to create high-fidelity mock-ups so that the team can review and approve the user interface before development begins.	Ajay120105, zachjari	In Progress	Must	Sprint 1
+As a frontend developer, I want to create a navigation menu with links to key pages (Home, Units, Predictions, Profile) so that users can move through the app easily.	Ajay120105, zachjari	Done	Must	Sprint 2
+As a front-end developer, I want to validate form inputs before submission so that only valid data is entered.	Ajay120105, zachjari	Done	Must	Sprint 2
+As a project manager, I want to track the progress of user stories and sprint tasks so that I can ensure the timely delivery of project milestones.	Ajay120105	In Progress	Must	Sprint 1
+As a project manager, I want to assign tasks to front-end and back-end developers based on their expertise so that the workload is balanced and efficient.	Ajay120105	Done	Must	Sprint 1
+Add DAO Files for Student and Guardian		Done		
+Change degree ID from an int to a String		Done		
+As a student, I want to create an account using my email and password so that I can use the application securely.	Ajay120105, HerroQUT, Neveark, zachjari	Done	Must	Sprint 3
+As a student, I want to log in to my account so that I can access my saved units and predictions.	Ajay120105, HerroQUT, Neveark, zachjari	Done	Must	Sprint 3
+As a student, I want to edit or delete unit entries so that my data stays up to date.	Ajay120105, HerroQUT, Neveark, zachjari	Done	Must	Sprint 3
+As a student, I want to receive confirmation after saving/updating data so that I know it worked.	Ajay120105, HerroQUT, Neveark, zachjari	Done	Must	Sprint 3
+Unit tests for all models and DAOs		In Progress		
+Ollama communication in OOP implementation		Done		
+As a front-end developer, I want to display predictions clearly (even in a basic format) so that users can understand them.	Ajay120105, zachjari	In Progress	Must	Sprint 2
+As a student, I want to input my current and past units with grades and study effort to receive accurate grade predictions.	Ajay120105, HerroQUT, Neveark, zachjari	In Progress	Must	Sprint 3
+As a student, I want to view predictions based on data entered so that I can understand my potential grade.	Ajay120105, HerroQUT, Neveark, zachjari	In Progress	Must	Sprint 3
+As a front-end developer, I want to build a responsive layout for all screen sizes so that students can use the app on desktop and mobile devices.	Ajay120105, zachjari	In Progress	Must	Sprint 2
+OOP refactoring		Done		
+password hashing using Bcrypt		Done		
+Extract methods like displayEnrolledUnits		Done		
+duplicate methods in frontend		Done		
+duplicate of degreeId in user		Done		

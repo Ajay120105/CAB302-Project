@@ -2,13 +2,13 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.layout.GridPane?>
-<AnchorPane prefHeight="650.0" prefWidth="1000.0" style="-fx-background-color: #D3D3D3;" stylesheets="@style.css" xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.grade_predictor.controller.AllUnitsController">
+<AnchorPane prefHeight="650.0" prefWidth="1000.0" style="-fx-background-color: #D3D3D3;" stylesheets="@style.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="org.example.grade_predictor.controller.AllUnitsController">
     <!-- Navigation Bar Layer -->
     <VBox layoutX="0" layoutY="0" prefHeight="60" prefWidth="1000" style="-fx-background-color: #E0E0E0; -fx-padding: 10; -fx-border-color: #CCCCCC;">
         <HBox alignment="CENTER" spacing="15">
@@ -24,9 +24,9 @@
     </VBox>
 
     <!-- Units Section Layer -->
-    <ScrollPane fx:id="scrollPane" layoutX="8.0" layoutY="134.0" prefHeight="497.0" prefWidth="966.0">
+    <ScrollPane fx:id="scrollPane" layoutX="14.0" layoutY="139.0" prefHeight="497.0" prefWidth="966.0">
         <content>
-            <GridPane fx:id="unitsGridPane" hgap="20" vgap="20" style="-fx-background-color: #FFFFFF; -fx-padding: 10; -fx-border-radius: 5; -fx-border-color: #CCCCCC;" />
+            <GridPane fx:id="unitsGridPane" hgap="20" style="-fx-background-color: #FFFFFF; -fx-padding: 10; -fx-border-radius: 5; -fx-border-color: #CCCCCC;" vgap="20" />
         </content>
     </ScrollPane>
 
