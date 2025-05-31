@@ -28,7 +28,7 @@ jobs:
 
     - name: Build with Maven
       working-directory: ./Grade_Predictor
-      run: mvn -B clean compile package
+      run: mvn -B clean compile package -Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
