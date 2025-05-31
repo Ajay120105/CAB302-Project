@@ -8,6 +8,7 @@ target/
 
 GradePredictor.db
 Grade_Predictor/GradePredictor.db
+Grade_Predictor/dependency-reduced-pom.xml
 
 ### IntelliJ IDEA ###
 .idea/modules.xml
