@@ -1,4 +1,4 @@
-package org.example.grade_predictor.model.service;
+package org.example.grade_predictor.service;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -209,6 +209,208 @@ public class FormValidatorTest {
             longName.append("a");
         }
         FormValidator.ValidationResult result2 = FormValidator.validateDegreeName(longName.toString());
+        assertFalse(result2.isValid());
+    }
+    
+    @Test
+    public void testValidateEnrollmentYears_Valid() {
+        FormValidator.ValidationResult result = FormValidator.validateEnrollmentYears(
+            "2020", "1", "2024", "2"
+        );
+        assertTrue(result.isValid());
+    }
+    
+    @Test
+    public void testValidateEnrollmentYears_InvalidFirstYear() {
+        // Empty first year
+        FormValidator.ValidationResult result1 = FormValidator.validateEnrollmentYears(
+            "", "1", "2024", "2"
+        );
+        assertFalse(result1.isValid());
+        
+        // Invalid year format
+        FormValidator.ValidationResult result2 = FormValidator.validateEnrollmentYears(
+            "20", "1", "2024", "2"
+        );
+        assertFalse(result2.isValid());
+        
+        // Non-numeric year
+        FormValidator.ValidationResult result3 = FormValidator.validateEnrollmentYears(
+            "abcd", "1", "2024", "2"
+        );
+        assertFalse(result3.isValid());
+    }
+    
+    @Test
+    public void testValidateEnrollmentYears_InvalidSemester() {
+        // Invalid first semester
+        FormValidator.ValidationResult result1 = FormValidator.validateEnrollmentYears(
+            "2020", "3", "2024", "2"
+        );
+        assertFalse(result1.isValid());
+        
+        // Invalid current semester
+        FormValidator.ValidationResult result2 = FormValidator.validateEnrollmentYears(
+            "2020", "1", "2024", "0"
+        );
+        assertFalse(result2.isValid());
+        
+        // Empty semester
+        FormValidator.ValidationResult result3 = FormValidator.validateEnrollmentYears(
+            "2020", "", "2024", "2"
+        );
+        assertFalse(result3.isValid());
+    }
+    
+    @Test
+    public void testValidateIntake_Valid() {
+        FormValidator.ValidationResult result = FormValidator.validateIntake("2024", "1");
+        assertTrue(result.isValid());
+    }
+    
+    @Test
+    public void testValidateIntake_Invalid() {
+        // Invalid year
+        FormValidator.ValidationResult result1 = FormValidator.validateIntake("abc", "1");
+        assertFalse(result1.isValid());
+        
+        // Invalid semester
+        FormValidator.ValidationResult result2 = FormValidator.validateIntake("2024", "3");
+        assertFalse(result2.isValid());
+        
+        // Empty fields
+        FormValidator.ValidationResult result3 = FormValidator.validateIntake("", "");
+        assertFalse(result3.isValid());
+    }
+    
+    @Test
+    public void testValidateCurrentAcademicPeriod_Valid() {
+        FormValidator.ValidationResult result = FormValidator.validateCurrentAcademicPeriod("2024", "1");
+        assertTrue(result.isValid());
+    }
+    
+    @Test
+    public void testValidateCurrentAcademicPeriod_InvalidYear() {
+        // Year too low
+        FormValidator.ValidationResult result1 = FormValidator.validateCurrentAcademicPeriod("1999", "1");
+        assertFalse(result1.isValid());
+        
+        // Year too high
+        FormValidator.ValidationResult result2 = FormValidator.validateCurrentAcademicPeriod("2101", "1");
+        assertFalse(result2.isValid());
+        
+        // Non-numeric year
+        FormValidator.ValidationResult result3 = FormValidator.validateCurrentAcademicPeriod("abcd", "1");
+        assertFalse(result3.isValid());
+        
+        // Empty year
+        FormValidator.ValidationResult result4 = FormValidator.validateCurrentAcademicPeriod("", "1");
+        assertFalse(result4.isValid());
+    }
+    
+    @Test
+    public void testValidateCurrentAcademicPeriod_InvalidSemester() {
+        // Semester too low
+        FormValidator.ValidationResult result1 = FormValidator.validateCurrentAcademicPeriod("2024", "0");
+        assertFalse(result1.isValid());
+        
+        // Semester too high
+        FormValidator.ValidationResult result2 = FormValidator.validateCurrentAcademicPeriod("2024", "3");
+        assertFalse(result2.isValid());
+        
+        // Non-numeric semester
+        FormValidator.ValidationResult result3 = FormValidator.validateCurrentAcademicPeriod("2024", "a");
+        assertFalse(result3.isValid());
+        
+        // Empty semester
+        FormValidator.ValidationResult result4 = FormValidator.validateCurrentAcademicPeriod("2024", "");
+        assertFalse(result4.isValid());
+    }
+    
+    @Test
+    public void testValidateStudyInputs_Valid() {
+        FormValidator.ValidationResult result = FormValidator.validateStudyInputs("20", "8");
+        assertTrue(result.isValid());
+        
+        // Boundary values
+        FormValidator.ValidationResult result1 = FormValidator.validateStudyInputs("1", "1");
+        assertTrue(result1.isValid());
+        
+        FormValidator.ValidationResult result2 = FormValidator.validateStudyInputs("168", "10");
+        assertTrue(result2.isValid());
+    }
+    
+    @Test
+    public void testValidateStudyInputs_InvalidHours() {
+        // Hours too low
+        FormValidator.ValidationResult result1 = FormValidator.validateStudyInputs("0", "5");
+        assertFalse(result1.isValid());
+        
+        // Hours too high
+        FormValidator.ValidationResult result2 = FormValidator.validateStudyInputs("169", "5");
+        assertFalse(result2.isValid());
+        
+        // Non-numeric hours
+        FormValidator.ValidationResult result3 = FormValidator.validateStudyInputs("abc", "5");
+        assertFalse(result3.isValid());
+        
+        // Empty hours
+        FormValidator.ValidationResult result4 = FormValidator.validateStudyInputs("", "5");
+        assertFalse(result4.isValid());
+    }
+    
+    @Test
+    public void testValidateStudyInputs_InvalidEfficiency() {
+        // Efficiency too low
+        FormValidator.ValidationResult result1 = FormValidator.validateStudyInputs("20", "0");
+        assertFalse(result1.isValid());
+        
+        // Efficiency too high
+        FormValidator.ValidationResult result2 = FormValidator.validateStudyInputs("20", "11");
+        assertFalse(result2.isValid());
+        
+        // Non-numeric efficiency
+        FormValidator.ValidationResult result3 = FormValidator.validateStudyInputs("20", "abc");
+        assertFalse(result3.isValid());
+        
+        // Empty efficiency
+        FormValidator.ValidationResult result4 = FormValidator.validateStudyInputs("20", "");
+        assertFalse(result4.isValid());
+    }
+    
+    @Test
+    public void testValidateSettings_Valid() {
+        FormValidator.ValidationResult result = FormValidator.validateSettings("http://localhost:11434", "llama2");
+        assertTrue(result.isValid());
+        assertEquals("http://localhost:11434", result.getTransformedValue());
+        
+        // Test with trailing slash removal
+        FormValidator.ValidationResult result2 = FormValidator.validateSettings("http://localhost:11434/", "llama2");
+        assertTrue(result2.isValid());
+        assertEquals("http://localhost:11434", result2.getTransformedValue());
+    }
+    
+    @Test
+    public void testValidateSettings_InvalidHost() {
+        // Empty host
+        FormValidator.ValidationResult result1 = FormValidator.validateSettings("", "llama2");
+        assertFalse(result1.isValid());
+        assertTrue(result1.getErrorMessage().contains("host cannot be empty"));
+        
+        // Null host
+        FormValidator.ValidationResult result2 = FormValidator.validateSettings(null, "llama2");
+        assertFalse(result2.isValid());
+    }
+    
+    @Test
+    public void testValidateSettings_InvalidModel() {
+        // Empty model
+        FormValidator.ValidationResult result1 = FormValidator.validateSettings("http://localhost:11434", "");
+        assertFalse(result1.isValid());
+        assertTrue(result1.getErrorMessage().contains("select a model"));
+        
+        // Null model
+        FormValidator.ValidationResult result2 = FormValidator.validateSettings("http://localhost:11434", null);
         assertFalse(result2.isValid());
     }
 } 

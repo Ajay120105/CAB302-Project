@@ -1,4 +1,4 @@
-package org.example.grade_predictor.model.service;
+package org.example.grade_predictor.service;
 
 import org.example.grade_predictor.model.User;
 import org.example.grade_predictor.model.Enrollment;

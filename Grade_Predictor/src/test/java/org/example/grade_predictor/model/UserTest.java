@@ -74,19 +74,6 @@ public class UserTest {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> userDAO.addUser(user2));
         assertEquals("Email already exists!", exception.getMessage());
     }
-
-    /*@Test
-    void testPreventDuplicatePhoneNumber() {
-        User user1 = new User("Charlie", "Brown", "charlie.brown@example.com", "987654321", "securePass");
-        User user2 = new User("David", "Brown", "david.brown@example.com", "987654321", "newPass"); // Same phone
-
-        userDAO.addUser(user1);
-
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> userDAO.addUser(user2));
-        assertEquals("Phone number already exists!", exception.getMessage());
-    }
-
-     */
 }
 
 
