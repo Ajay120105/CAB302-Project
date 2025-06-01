@@ -11,15 +11,26 @@ public class OllamaConfig
     
     private SqliteSettingsDAO settingsDAO;
 
+    /**
+     * Constructor for the OllamaConfig class
+     */
     public OllamaConfig() {
         settingsDAO = new SqliteSettingsDAO();
         loadProperties();
     }
 
+    /**
+     * Get the host address
+     * @return the host address
+     */
     public String getHost() {
         return this.host;
     }
 
+    /**
+     * Get the model
+     * @return the model
+     */
     public String getModel() {
         return this.model;
     }

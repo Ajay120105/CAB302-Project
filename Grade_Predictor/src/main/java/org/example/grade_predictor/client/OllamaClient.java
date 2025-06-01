@@ -16,6 +16,10 @@ public class OllamaClient {
     private final OllamaAPI ollamaAPI;
     private final String model;
 
+    /**
+     * Constructor for the OllamaClient class
+     * @param config The Ollama configuration
+     */
     public OllamaClient(OllamaConfig config) {
         this.ollamaAPI = new OllamaAPI(config.getHost());
         this.model = config.getModel();
