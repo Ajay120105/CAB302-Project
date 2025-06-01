@@ -12,6 +12,10 @@ import java.util.Objects;
 public class HelloApplication extends Application {
     private static Stage primaryStage;
 
+    /**
+     * Switches to the signup/login page
+     * @throws IOException if the FXML file is not found
+     */
     public static void switchToSignup_LoginPage() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("signup_login.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1000, 650);
@@ -21,6 +25,11 @@ public class HelloApplication extends Application {
         primaryStage.show();
     }
 
+    /**
+     * Starts the application
+     * @param stage the primary stage for the application
+     * @throws IOException if the FXML file is not found
+     */
     @Override
     public void start(Stage stage) throws IOException {
         primaryStage = stage;
@@ -31,6 +40,10 @@ public class HelloApplication extends Application {
         stage.show();
     }
 
+    /**
+     * Switches to the home page
+     * @throws IOException if the FXML file is not found
+     */
     public static void switchToHomePage() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("home.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1000, 650);
@@ -40,6 +53,10 @@ public class HelloApplication extends Application {
         primaryStage.show();
     }
 
+    /**
+     * Switches to the edit unit page
+     * @throws IOException if the FXML file is not found
+     */
     public static void switchToEditUnitPage() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("edit_unit.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 1000, 650);
@@ -49,6 +66,10 @@ public class HelloApplication extends Application {
             primaryStage.show();
     }
 
+    /**
+     * Switches to the predict grade page
+     * @throws IOException if the FXML file is not found
+     */
     public static void switchToPredictGradePage() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("predict_grade.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 1000, 650);
@@ -58,7 +79,10 @@ public class HelloApplication extends Application {
             primaryStage.show();
     }
 
-
+    /**
+     * Switches to the all units page
+     * @throws IOException if the FXML file is not found
+     */
     public static void switchToAllUnitsPage() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("all_units.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1000, 650);
@@ -70,6 +94,10 @@ public class HelloApplication extends Application {
 
     }
 
+    /**
+     * Switches to the login page
+     * @throws IOException if the FXML file is not found
+     */
     public static void switchToLoginPage() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("signup_login.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1000, 650);
@@ -79,6 +107,10 @@ public class HelloApplication extends Application {
         primaryStage.show();
     }
 
+    /**
+     * Switches to the profile page
+     * @throws IOException if the FXML file is not found
+     */
     public static void switchToProfilePage() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("profile.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1000, 650);
@@ -89,6 +121,10 @@ public class HelloApplication extends Application {
 
     }
 
+    /**
+     * Switches to the settings page
+     * @throws IOException if the FXML file is not found
+     */
     public static void switchToSettingsPage() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("settings.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1000, 650);
@@ -98,6 +134,10 @@ public class HelloApplication extends Application {
         primaryStage.show();
     }
 
+    /**
+     * Main method to launch the application
+     * @param args command line arguments
+     */
     public static void main(String[] args) {
         launch();
     }

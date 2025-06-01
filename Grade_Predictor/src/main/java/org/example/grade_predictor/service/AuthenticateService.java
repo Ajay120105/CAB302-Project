@@ -26,7 +26,11 @@ public class AuthenticateService {
         this.enrollmentDAO = new SqliteEnrollmentDAO();
         this.enrolledUnitDAO = new SqliteEnrolledUnitDAO();
     }
-    
+
+    /**
+     * Protected constructor for testing purposes
+     * @param forTesting Whether the constructor is for testing
+     */
     protected AuthenticateService(boolean forTesting) {
         if (!forTesting) {
             throw new IllegalArgumentException("This constructor is for testing only");

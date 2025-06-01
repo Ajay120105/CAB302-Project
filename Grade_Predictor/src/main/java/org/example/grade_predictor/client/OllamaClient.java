@@ -23,6 +23,12 @@ public class OllamaClient {
         this.ollamaAPI.setRequestTimeoutSeconds(30);
     }
 
+    /**
+     * Send a request to the Ollama server
+     * @param request The request to send
+     * @return The response from the Ollama server
+     * @throws IOException If an error occurs while sending the request
+     */
     public OllamaResponseDTO sendRequest(OllamaRequestDTO request) throws IOException {
         try {
             String modelToUse = request.getModel() != null ? request.getModel() : this.model;

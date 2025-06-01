@@ -8,6 +8,9 @@ import java.util.List;
 public class UnitService {
     private final SqliteUnitDAO unitDAO;
 
+    /**
+     * Constructor for the UnitService class
+     */
     public UnitService() {
         this.unitDAO = new SqliteUnitDAO();
     }

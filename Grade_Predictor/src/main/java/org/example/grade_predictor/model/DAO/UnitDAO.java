@@ -10,7 +10,6 @@ import java.util.Objects;
 public class UnitDAO implements I_Unit{
     public static final ArrayList<Unit> units = new ArrayList<>();
 
-
     @Override
     public void addUnit(Unit unit) {
         String code = unit.getUnit_code();

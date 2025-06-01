@@ -26,6 +26,9 @@ public class OllamaGradePredictionService {
     private final UnitService unitService;
     private final EnrollmentService enrollmentService;
 
+    /**
+     * Constructor for the OllamaGradePredictionService class
+     */
     public OllamaGradePredictionService() {
         OllamaConfig config = new OllamaConfig();
         this.ollamaClient = new OllamaClient(config);
@@ -202,19 +205,12 @@ public class OllamaGradePredictionService {
         setupTaskCallbacks(task, callback);
         executorService.submit(task);
     }
-
-    /**
-     * @deprecated Use predictUnitGrade instead
-     */
-    @Deprecated
-    public void predictGrade(Enrollment enrollment, Degree degree, EnrolledUnit enrolledUnit, 
-                             List<EnrolledUnit> enrolledUnits, int studyHours, int studyEfficiency, 
-                             GradePredictionCallback callback) {
-        predictUnitGrade(enrollment, degree, enrolledUnit, enrolledUnits, studyHours, studyEfficiency, callback);
-    }
     
     /**
      * Execute the request to Ollama
+     * @param prompt The prompt to send to Ollama
+     * @return The response from Ollama
+     * @throws Exception if the request fails
      */
     private GradeResponseDTO executeRequest(String prompt) throws Exception {
         OllamaRequestDTO request = new OllamaRequestDTO(prompt);
@@ -254,6 +250,13 @@ public class OllamaGradePredictionService {
     
     /**
      * Builds the prompt for single unit grade prediction
+     * @param enrollment The enrollment of the student
+     * @param degree The degree of the student
+     * @param enrolledUnit The unit to predict the grade for
+     * @param enrolledUnits The units the student is enrolled in
+     * @param studyHours The average study hours of the student
+     * @param studyEfficiency The study efficiency of the student
+     * @return The prompt for single unit grade prediction
      */
     private String buildUnitGradePrompt(Enrollment enrollment, Degree degree, EnrolledUnit enrolledUnit,
                                        List<EnrolledUnit> enrolledUnits, int studyHours, int studyEfficiency) {
@@ -296,6 +299,14 @@ public class OllamaGradePredictionService {
 
     /**
      * Builds the prompt for semester GPA prediction
+     * @param enrollment The enrollment of the student
+     * @param degree The degree of the student
+     * @param targetYear The year of the semester to predict the GPA for
+     * @param targetSemester The semester to predict the GPA for
+     * @param semesterUnits The units the student is enrolled in this semester
+     * @param averageStudyHours The average study hours of the student
+     * @param studyEfficiency The study efficiency of the student
+     * @return The prompt for semester GPA prediction
      */
     private String buildSemesterGPAPrompt(Enrollment enrollment, Degree degree, int targetYear, int targetSemester,
                                          List<EnrolledUnit> semesterUnits, int averageStudyHours, int studyEfficiency) {
@@ -347,6 +358,8 @@ public class OllamaGradePredictionService {
     
     /**
      * Parses the JSON response from Ollama
+     * @param jsonResponse The response from Ollama
+     * @return The parsed GradeResponseDTO
      */
     private GradeResponseDTO parseJsonResponse(String jsonResponse) {
         try {
@@ -363,7 +376,9 @@ public class OllamaGradePredictionService {
     }
     
     /**
-     * Find JSON from response
+     * Extracts the JSON from the response
+     * @param response The response from Ollama
+     * @return The JSON from the response
      */
     private String extractJsonFromResponse(String response) {
         if (response == null || response.trim().isEmpty()) {
@@ -393,7 +408,16 @@ public class OllamaGradePredictionService {
      * Interface for handling the grade prediction callback
      */
     public interface GradePredictionCallback {
+        /**
+         * Called when the grade prediction is complete
+         * @param response The response from Ollama
+         */
         void onPredictionComplete(GradeResponseDTO response);
+        
+        /**
+         * Called when the grade prediction fails
+         * @param errorMessage The error message
+         */
         void onPredictionFailed(String errorMessage);
     }
 } 

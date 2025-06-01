@@ -8,6 +8,9 @@ public class SqliteConnection {
     private static Connection instance = null;
     private static boolean isInitialized = false;
 
+    /**
+     * Constructor for the SqliteConnection class
+     */
     private SqliteConnection() {
         String url = "jdbc:sqlite:GradePredictor.db";
         try {
@@ -18,6 +21,10 @@ public class SqliteConnection {
         }
     }
 
+    /**
+     * Get the instance of the SqliteConnection class
+     * @return The instance of the SqliteConnection class
+     */
     public static Connection getInstance() {
         if (instance == null) {
             new SqliteConnection();

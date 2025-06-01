@@ -20,6 +20,12 @@ public class EditableEnrolledUnitItemController {
     private EnrolledUnitComponentFactory.EnrolledUnitActionHandler actionHandler;
     private boolean isCurrentSemester;
 
+    /**
+     * Initialize the data for the enrolled unit item
+     * @param unit The enrolled unit to display
+     * @param handler The action handler for the enrolled unit
+     * @param isCurrentSemester Whether the enrolled unit is in the current semester
+     */
     public void initializeData(EnrolledUnit unit, EnrolledUnitComponentFactory.EnrolledUnitActionHandler handler, boolean isCurrentSemester) {
         this.enrolledUnit = unit;
         this.actionHandler = handler;

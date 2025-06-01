@@ -139,6 +139,14 @@ public class FormValidator {
         return new ValidationResult(true, "");
     }
     
+    /**
+     * Validates the enrollment years
+     * @param firstYear The first year of the enrollment
+     * @param firstSemester The first semester of the enrollment
+     * @param currentYear The current year of the enrollment
+     * @param currentSemester The current semester of the enrollment
+     * @return The validation result
+     */
     public static ValidationResult validateEnrollmentYears(String firstYear, String firstSemester, String currentYear, String currentSemester) {
         if (firstYear == null || firstYear.trim().isEmpty() || !firstYear.matches("\\d{4}")) {
             return new ValidationResult(false, "First year must be a 4-digit number.");
@@ -155,6 +163,12 @@ public class FormValidator {
         return new ValidationResult(true, "");
     }
 
+    /**
+     * Validates the intake years
+     * @param intakeYear The intake year of the enrollment
+     * @param intakeSemester The intake semester of the enrollment
+     * @return The validation result
+     */
     public static ValidationResult validateIntake(String intakeYear, String intakeSemester) {
         if (intakeYear == null || intakeYear.trim().isEmpty() || !intakeYear.matches("\\d{4}")) {
             return new ValidationResult(false, "Intake year must be a 4-digit number.");
@@ -254,31 +268,57 @@ public class FormValidator {
         return new ValidationResult(true, "", fixedHost);
     }
     
+    /**
+     * Validation result class
+     */
     public static class ValidationResult {
         private final boolean valid;
         private final String errorMessage;
         private String transformedValue;
         
+        /**
+         * Constructor for the ValidationResult class
+         * @param valid Whether the validation is valid
+         * @param errorMessage The error message
+         */
         public ValidationResult(boolean valid, String errorMessage) {
             this.valid = valid;
             this.errorMessage = errorMessage;
             this.transformedValue = null;
         }
         
+        /**
+         * Constructor for the ValidationResult class
+         * @param valid Whether the validation is valid
+         * @param errorMessage The error message
+         * @param transformedValue The transformed value
+         */
         public ValidationResult(boolean valid, String errorMessage, String transformedValue) {
             this.valid = valid;
             this.errorMessage = errorMessage;
             this.transformedValue = transformedValue;
         }
         
+        /**
+         * Checks if the validation is valid
+         * @return Whether the validation is valid
+         */
         public boolean isValid() {
             return valid;
         }
-        
+
+        /**
+         * Gets the error message
+         * @return The error message
+         */
         public String getErrorMessage() {
             return errorMessage;
         }
-        
+
+        /**
+         * Gets the transformed value
+         * @return The transformed value
+         */
         public String getTransformedValue() {
             return transformedValue;
         }
