@@ -1,13 +1,13 @@
-package org.example.grade_predictor.model;
+package org.example.grade_predictor.model.DAO;
 
-import org.example.grade_predictor.model.DAO.UserDAO;
+import org.example.grade_predictor.model.User;
 import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
 
-public class UserTest {
+public class UserDAOTest {
 
     private UserDAO userDAO;
 

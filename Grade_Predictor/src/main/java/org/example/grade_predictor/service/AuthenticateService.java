@@ -66,11 +66,6 @@ public class AuthenticateService {
      * @param email User's email
      * @param phone User's phone number
      * @param password User's password
-     * @param degreeId Degree ID for initial enrollment
-     * @param firstYear First year of enrollment
-     * @param firstSemester First semester of enrollment
-     * @param currentYear Current year of enrollment
-     * @param currentSemester Current semester of enrollment
      * @return The newly created user
      */
     public User registerUser(String firstName, String lastName, String email, String phone, String password) {
