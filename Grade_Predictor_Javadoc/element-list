@@ -1,13 +1,14 @@
-org.example
 org.example.grade_predictor
 org.example.grade_predictor.client
 org.example.grade_predictor.config
 org.example.grade_predictor.controller
+org.example.grade_predictor.controller.components
 org.example.grade_predictor.dto
 org.example.grade_predictor.model
 org.example.grade_predictor.model.client
 org.example.grade_predictor.model.DAO
 org.example.grade_predictor.model.interfaces
-org.example.grade_predictor.model.service
+org.example.grade_predictor.model.migrations
 org.example.grade_predictor.model.SQLiteDAO
 org.example.grade_predictor.service
+org.example.grade_predictor.util
