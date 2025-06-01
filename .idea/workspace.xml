@@ -4,17 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d5ae6416-a402-4255-b90d-bbc5aa219925" name="Changes" comment="Minor changes to UI layout">
-      <change afterPath="$PROJECT_DIR$/Grade_Predictor/src/test/java/org/example/grade_predictor/model/DAO/UnitDAOTest.java" afterDir="false" />
+    <list default="true" id="d5ae6416-a402-4255-b90d-bbc5aa219925" name="Changes" comment="Tests update">
+      <change beforePath="$PROJECT_DIR$/.github/workflows/grade-predictor-maven-publish.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/grade-predictor-maven-publish.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Grade_Predictor/src/main/java/org/example/grade_predictor/service/AuthenticateService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Grade_Predictor/src/main/java/org/example/grade_predictor/service/AuthenticateService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Grade_Predictor/src/test/java/org/example/grade_predictor/model/DegreeModelTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Grade_Predictor/src/test/java/org/example/grade_predictor/model/DegreeTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Grade_Predictor/src/test/java/org/example/grade_predictor/model/UnitModelTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Grade_Predictor/src/test/java/org/example/grade_predictor/model/UnitTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Grade_Predictor/src/test/java/org/example/grade_predictor/model/UnitTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Grade_Predictor/src/test/java/org/example/grade_predictor/model/UserTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Grade_Predictor/src/test/java/org/example/grade_predictor/model/DAO/UserDAOTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Grade_Predictor_Javadoc/org/example/grade_predictor/model/UnitModelTest.html" beforeDir="false" afterPath="$PROJECT_DIR$/Grade_Predictor_Javadoc/org/example/grade_predictor/model/UnitModelTest.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Grade_Predictor_Javadoc/org/example/grade_predictor/model/UnitTest.html" beforeDir="false" afterPath="$PROJECT_DIR$/Grade_Predictor_Javadoc/org/example/grade_predictor/model/UnitTest.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Grade_Predictor_Javadoc/org/example/grade_predictor/model/UserTest.html" beforeDir="false" afterPath="$PROJECT_DIR$/Grade_Predictor_Javadoc/org/example/grade_predictor/model/UserTest.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,12 +22,12 @@
     &quot;assignee&quot;: &quot;HerroQUT&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/Ajay120105/CAB302-Project.git&quot;,
-    &quot;accountId&quot;: &quot;a7e06e30-ce33-49c8-8803-bbee51d4b9ac&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Ajay120105/CAB302-Project.git",
+    "accountId": "2b64f5b4-827a-4da7-95e2-026f01ccfaa1"
   }
-}</component>
+}]]></component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
@@ -171,11 +163,20 @@
       <option name="project" value="LOCAL" />
       <updated>1748444383682</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Tests update">
+      <option name="closed" value="true" />
+      <created>1748767976958</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1748767976958</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Minor changes to UI layout" />
-    <option name="LAST_COMMIT_MESSAGE" value="Minor changes to UI layout" />
+    <MESSAGE value="Tests update" />
+    <option name="LAST_COMMIT_MESSAGE" value="Tests update" />
   </component>
 </project>

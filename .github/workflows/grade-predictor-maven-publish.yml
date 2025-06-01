@@ -41,4 +41,4 @@ jobs:
     #  working-directory: ./Grade_Predictor
     #  run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
     #  env:
-   #     GITHUB_TOKEN: ${{ github.token }}
+    #     GITHUB_TOKEN: ${{ github.token }}
